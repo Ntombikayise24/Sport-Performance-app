@@ -20,14 +20,14 @@ export default function LoginScreen() {
 
     // Navigate based on selected userType
     if (userType === 'Athlete') {
-      router.push('/athleteDashboard');
-    } else if (userType === 'Medical') {
-      router.push('/medicalDashboard');
-    } else if (userType === 'Staff') {
-      router.push('/coachview');  // Staff goes here
-    } else {
-      Alert.alert("Unknown user type");
-    }
+      router.push('/athleteview');
+          } else if (userType === 'Medical') {
+            router.push('/medicalview');
+          } else if (userType === 'Staff') {
+            router.push('/coachview');  // Staff goes here
+          } else {
+            Alert.alert("Unknown user type");
+          }
   }
 
   return (

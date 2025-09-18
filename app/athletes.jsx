@@ -31,11 +31,11 @@ export default function Athletes() {
   const getStatusStyle = (status) => {
     switch (status) {
       case 'Online':
-        return { color: 'green' };
+        return { color: '#32CD32' };
       case 'Training':
-        return { color: 'orange' };
+        return { color: '#FFA500' };
       case 'Offline':
-        return { color: 'gray' };
+        return { color: '#B0B0B0' };
       default:
         return { color: 'black' };
     }
@@ -46,7 +46,7 @@ export default function Athletes() {
   );
 
   const renderAthlete = ({ item }) => (
-    <TouchableOpacity style={styles.athleteCard}>
+    <TouchableOpacity style={styles.athleteCard} onPress={() => router.push('/athleteview')}>
       <View style={styles.iconPlaceholder}>
         <Ionicons name="person-circle-outline" size={40} color="#1A394B" />
       </View>
@@ -55,7 +55,7 @@ export default function Athletes() {
         <Text style={styles.athletePosition}>{item.position}</Text>
         <Text style={[styles.athleteStatus, getStatusStyle(item.status)]}>{item.status}</Text>
       </View>
-      <Text style={styles.arrow}>&rarr;</Text>
+      <Ionicons name="chevron-forward" size={24} color="black" />
     </TouchableOpacity>
   );
 
@@ -64,7 +64,7 @@ export default function Athletes() {
       {/* Top bar */}
       <View style={styles.topBar}>
         <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
-          <Text style={styles.backArrow}>&larr;</Text>
+          <Ionicons name="arrow-back" size={24} color="black" />
         </TouchableOpacity>
         <Text style={styles.title}>Athletes</Text>
         <TouchableOpacity style={styles.menuButton} onPress={() => setIsMenuOpen(!isMenuOpen)}>
@@ -102,7 +102,6 @@ export default function Athletes() {
             <Ionicons name="close-circle" size={20} color="gray" style={{ marginRight: 5 }} />
           </TouchableOpacity>
         )}
-       
       </View>
 
       {/* Add and Sort buttons */}
@@ -111,7 +110,7 @@ export default function Athletes() {
           <Text style={styles.actionButtonText}>Add +</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.actionButton} onPress={sortAthletes}>
-          <Text style={styles.actionButtonText}>Sort {sortOrder === 'desc' ? '▼' : '▲'}</Text>
+          <Text style={styles.actionButtonText}>Sort {sortOrder === 'desc' ? 'Desc' : 'Asc'}</Text>
         </TouchableOpacity>
       </View>
 
@@ -121,6 +120,7 @@ export default function Athletes() {
         renderItem={renderAthlete}
         keyExtractor={(item) => item.id}
         style={styles.list}
+        contentContainerStyle={{ paddingBottom: 100 }}
       />
 
       {/* Bottom Navigation Bar */}
@@ -157,10 +157,6 @@ const styles = StyleSheet.create({
   backButton: {
     paddingRight: 10,
   },
-  backArrow: {
-    fontSize: 24,
-    color: 'black',
-  },
   title: {
     flex: 1,
     fontSize: 24,
@@ -184,7 +180,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 10,
     backgroundColor: '#D9D9D9',
-    zIndex: 1,
+    zIndex: 10,
+    elevation: 10,
   },
   logoutButton: {
     paddingVertical: 8,
@@ -216,14 +213,10 @@ const styles = StyleSheet.create({
   searchIcon: {
     marginRight: 8,
   },
-  searchPlusButton: {
-    marginLeft: 8,
-  },
   actionButtons: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 20,
-    marginTop: 80,
   },
   actionButton: {
     backgroundColor: '#D9D9D9',
@@ -265,10 +258,6 @@ const styles = StyleSheet.create({
   athleteStatus: {
     fontSize: 14,
     fontWeight: '600',
-  },
-  arrow: {
-    fontSize: 24,
-    color: 'black',
   },
   bottomNav: {
     flexDirection: 'row',
