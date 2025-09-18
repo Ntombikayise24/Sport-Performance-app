@@ -39,9 +39,9 @@ export default function CoachView() {
     <View style={styles.container}>
       {/* Top bar with logo and menu */}
       <View style={styles.topBar}>
-        <View style={{ flex: 1 }} />
+        <View style={styles.flexSpacer} />
         <Image source={require('../assets/images/logo.jpeg')} style={styles.logo} />
-        <View style={{ flex: 1 }} />
+        <View style={styles.flexSpacer} />
         <View style={styles.menuAndCoachContainer}>
           <TouchableOpacity style={styles.menuButton} onPress={() => setIsMenuOpen(!isMenuOpen)}>
             <View style={styles.menuLine} />
@@ -64,7 +64,8 @@ export default function CoachView() {
         <Text style={styles.subText}>Coach</Text>
       </View>
 
-      <View style={{ height: 20 }} /> {/* Added space between Coach and Team Overview */}
+      {/* Added space between Coach and Team Overview */}
+      <View style={styles.spacer20} />
 
       {/* Menu Dropdown */}
       {isMenuOpen && (
@@ -128,6 +129,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#1A394B',
     padding: 20,
     justifyContent: 'flex-start',
+  },
+  flexSpacer: {
+    flex: 1,
+  },
+  spacer20: {
+    height: 20,
   },
   topBar: {
     flexDirection: 'row',

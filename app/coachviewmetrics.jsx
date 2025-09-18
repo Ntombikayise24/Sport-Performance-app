@@ -1,8 +1,8 @@
+import { FontAwesome, FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { IconButton, Searchbar, Text } from 'react-native-paper';
-import { MaterialCommunityIcons, FontAwesome5, FontAwesome, Ionicons } from '@expo/vector-icons';
 
 const TeamMetricsScreen = () => {
   const router = useRouter();
