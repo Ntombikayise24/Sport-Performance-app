@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   },
   lockIconContainer: {
     borderWidth: 2,
-    borderColor: '#000',
+    borderColor: '#E37335',
     borderRadius: 100,
     padding: 20,
     marginBottom: 30,
@@ -126,6 +126,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   loginLink: {
-    color: '#7b5fc5',
+    color: '#DF1965',
   },
 });

@@ -1,8 +1,14 @@
-import { FontAwesome, FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React from 'react';
-import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { IconButton, Searchbar, Text } from 'react-native-paper';
+
+import BiometricImage from '../assets/images/Biometric.png';
+import HealthImage from '../assets/images/Health.png';
+import TrainingImage from '../assets/images/Training.png';
+import InjuryImage from '../assets/images/injury.png';
+import PhysicalImage from '../assets/images/physical.png';
 
 const TeamMetricsScreen = () => {
   const router = useRouter();
@@ -20,33 +26,37 @@ const TeamMetricsScreen = () => {
     {
       name: 'TRAINING PERFORMANCE',
       text: 'TRAINING\nPERFORMANCE',
-      icon: <MaterialCommunityIcons name="run-fast" size={40} color="white" />,
-      color: '#D81B60',
-    },
-    {
-      name: 'INJURY & RECOVERY',
-      text: 'INJURY\n& RECOVERY',
-      icon: <MaterialCommunityIcons name="crutch" size={40} color="white" />,
-      color: '#FBC02D',
-    },
-    {
-      name: 'BIO-METRIC DATA',
-      text: 'BIO-METRIC\nDATA',
-      icon: <MaterialCommunityIcons name="face-recognition" size={40} color="white" />,
-      color: '#616161',
-    },
-    {
-      name: 'PHYSICAL',
-      text: 'PHYSICAL',
-      icon: <FontAwesome5 name="male" size={40} color="white" />,
-      color: '#388E3C',
-    },
-    {
-      name: 'HEALTH & WELLNESS',
-      text: 'HEALTH\n& WELLNESS',
-      icon: <FontAwesome name="heart" size={40} color="white" />,
-      color: '#F57C00',
-    },
+  icon: (
+    <View style={styles.trainingImageWrapper}>
+      <Image source={TrainingImage} style={styles.trainingImage} resizeMode="cover" />
+    </View>
+  ),
+  color: '#D81B60',
+},
+{
+  name: 'INJURY & RECOVERY',
+  text: 'INJURY\n& RECOVERY',
+  icon: <Image source={InjuryImage} style={styles.cardImage} resizeMode="contain" />,
+  color: 'rgba(156, 128, 0, 1)',
+},
+{
+  name: 'BIO-METRIC DATA',
+  text: 'BIO-METRIC\nDATA',
+  icon: <Image source={BiometricImage} style={styles.cardImage} resizeMode="contain" />,
+  color: '#817f7fff',
+},
+{
+  name: 'PHYSICAL',
+  text: 'PHYSICAL',
+  icon: <Image source={PhysicalImage} style={styles.cardImage} resizeMode="contain" />,
+  color: '#188a09b7',
+},
+{
+  name: 'HEALTH & WELLNESS',
+  text: 'HEALTH\n& WELLNESS',
+  icon: <Image source={HealthImage} style={styles.cardImage} resizeMode="contain" />,
+  color: '#d17316ff',
+},
   ];
 
   const filteredCards = cards.filter(card =>
@@ -96,11 +106,27 @@ const TeamMetricsScreen = () => {
             key={card.name}
             style={[styles.card, { backgroundColor: card.color }]}
           >
-            <Text style={styles.cardText}>{card.text}</Text>
+            <Text style={[styles.cardText, card.textStyle]}>{card.text}</Text>
             <View style={styles.iconContainer}>{card.icon}</View>
           </TouchableOpacity>
         ))}
       </ScrollView>
+
+      {/* Bottom Navigation Bar */}
+      <View style={styles.bottomNav}>
+        <TouchableOpacity style={styles.navButton} onPress={() => router.push('/coachview')}>
+          <Ionicons name="home-outline" size={28} color="#1E90FF" />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navButton} onPress={() => router.push('/coachviewmetrics')}>
+          <Ionicons name="heart-outline" size={28} color="#FF4500" />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navButton} onPress={() => router.push('/notifications')}>
+          <Ionicons name="notifications-outline" size={28} color="#FFD700" />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navButton} onPress={() => router.push('/coachProfile')}>
+          <Ionicons name="person-outline" size={28} color="#32CD32" />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -135,12 +161,13 @@ const styles = StyleSheet.create({
   },
   card: {
     width: '45%',
-    height: 120,
+    height: 140,
     borderRadius: 15,
     marginBottom: 20,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 10,
+    overflow: 'hidden',
   },
   cardText: {
     color: 'white',
@@ -172,6 +199,32 @@ const styles = StyleSheet.create({
     fontSize: 10,
     color: 'black',
   },
+  bottomNav: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    backgroundColor: '#0a3a4d',
+    paddingVertical: 10,
+    borderRadius: 15,
+    marginTop: 10,
+  },
+  navButton: {
+    padding: 10,
+  },
+  cardImage: {
+    width: 80,
+    height: 80,
+  },
+  trainingImage: {
+    width: 80,
+    height: 80,
+  },
+  trainingImageWrapper: {
+    backgroundColor: '#D81B60',
+    borderRadius: 10,
+    padding: 5,
+  },
 });
 
 export default TeamMetricsScreen;
+

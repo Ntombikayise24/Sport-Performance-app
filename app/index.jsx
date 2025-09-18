@@ -59,7 +59,7 @@ export default function LoginScreen() {
           placeholderTextColor="#ccc"
           value={username}
           onChangeText={setUsername}
-          style={{ borderWidth: 1, borderColor: '#0a814aff', borderRadius: 20, paddingHorizontal: 15, paddingVertical: 10, marginBottom: 15, color: 'white', width: 320 }}
+          style={{ borderWidth: 1, borderColor: '#DE1966', borderRadius: 20, paddingHorizontal: 15, paddingVertical: 10, marginBottom: 15, color: 'white', width: 320 }}
         />
         <TextInput
           placeholder="Password"
@@ -67,7 +67,7 @@ export default function LoginScreen() {
           value={password}
           onChangeText={setPassword}
           secureTextEntry
-          style={{ borderWidth: 1, borderColor: '#0a814aff', borderRadius: 20, paddingHorizontal: 15, paddingVertical: 10, marginBottom: 15, color: 'white', width: 320 }}
+          style={{ borderWidth: 1, borderColor: '#DE1966', borderRadius: 20, paddingHorizontal: 15, paddingVertical: 10, marginBottom: 15, color: 'white', width: 320 }}
         />
         <TouchableOpacity
           style={{ backgroundColor: '#0a4a7b', paddingVertical: 12, borderRadius: 20, alignItems: 'center', marginBottom: 20, width: 150 }}
@@ -77,9 +77,9 @@ export default function LoginScreen() {
         </TouchableOpacity>
 
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 20 }}>
-          <View style={{ width: 200, height: 1, backgroundColor: '#0a814aff' }} />
+          <View style={{ width: 200, height: 1, backgroundColor: '#DE1966' }} />
           <Text style={{ marginHorizontal: 10, color: '#ccc' }}>OR</Text>
-          <View style={{ width: 200, height: 1, backgroundColor: '#0a814aff' }} />
+          <View style={{ width: 200, height: 1, backgroundColor: '#DE1966' }} />
         </View>
 
         <TouchableOpacity style={{ marginBottom: 10 }} onPress={() => router.push('/forgotpassword')}>

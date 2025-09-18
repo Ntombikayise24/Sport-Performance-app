@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   resendCodeText: {
-    color: '#7b5fc5',
+    color: '#DF1965',
     fontSize: 12,
   },
   orContainer: {
@@ -150,6 +150,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   loginLink: {
-    color: '#7b5fc5',
+    color: '#DF1965',
   },
 });

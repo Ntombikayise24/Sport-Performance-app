@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View, ScrollView } from 'react-native';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function Notifications() {
   const router = useRouter();
@@ -81,6 +81,22 @@ export default function Notifications() {
               </View>
             ))}
           </ScrollView>
+
+      {/* Bottom Navigation Bar */}
+      <View style={styles.bottomNav}>
+        <TouchableOpacity style={styles.navButton} onPress={() => router.push('/coachview')}>
+          <Ionicons name="home-outline" size={28} color="#1E90FF" />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navButton} onPress={() => router.push('/coachviewmetrics')}>
+          <Ionicons name="heart-outline" size={28} color="#FF4500" />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navButton} onPress={() => router.push('/notifications')}>
+          <Ionicons name="notifications-outline" size={28} color="#FFD700" />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navButton} onPress={() => router.push('/coachProfile')}>
+          <Ionicons name="person-outline" size={28} color="#32CD32" />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -177,5 +193,19 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     borderWidth: 1,
     borderColor: 'white',
+  },
+  bottomNav: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    backgroundColor: '#0a394b',
+    paddingVertical: 10,
+    borderRadius: 10,
+    position: 'absolute',
+    bottom: 20,
+    left: 20,
+    right: 20,
+  },
+  navButton: {
+    padding: 10,
   },
 });
