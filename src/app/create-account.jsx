@@ -14,6 +14,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { createAccount } from "../api/authService";
 
 function CreateAccount() {
   const [name, setName] = useState("");
@@ -59,36 +60,24 @@ function CreateAccount() {
     if (id.length !== 13 || isNaN(id)) {
       Alert.alert("Error", "ID number must be exactly 13 digits.");
       return;
-    } else {
-      router.push("/verify-account");
     }
-    /*
-    try {
-      // Replace with your API URL
-      const response = await axios.post("http://your-api/signup", {
-        name,
-        surname,
-        id,
-        race: selectedRace,
-        role: selectedRole,
-        sportType,
-        email,
-        password,
-      });
 
-      Alert.alert("Success", "Account created successfully");
-      router.push("/verify-account");
-    } catch (error) {
-      if (error.response) {
-        Alert.alert("Error", error.response.data.message || "Signup failed");
-      } else if (error.request) {
-        Alert.alert("Error", "No response from server.");
-      } else {
-        Alert.alert("Error", "Something went wrong. Please try again");
-      }
-      console.error(error);
+    const res = await createAccount(
+      surname,
+      name,
+      password,
+      email,
+      id,
+      selectedRace,
+      selectedRole,
+      sportType
+    );
+
+    if (res?.status) {
+      Alert.alert("Success", res?.message || "Account created successfully");
+    } else {
+      Alert.alert("Error", res?.message || "Signup failed");
     }
-      */
   };
 
   return (
