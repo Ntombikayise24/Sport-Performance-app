@@ -75,6 +75,7 @@ function CreateAccount() {
 
     if (res?.status) {
       Alert.alert("Success", res?.message || "Account created successfully");
+      router.push("verify-account");
     } else {
       Alert.alert("Error", res?.message || "Signup failed");
     }
@@ -96,8 +97,6 @@ function CreateAccount() {
 
         <View style={styles.inputBox}>
           <Text style={styles.signUp}>Sign up</Text>
-
-          {/* Name */}
           <TextInput
             style={styles.inputs}
             placeholder="Name"
@@ -106,7 +105,6 @@ function CreateAccount() {
             onChangeText={setName}
           />
 
-          {/* Surname */}
           <TextInput
             style={styles.inputs}
             placeholder="Surname"
@@ -115,7 +113,6 @@ function CreateAccount() {
             onChangeText={setSurname}
           />
 
-          {/* ID */}
           <TextInput
             style={styles.inputs}
             placeholder="ID No."
@@ -125,7 +122,6 @@ function CreateAccount() {
             onChangeText={setId}
           />
 
-          {/* Race Picker */}
           <Picker
             selectedValue={selectedRace}
             style={styles.picker}
@@ -137,7 +133,6 @@ function CreateAccount() {
             ))}
           </Picker>
 
-          {/* Role Picker */}
           <Picker
             selectedValue={selectedRole}
             style={styles.picker}
@@ -149,7 +144,6 @@ function CreateAccount() {
             ))}
           </Picker>
 
-          {/* Extra Input for Role */}
           {selectedRole === "Athlete" && (
             <TextInput
               style={styles.inputs}
@@ -169,7 +163,6 @@ function CreateAccount() {
             />
           )}
 
-          {/* Email */}
           <TextInput
             style={styles.inputs}
             placeholder="Email"
@@ -178,7 +171,6 @@ function CreateAccount() {
             onChangeText={setEmail}
           />
 
-          {/* Password */}
           <View style={styles.passwordContainer}>
             <TextInput
               style={styles.passwordInput}
@@ -200,7 +192,6 @@ function CreateAccount() {
             </TouchableOpacity>
           </View>
 
-          {/* Verify Password */}
           <View style={styles.passwordContainer}>
             <TextInput
               style={styles.passwordInput}
@@ -230,12 +221,10 @@ function CreateAccount() {
           </Text>
         </View>
 
-        {/* Sign Up Button */}
         <TouchableOpacity onPress={handleCreateAccount} style={styles.button}>
           <Text style={styles.buttonText}>Sign up</Text>
         </TouchableOpacity>
 
-        {/* Login link */}
         <Text style={styles.text1}>Have an account?</Text>
         <TouchableOpacity onPress={() => router.push("/")}>
           <Text style={styles.text2}>Log in</Text>
