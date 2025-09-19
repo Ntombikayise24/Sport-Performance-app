@@ -1,40 +1,76 @@
-import { useRouter } from 'expo-router';
-import { useState } from 'react';
-import { Alert, FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useRouter } from "expo-router";
+import { useState } from "react";
+import {
+  Alert,
+  FlatList,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 // Mock data for players
 const players = [
-  { id: '1', name: 'Naledi Motaung', position: 'Forward' },
-  { id: '2', name: 'Ayanda Dlamini', position: 'Midfielder' },
-  { id: '3', name: 'Sarah van de Merwe', position: 'Defender' },
-  { id: '4', name: 'John Doe', position: 'Goalkeeper' },
-  { id: '5', name: 'Jane Smith', position: 'Forward' },
+  { id: "1", name: "Naledi Motaung", position: "Forward" },
+  { id: "2", name: "Ayanda Dlamini", position: "Midfielder" },
+  { id: "3", name: "Sarah van de Merwe", position: "Defender" },
+  { id: "4", name: "John Doe", position: "Goalkeeper" },
+  { id: "5", name: "Jane Smith", position: "Forward" },
 ];
 
 // Training plan templates
 const trainingTemplates = [
-  { id: '1', name: 'Endurance Training', description: 'Improve cardiovascular fitness and stamina' },
-  { id: '2', name: 'Strength Training', description: 'Build muscle strength and power' },
-  { id: '3', name: 'Skill Development', description: 'Enhance technical skills and ball control' },
-  { id: '4', name: 'Recovery Session', description: 'Light recovery and flexibility work' },
-  { id: '5', name: 'Team Tactics', description: 'Practice team formations and strategies' },
+  {
+    id: "1",
+    name: "Endurance Training",
+    description: "Improve cardiovascular fitness and stamina",
+  },
+  {
+    id: "2",
+    name: "Strength Training",
+    description: "Build muscle strength and power",
+  },
+  {
+    id: "3",
+    name: "Skill Development",
+    description: "Enhance technical skills and ball control",
+  },
+  {
+    id: "4",
+    name: "Recovery Session",
+    description: "Light recovery and flexibility work",
+  },
+  {
+    id: "5",
+    name: "Team Tactics",
+    description: "Practice team formations and strategies",
+  },
 ];
 
-const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+const daysOfWeek = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
+];
 
 export default function TrainingPlans() {
   const router = useRouter();
   const [selectedPlayer, setSelectedPlayer] = useState(null);
   const [weeklyPlan, setWeeklyPlan] = useState({});
-  const [viewMode, setViewMode] = useState('individual'); // 'individual' or 'overview'
+  const [viewMode, setViewMode] = useState("individual"); // 'individual' or 'overview'
 
   const assignTraining = (day, templateId) => {
     if (!selectedPlayer) {
-      Alert.alert('Please select a player first');
+      Alert.alert("Please select a player first");
       return;
     }
 
-    const template = trainingTemplates.find(t => t.id === templateId);
+    const template = trainingTemplates.find((t) => t.id === templateId);
     const newPlan = { ...weeklyPlan };
 
     if (!newPlan[selectedPlayer.id]) {
@@ -44,12 +80,18 @@ export default function TrainingPlans() {
     newPlan[selectedPlayer.id][day] = template;
     setWeeklyPlan(newPlan);
 
-    Alert.alert('Training Assigned', `${template.name} assigned to ${selectedPlayer.name} for ${day}`);
+    Alert.alert(
+      "Training Assigned",
+      `${template.name} assigned to ${selectedPlayer.name} for ${day}`
+    );
   };
 
   const renderPlayer = ({ item }) => (
     <TouchableOpacity
-      style={[styles.playerItem, selectedPlayer?.id === item.id && styles.selectedPlayer]}
+      style={[
+        styles.playerItem,
+        selectedPlayer?.id === item.id && styles.selectedPlayer,
+      ]}
       onPress={() => setSelectedPlayer(item)}
     >
       <Text style={styles.playerName}>{item.name}</Text>
@@ -67,11 +109,13 @@ export default function TrainingPlans() {
         {assignedTraining ? (
           <View style={styles.assignedTraining}>
             <Text style={styles.trainingName}>{assignedTraining.name}</Text>
-            <Text style={styles.trainingDesc}>{assignedTraining.description}</Text>
+            <Text style={styles.trainingDesc}>
+              {assignedTraining.description}
+            </Text>
           </View>
         ) : (
           <View style={styles.trainingOptions}>
-            {trainingTemplates.map(template => (
+            {trainingTemplates.map((template) => (
               <TouchableOpacity
                 key={template.id}
                 style={styles.trainingButton}
@@ -86,13 +130,14 @@ export default function TrainingPlans() {
     );
   };
 
-
-
   return (
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => router.back()}
+        >
           <Text style={styles.backButtonText}>← Back</Text>
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Training Plans</Text>
@@ -108,7 +153,7 @@ export default function TrainingPlans() {
       </View>
 
       {/* Player Selection */}
-      {viewMode === 'individual' && (
+      {viewMode === "individual" && (
         <View style={styles.playerSection}>
           <Text style={styles.sectionTitle}>Select Player</Text>
           <FlatList
@@ -124,16 +169,18 @@ export default function TrainingPlans() {
 
       {/* Weekly Training Plan */}
       <ScrollView style={styles.weeklyPlan}>
-        <Text style={styles.sectionTitle}>
-          Weekly Training Plan
-        </Text>
+        <Text style={styles.sectionTitle}>Weekly Training Plan</Text>
         <>
           {selectedPlayer ? (
-            <Text style={styles.selectedPlayerText}>Planning for: {selectedPlayer.name}</Text>
+            <Text style={styles.selectedPlayerText}>
+              Planning for: {selectedPlayer.name}
+            </Text>
           ) : (
-            <Text style={styles.selectPlayerPrompt}>Please select a player to assign training</Text>
+            <Text style={styles.selectPlayerPrompt}>
+              Please select a player to assign training
+            </Text>
           )}
-          {daysOfWeek.map(day => renderDay(day))}
+          {daysOfWeek.map((day) => renderDay(day))}
         </>
       </ScrollView>
     </View>
@@ -143,80 +190,80 @@ export default function TrainingPlans() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1A394B',
+    backgroundColor: "#1A394B",
     padding: 20,
   },
   header: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 20,
   },
   backButton: {
-    backgroundColor: '#D9D9D9',
+    backgroundColor: "#D9D9D9",
     paddingVertical: 8,
     paddingHorizontal: 12,
     borderRadius: 5,
     marginRight: 15,
   },
   backButtonText: {
-    fontWeight: '700',
+    fontWeight: "700",
     fontSize: 16,
-    color: 'black',
+    color: "black",
   },
   headerTitle: {
     fontSize: 24,
-    fontWeight: 'bold',
-    color: 'white',
+    fontWeight: "bold",
+    color: "white",
   },
   playerSection: {
     marginBottom: 20,
   },
   sectionTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
-    color: 'white',
+    fontWeight: "bold",
+    color: "white",
     marginBottom: 10,
   },
   playerList: {
     maxHeight: 80,
   },
   playerItem: {
-    backgroundColor: '#D9D9D9',
+    backgroundColor: "#D9D9D9",
     padding: 10,
     borderRadius: 8,
     marginRight: 10,
     minWidth: 120,
-    alignItems: 'center',
+    alignItems: "center",
   },
   selectedPlayer: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: "#4CAF50",
   },
   playerName: {
     fontSize: 14,
-    fontWeight: 'bold',
-    color: 'black',
+    fontWeight: "bold",
+    color: "black",
   },
   playerPosition: {
     fontSize: 12,
-    color: '#666',
+    color: "#666",
   },
   weeklyPlan: {
     flex: 1,
   },
   selectedPlayerText: {
     fontSize: 16,
-    color: '#4CAF50',
+    color: "#4CAF50",
     marginBottom: 15,
-    textAlign: 'center',
+    textAlign: "center",
   },
   selectPlayerPrompt: {
     fontSize: 16,
-    color: '#FFA500',
+    color: "#FFA500",
     marginBottom: 15,
-    textAlign: 'center',
+    textAlign: "center",
   },
   dayContainer: {
-    backgroundColor: '#D9D9D9',
+    backgroundColor: "#D9D9D9",
     padding: 15,
     borderRadius: 8,
     marginBottom: 10,
@@ -224,31 +271,31 @@ const styles = StyleSheet.create({
   },
   dayTitle: {
     fontSize: 16,
-    fontWeight: 'bold',
-    color: 'black',
+    fontWeight: "bold",
+    color: "black",
     marginBottom: 10,
   },
   assignedTraining: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: "#4CAF50",
     padding: 10,
     borderRadius: 5,
   },
   trainingName: {
     fontSize: 14,
-    fontWeight: 'bold',
-    color: 'white',
+    fontWeight: "bold",
+    color: "white",
   },
   trainingDesc: {
     fontSize: 12,
-    color: 'white',
+    color: "white",
     marginTop: 2,
   },
   trainingOptions: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexDirection: "row",
+    flexWrap: "wrap",
   },
   trainingButton: {
-    backgroundColor: '#2196F3',
+    backgroundColor: "#2196F3",
     paddingVertical: 6,
     paddingHorizontal: 10,
     borderRadius: 4,
@@ -257,12 +304,12 @@ const styles = StyleSheet.create({
   },
   trainingButtonText: {
     fontSize: 12,
-    color: 'white',
-    fontWeight: 'bold',
+    color: "white",
+    fontWeight: "bold",
   },
   viewModeSection: {
-    flexDirection: 'row',
-    backgroundColor: '#D9D9D9',
+    flexDirection: "row",
+    backgroundColor: "#D9D9D9",
     borderRadius: 8,
     marginBottom: 20,
     padding: 4,
@@ -272,50 +319,50 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 15,
     borderRadius: 6,
-    alignItems: 'center',
+    alignItems: "center",
   },
   activeViewMode: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: "#4CAF50",
   },
   viewModeText: {
     fontSize: 14,
-    fontWeight: 'bold',
-    color: 'black',
+    fontWeight: "bold",
+    color: "black",
   },
   playerOverview: {
-    backgroundColor: '#D9D9D9',
+    backgroundColor: "#D9D9D9",
     padding: 15,
     borderRadius: 8,
     marginBottom: 15,
   },
   playerOverviewName: {
     fontSize: 16,
-    fontWeight: 'bold',
-    color: 'black',
+    fontWeight: "bold",
+    color: "black",
     marginBottom: 5,
   },
   playerOverviewPosition: {
     fontSize: 14,
-    color: '#666',
+    color: "#666",
     marginBottom: 10,
   },
   playerTrainingSummary: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   daySummary: {
-    alignItems: 'center',
+    alignItems: "center",
     flex: 1,
   },
   daySummaryLabel: {
     fontSize: 12,
-    fontWeight: 'bold',
-    color: 'black',
+    fontWeight: "bold",
+    color: "black",
     marginBottom: 4,
   },
   daySummaryTraining: {
     fontSize: 10,
-    color: '#666',
-    textAlign: 'center',
+    color: "#666",
+    textAlign: "center",
   },
 });

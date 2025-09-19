@@ -1,6 +1,6 @@
-import { Ionicons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
-import { useState } from 'react';
+import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
+import { useState } from "react";
 import {
   FlatList,
   Image,
@@ -12,12 +12,12 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-} from 'react-native';
+} from "react-native";
 
 const themeOptions = [
-  { key: 'system', label: 'System Default' },
-  { key: 'light', label: 'Light Mode' },
-  { key: 'dark', label: 'Dark Mode' },
+  { key: "system", label: "System Default" },
+  { key: "light", label: "Light Mode" },
+  { key: "dark", label: "Dark Mode" },
 ];
 
 export default function CoachProfile() {
@@ -26,12 +26,13 @@ export default function CoachProfile() {
   const [showNotifications, setShowNotifications] = useState(false);
   const [notificationTones, setNotificationTones] = useState(false);
   const [encryptedBackup, setEncryptedBackup] = useState(false);
-  const [theme, setTheme] = useState('system');
+  const [theme, setTheme] = useState("system");
   const [themeModalVisible, setThemeModalVisible] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const handleDeleteAccount = () => alert('Delete account functionality to be implemented.');
-  const handleSignOut = () => router.push('/');
+  const handleDeleteAccount = () =>
+    alert("Delete account functionality to be implemented.");
+  const handleSignOut = () => router.push("/");
 
   const renderThemeOption = ({ item }) => (
     <TouchableOpacity
@@ -67,10 +68,10 @@ export default function CoachProfile() {
         {/* Profile Image */}
         <TouchableOpacity
           style={styles.profileImageContainer}
-          onPress={() => router.push('/edit-profile-image')}
+          onPress={() => router.push("/edit-profile-image")}
         >
           <Image
-            source={require('../assets/images/coach.png')}
+            source={require("../assets/images/coach.png")}
             style={styles.profileImage}
           />
           <Text style={styles.editText}>Tap to Change</Text>
@@ -78,9 +79,21 @@ export default function CoachProfile() {
 
         {/* Account Section */}
         <Text style={styles.sectionTitle}>Account</Text>
-        <TextInput style={styles.input} placeholder="Name & Surname" placeholderTextColor="#7a8a99" />
-        <TextInput style={styles.input} placeholder="E-mail" placeholderTextColor="#7a8a99" />
-        <TextInput style={styles.input} placeholder="Role" placeholderTextColor="#7a8a99" />
+        <TextInput
+          style={styles.input}
+          placeholder="Name & Surname"
+          placeholderTextColor="#7a8a99"
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="E-mail"
+          placeholderTextColor="#7a8a99"
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Role"
+          placeholderTextColor="#7a8a99"
+        />
 
         <TouchableOpacity style={styles.changePassword}>
           <Text style={styles.changePasswordText}>Change Password</Text>
@@ -94,7 +107,8 @@ export default function CoachProfile() {
           onPress={() => setThemeModalVisible(true)}
         >
           <Text style={styles.themeText}>
-            {themeOptions.find(option => option.key === theme)?.label || 'Select Theme'}
+            {themeOptions.find((option) => option.key === theme)?.label ||
+              "Select Theme"}
           </Text>
           <Ionicons name="chevron-down" size={20} color="white" />
         </TouchableOpacity>
@@ -114,7 +128,7 @@ export default function CoachProfile() {
               <FlatList
                 data={themeOptions}
                 renderItem={renderThemeOption}
-                keyExtractor={item => item.key}
+                keyExtractor={(item) => item.key}
               />
             </View>
           </TouchableOpacity>
@@ -123,12 +137,14 @@ export default function CoachProfile() {
         {/* Notifications Section */}
         <Text style={styles.sectionTitle}>Notifications</Text>
         <View style={styles.switchRow}>
-          <Text style={styles.switchLabel}>Show notifications for new messages</Text>
+          <Text style={styles.switchLabel}>
+            Show notifications for new messages
+          </Text>
           <Switch
             value={showNotifications}
             onValueChange={setShowNotifications}
-            trackColor={{ false: '#767577', true: '#81b0ff' }}
-            thumbColor={showNotifications ? '#f5dd4b' : '#f4f3f4'}
+            trackColor={{ false: "#767577", true: "#81b0ff" }}
+            thumbColor={showNotifications ? "#f5dd4b" : "#f4f3f4"}
           />
         </View>
         <View style={styles.switchRow}>
@@ -136,8 +152,8 @@ export default function CoachProfile() {
           <Switch
             value={notificationTones}
             onValueChange={setNotificationTones}
-            trackColor={{ false: '#767577', true: '#81b0ff' }}
-            thumbColor={notificationTones ? '#f5dd4b' : '#f4f3f4'}
+            trackColor={{ false: "#767577", true: "#81b0ff" }}
+            thumbColor={notificationTones ? "#f5dd4b" : "#f4f3f4"}
           />
         </View>
 
@@ -152,17 +168,23 @@ export default function CoachProfile() {
           <Switch
             value={encryptedBackup}
             onValueChange={setEncryptedBackup}
-            trackColor={{ false: '#767577', true: '#81b0ff' }}
-            thumbColor={encryptedBackup ? '#f5dd4b' : '#f4f3f4'}
+            trackColor={{ false: "#767577", true: "#81b0ff" }}
+            thumbColor={encryptedBackup ? "#f5dd4b" : "#f4f3f4"}
           />
         </View>
 
         {/* Buttons */}
         <View style={styles.buttonsRow}>
-          <TouchableOpacity style={styles.deleteButton} onPress={handleDeleteAccount}>
+          <TouchableOpacity
+            style={styles.deleteButton}
+            onPress={handleDeleteAccount}
+          >
             <Text style={styles.buttonText}>Delete Account</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.signOutButton} onPress={handleSignOut}>
+          <TouchableOpacity
+            style={styles.signOutButton}
+            onPress={handleSignOut}
+          >
             <Text style={styles.buttonText}>Sign Out</Text>
           </TouchableOpacity>
         </View>
@@ -181,14 +203,14 @@ export default function CoachProfile() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1E3A4D',
+    backgroundColor: "#1E3A4D",
     paddingTop: 40,
   },
   header: {
     height: 50,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingHorizontal: 20,
   },
   content: {
@@ -196,7 +218,7 @@ const styles = StyleSheet.create({
     paddingBottom: 40,
   },
   profileImageContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     marginBottom: 20,
   },
   profileImage: {
@@ -204,63 +226,63 @@ const styles = StyleSheet.create({
     height: 140,
     borderRadius: 70,
     borderWidth: 2,
-    borderColor: '#81b0ff',
+    borderColor: "#81b0ff",
   },
   editText: {
-    color: 'white',
+    color: "white",
     marginTop: 5,
   },
   sectionTitle: {
-    color: 'white',
-    fontWeight: 'bold',
+    color: "white",
+    fontWeight: "bold",
     fontSize: 16,
     marginTop: 20,
     marginBottom: 10,
   },
   input: {
-    backgroundColor: '#2C4A5A',
-    color: 'white',
+    backgroundColor: "#2C4A5A",
+    color: "white",
     borderRadius: 5,
     paddingHorizontal: 10,
     paddingVertical: 8,
     marginBottom: 10,
   },
   changePassword: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    backgroundColor: '#2C4A5A',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    backgroundColor: "#2C4A5A",
     borderRadius: 5,
     paddingHorizontal: 10,
     paddingVertical: 12,
     marginBottom: 10,
-    alignItems: 'center',
+    alignItems: "center",
   },
   changePasswordText: {
-    color: 'white',
-    fontWeight: '600',
+    color: "white",
+    fontWeight: "600",
   },
   themeSelector: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    backgroundColor: '#2C4A5A',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    backgroundColor: "#2C4A5A",
     borderRadius: 5,
     paddingHorizontal: 10,
     paddingVertical: 12,
     marginBottom: 10,
-    alignItems: 'center',
+    alignItems: "center",
   },
   themeText: {
-    color: 'white',
-    fontWeight: '600',
+    color: "white",
+    fontWeight: "600",
   },
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "rgba(0,0,0,0.5)",
+    justifyContent: "center",
+    alignItems: "center",
   },
   modalContent: {
-    backgroundColor: '#2C4A5A',
+    backgroundColor: "#2C4A5A",
     borderRadius: 5,
     width: 200,
     paddingVertical: 10,
@@ -270,58 +292,58 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   themeOptionText: {
-    color: 'white',
+    color: "white",
     fontSize: 16,
   },
   switchRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginBottom: 10,
   },
   switchLabel: {
-    color: 'white',
+    color: "white",
     flex: 1,
   },
   themeOption: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    backgroundColor: '#2C4A5A',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    backgroundColor: "#2C4A5A",
     borderRadius: 5,
     paddingHorizontal: 10,
     paddingVertical: 12,
     marginBottom: 10,
-    alignItems: 'center',
+    alignItems: "center",
   },
   buttonsRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginTop: 30,
   },
   deleteButton: {
-    backgroundColor: '#2C4A5A',
+    backgroundColor: "#2C4A5A",
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 20,
   },
   signOutButton: {
-    backgroundColor: '#2C4A5A',
+    backgroundColor: "#2C4A5A",
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 20,
   },
   buttonText: {
-    color: 'white',
-    fontWeight: '600',
+    color: "white",
+    fontWeight: "600",
   },
   menuDropdown: {
-    position: 'absolute',
+    position: "absolute",
     top: 75,
     right: 20,
-    backgroundColor: '#D9D9D9',
+    backgroundColor: "#D9D9D9",
     borderRadius: 5,
     padding: 10,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
@@ -333,6 +355,6 @@ const styles = StyleSheet.create({
   },
   menuItemText: {
     fontSize: 10,
-    color: 'black',
+    color: "black",
   },
 });

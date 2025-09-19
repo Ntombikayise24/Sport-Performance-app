@@ -1,14 +1,21 @@
-import { Ionicons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
-import { useState } from 'react';
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
+import { useState } from "react";
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 export default function AthleteView() {
   const router = useRouter();
   const [menuVisible, setMenuVisible] = useState(false);
 
   const logout = () => {
-    router.push('/');
+    router.push("/");
     setMenuVisible(false);
   };
 
@@ -16,8 +23,14 @@ export default function AthleteView() {
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <Image source={require('../assets/images/logo.jpeg')} style={styles.logo} />
-        <TouchableOpacity style={styles.menuIcon} onPress={() => setMenuVisible(!menuVisible)}>
+        <Image
+          source={require("../assets/images/logo.jpeg")}
+          style={styles.logo}
+        />
+        <TouchableOpacity
+          style={styles.menuIcon}
+          onPress={() => setMenuVisible(!menuVisible)}
+        >
           <Ionicons name="menu" size={28} color="white" />
         </TouchableOpacity>
       </View>
@@ -44,7 +57,7 @@ export default function AthleteView() {
             <Text style={styles.currentFormText}>Current Form</Text>
           </TouchableOpacity>
           <Image
-            source={require('../assets/images/hockey.png')}
+            source={require("../assets/images/hockey.png")}
             style={styles.profileImage}
           />
         </View>
@@ -53,23 +66,39 @@ export default function AthleteView() {
         <View style={styles.statusNotificationsContainer}>
           <View style={styles.statusBox}>
             <Text style={styles.statusTitle}>Status</Text>
-            <Text style={styles.statusMessage}>Still good to go, have fun training!</Text>
+            <Text style={styles.statusMessage}>
+              Still good to go, have fun training!
+            </Text>
           </View>
 
           <View style={styles.notificationsBox}>
             <Text style={styles.notificationsTitle}>Notifications</Text>
             <View style={styles.notificationItem}>
-              <Ionicons name="person-outline" size={20} color="black" style={styles.notificationIcon} />
+              <Ionicons
+                name="person-outline"
+                size={20}
+                color="black"
+                style={styles.notificationIcon}
+              />
               <View style={styles.notificationTextContainer}>
                 <Text style={styles.notificationTitle}>Coach</Text>
-                <Text style={styles.notificationMessage}>I need 10 laps so that you keep up the.. 21h ago</Text>
+                <Text style={styles.notificationMessage}>
+                  I need 10 laps so that you keep up the.. 21h ago
+                </Text>
               </View>
             </View>
             <View style={styles.notificationItem}>
-              <Ionicons name="medkit-outline" size={20} color="black" style={styles.notificationIcon} />
+              <Ionicons
+                name="medkit-outline"
+                size={20}
+                color="black"
+                style={styles.notificationIcon}
+              />
               <View style={styles.notificationTextContainer}>
                 <Text style={styles.notificationTitle}>Medical</Text>
-                <Text style={styles.notificationMessage}>No notifications yet.</Text>
+                <Text style={styles.notificationMessage}>
+                  No notifications yet.
+                </Text>
               </View>
             </View>
           </View>
@@ -84,17 +113,17 @@ export default function AthleteView() {
         </View>
 
         <View style={styles.metricsCardsContainer}>
-          <View style={[styles.metricCard, { backgroundColor: '#E26A2C' }]}>
+          <View style={[styles.metricCard, { backgroundColor: "#E26A2C" }]}>
             <Ionicons name="heart" size={24} color="white" />
             <Text style={styles.metricLabel}>AVG HEART RATE</Text>
             <Text style={styles.metricValue}>145 bpm</Text>
           </View>
-          <View style={[styles.metricCard, { backgroundColor: '#2E7D32' }]}>
+          <View style={[styles.metricCard, { backgroundColor: "#2E7D32" }]}>
             <Ionicons name="flash" size={24} color="white" />
             <Text style={styles.metricLabel}>SPEED</Text>
             <Text style={styles.metricValue}>24.5 km/h</Text>
           </View>
-          <View style={[styles.metricCard, { backgroundColor: '#C9B037' }]}>
+          <View style={[styles.metricCard, { backgroundColor: "#C9B037" }]}>
             <Ionicons name="navigate" size={24} color="white" />
             <Text style={styles.metricLabel}>DISTANCE</Text>
             <Text style={styles.metricValue}>4.5 km</Text>
@@ -108,13 +137,13 @@ export default function AthleteView() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1A394B',
+    backgroundColor: "#1A394B",
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: '#1A394B',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "#1A394B",
     paddingHorizontal: 20,
     paddingTop: 40,
     paddingBottom: 10,
@@ -122,64 +151,64 @@ const styles = StyleSheet.create({
   logo: {
     width: 60,
     height: 40,
-    resizeMode: 'contain',
+    resizeMode: "contain",
   },
   menuIcon: {
     padding: 10,
   },
   menuDropdown: {
-    position: 'absolute',
+    position: "absolute",
     top: 80,
     right: 20,
-    backgroundColor: '#D9D9D9',
+    backgroundColor: "#D9D9D9",
     borderRadius: 5,
     padding: 10,
     zIndex: 10,
     elevation: 10,
   },
   menuItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     paddingVertical: 8,
     paddingHorizontal: 10,
   },
   menuText: {
     marginLeft: 8,
     fontSize: 16,
-    color: 'black',
+    color: "black",
   },
   contentContainer: {
     paddingHorizontal: 20,
     paddingBottom: 80,
   },
   greetingContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 20,
   },
   greetingText: {
-    color: 'white',
+    color: "white",
     fontSize: 20,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   roleText: {
-    color: 'white',
+    color: "white",
     fontSize: 14,
     marginTop: 2,
   },
   currentFormButton: {
-    flexDirection: 'row',
-    backgroundColor: '#2E4E62',
+    flexDirection: "row",
+    backgroundColor: "#2E4E62",
     paddingHorizontal: 10,
     paddingVertical: 6,
     borderRadius: 5,
     marginLeft: 15,
-    alignItems: 'center',
+    alignItems: "center",
   },
   currentFormText: {
-    color: 'white',
+    color: "white",
     marginLeft: 5,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   profileImage: {
     width: 80,
@@ -188,7 +217,7 @@ const styles = StyleSheet.create({
     marginLeft: 15,
   },
   statusNotificationsContainer: {
-    backgroundColor: '#2E4E62',
+    backgroundColor: "#2E4E62",
     borderRadius: 5,
     padding: 15,
     marginBottom: 20,
@@ -197,29 +226,29 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   statusTitle: {
-    color: 'white',
-    fontWeight: '700',
+    color: "white",
+    fontWeight: "700",
     fontSize: 18,
     marginBottom: 5,
   },
   statusMessage: {
-    color: '#3CB371',
-    fontWeight: '600',
+    color: "#3CB371",
+    fontWeight: "600",
   },
   notificationsBox: {},
   notificationsTitle: {
-    color: 'white',
-    fontWeight: '700',
+    color: "white",
+    fontWeight: "700",
     fontSize: 18,
     marginBottom: 10,
   },
   notificationItem: {
-    flexDirection: 'row',
-    backgroundColor: '#A9A9A9',
+    flexDirection: "row",
+    backgroundColor: "#A9A9A9",
     borderRadius: 5,
     padding: 10,
     marginBottom: 8,
-    alignItems: 'center',
+    alignItems: "center",
   },
   notificationIcon: {
     marginRight: 10,
@@ -228,20 +257,20 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   notificationTitle: {
-    fontWeight: '700',
-    color: 'black',
+    fontWeight: "700",
+    color: "black",
   },
   notificationMessage: {
-    color: 'black',
+    color: "black",
   },
   performanceMetricsContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 10,
   },
   performanceTitle: {
-    color: 'white',
-    fontWeight: '600',
+    color: "white",
+    fontWeight: "600",
     fontSize: 18,
     flex: 1,
   },
@@ -249,25 +278,25 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
   },
   metricsCardsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   metricCard: {
     flex: 1,
     borderRadius: 10,
     padding: 15,
     marginRight: 10,
-    alignItems: 'center',
+    alignItems: "center",
   },
   metricLabel: {
-    color: 'white',
-    fontWeight: '600',
+    color: "white",
+    fontWeight: "600",
     fontSize: 12,
     marginTop: 10,
   },
   metricValue: {
-    color: 'white',
-    fontWeight: '700',
+    color: "white",
+    fontWeight: "700",
     fontSize: 18,
   },
 });

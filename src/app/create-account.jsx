@@ -3,16 +3,16 @@ import { Picker } from "@react-native-picker/picker";
 import { router } from "expo-router";
 import { useState } from "react";
 import {
-    Alert,
-    Image,
-    KeyboardAvoidingView,
-    Platform,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  Alert,
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 
 function CreateAccount() {
@@ -59,10 +59,10 @@ function CreateAccount() {
     if (id.length !== 13 || isNaN(id)) {
       Alert.alert("Error", "ID number must be exactly 13 digits.");
       return;
-    }else{
-        router.push("/verifyAccount");
+    } else {
+      router.push("/verify-account");
     }
-/*
+    /*
     try {
       // Replace with your API URL
       const response = await axios.post("http://your-api/signup", {
@@ -77,7 +77,7 @@ function CreateAccount() {
       });
 
       Alert.alert("Success", "Account created successfully");
-      router.push("/verifyAccount");
+      router.push("/verify-account");
     } catch (error) {
       if (error.response) {
         Alert.alert("Error", error.response.data.message || "Signup failed");

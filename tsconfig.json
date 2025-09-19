@@ -12,7 +12,7 @@
     "expo-env.d.ts",
     ".vscode/index.tsx",
     "vscode/index.jsx",
-    "src/app/index.jsx",
+    "src/app/login.jsx",
     ".expo/types/**/*.ts"
   ]
 }

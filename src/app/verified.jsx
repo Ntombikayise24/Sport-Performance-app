@@ -1,8 +1,8 @@
-import React from 'react';
-import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
-import { router } from 'expo-router';
+import React from "react";
+import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
+import { router } from "expo-router";
 
-import tickImage from '../assets/images/tick.png';
+import tickImage from "../assets/images/tick.png";
 
 const Verified = () => {
   const handleLoginPress = () => {
@@ -27,17 +27,17 @@ export default Verified;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1A394B',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "#1A394B",
+    justifyContent: "center",
+    alignItems: "center",
   },
   circle: {
-    backgroundColor: 'black',
+    backgroundColor: "black",
     width: 120,
     height: 120,
     borderRadius: 60,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginBottom: 40,
   },
   tick: {
@@ -45,13 +45,13 @@ const styles = StyleSheet.create({
     height: 60,
   },
   title: {
-    color: 'white',
+    color: "white",
     fontSize: 28,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 20,
   },
   loginText: {
-    color: '#5A4DB2',
+    color: "#5A4DB2",
     fontSize: 18,
   },
 });
