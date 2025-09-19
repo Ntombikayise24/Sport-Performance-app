@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BASE_URL } from "../config/config";
+import { API_URL } from "../config/config";
 
 export async function createAccount(
   surname: string,
@@ -11,7 +11,7 @@ export async function createAccount(
   role: string,
   roletype: string
 ) {
-  const url = `${BASE_URL}/api/Auth/RegisterUser`;
+  const url = `${API_URL}/api/Auth/RegisterUser`;
   const { data } = await axios.post(url, {
     surname,
     name,
