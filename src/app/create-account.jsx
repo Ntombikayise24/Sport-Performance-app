@@ -15,6 +15,12 @@ import {
   View,
 } from "react-native";
 import { createAccount } from "../api/authService";
+import {
+  validatePassword,
+  passwordsMatch,
+} from "../validators/validatePassword";
+import { validateEmail } from "../validators/validateEmail";
+import { validateIdNumber } from "../validators/validateIdNumber";
 
 function CreateAccount() {
   const [name, setName] = useState("");
@@ -47,18 +53,26 @@ function CreateAccount() {
       return;
     }
 
-    if (password !== passwordVerify) {
+    if (!passwordsMatch(password, passwordVerify)) {
       Alert.alert("Error", "Passwords must match");
       return;
     }
 
-    if (!(email.endsWith("@gmail.com") || email.endsWith(".co.za"))) {
-      Alert.alert("Error", "Email must end with @gmail.com or .co.za");
+    if (!validatePassword(password)) {
+      Alert.alert(
+        "Error",
+        "Password must be at least 8 characters and include uppercase, lowercase, and a special character."
+      );
       return;
     }
 
-    if (id.length !== 13 || isNaN(id)) {
-      Alert.alert("Error", "ID number must be exactly 13 digits.");
+    if (!validateEmail(email)) {
+      Alert.alert("Error", "Please enter a valid email address.");
+      return;
+    }
+
+    if (!validateIdNumber(id)) {
+      Alert.alert("Error", "ID number must be exactly 13 digits and numeric.");
       return;
     }
 
@@ -153,6 +167,7 @@ function CreateAccount() {
               placeholderTextColor="gray"
             />
           )}
+          
           {selectedRole === "Staff" && (
             <TextInput
               style={styles.inputs}
