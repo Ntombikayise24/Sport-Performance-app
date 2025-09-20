@@ -10,8 +10,12 @@ import {
   View,
 } from "react-native";
 
+import { Player } from "@/types/Player";
+import { TrainingTemplate } from "@/types/TrainingTemplate";
+import { WeeklyPlan } from "@/types/WeeklyPlan";
+
 // Mock data for players
-const players = [
+const players: Player[] = [
   { id: "1", name: "Naledi Motaung", position: "Forward" },
   { id: "2", name: "Ayanda Dlamini", position: "Midfielder" },
   { id: "3", name: "Sarah van de Merwe", position: "Defender" },
@@ -20,7 +24,7 @@ const players = [
 ];
 
 // Training plan templates
-const trainingTemplates = [
+const trainingTemplates: TrainingTemplate[] = [
   {
     id: "1",
     name: "Endurance Training",
@@ -60,17 +64,18 @@ const daysOfWeek = [
 
 export default function TrainingPlans() {
   const router = useRouter();
-  const [selectedPlayer, setSelectedPlayer] = useState(null);
-  const [weeklyPlan, setWeeklyPlan] = useState({});
+  const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
+  const [weeklyPlan, setWeeklyPlan] = useState<WeeklyPlan>({});
   const [viewMode, setViewMode] = useState("individual"); // 'individual' or 'overview'
 
-  const assignTraining = (day, templateId) => {
+  const assignTraining = (day: string, templateId: string) => {
     if (!selectedPlayer) {
       Alert.alert("Please select a player first");
       return;
     }
 
     const template = trainingTemplates.find((t) => t.id === templateId);
+    if (!template) return;
     const newPlan = { ...weeklyPlan };
 
     if (!newPlan[selectedPlayer.id]) {
@@ -86,7 +91,7 @@ export default function TrainingPlans() {
     );
   };
 
-  const renderPlayer = ({ item }) => (
+  const renderPlayer = ({ item }: { item: Player }) => (
     <TouchableOpacity
       style={[
         styles.playerItem,

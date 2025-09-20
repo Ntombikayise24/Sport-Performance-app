@@ -17,7 +17,7 @@ function verification() {
       alert("Please enter the verification code.");
       return;
     } else {
-      router.push("/verified");
+      router.push("/(auth)/verified");
     }
     /*
     // API to send code on email for verification.
@@ -39,7 +39,7 @@ function verification() {
   return (
     <View style={styles.container}>
       <Image
-        source={require("../assets/images/mail.png")}
+        source={require("../../assets/images/mail.png")}
         style={styles.mailImage}
         resizeMode="contain"
       />
@@ -69,7 +69,7 @@ function verification() {
         }}
       >
         <Text style={styles.didntGetCodeText}>Didn’t get the code? </Text>
-        <TouchableOpacity onPress={() => router.push("/forgot-password")}>
+        <TouchableOpacity onPress={() => router.push("/(auth)/forgot-password")}>
           <Text style={styles.resendCodeText}>Resend code</Text>
         </TouchableOpacity>
       </View>

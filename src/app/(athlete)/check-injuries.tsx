@@ -36,7 +36,7 @@ export default function CheckInjuries() {
   const renderInjury = ({ item }) => (
     <View style={styles.injuryItem}>
       <Image
-        source={require("../assets/images/alarm.png")}
+        source={require("../../assets/images/alarm.png")}
         style={styles.alarmIcon}
       />
       <Text style={styles.injuryText}>
@@ -84,25 +84,25 @@ export default function CheckInjuries() {
       <View style={styles.bottomNav}>
         <TouchableOpacity
           style={styles.navButton}
-          onPress={() => router.push("/coach-view")}
+          onPress={() => router.push("/(coach)/coach-view")}
         >
           <Ionicons name="home-outline" size={28} color="#1E90FF" />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.navButton}
-          onPress={() => router.push("/coach-view-metrics")}
+          onPress={() => router.push("/(coach)/coach-view-metrics")}
         >
           <Ionicons name="heart-outline" size={28} color="#FF4500" />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.navButton}
-          onPress={() => router.push("/notifications")}
+          onPress={() => router.push("/(dashboard)/notifications")}
         >
           <Ionicons name="notifications-outline" size={28} color="#FFD700" />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.navButton}
-          onPress={() => router.push("/coach-profile")}
+          onPress={() => router.push("/(coach)/coach-profile")}
         >
           <Ionicons name="person-outline" size={28} color="#32CD32" />
         </TouchableOpacity>

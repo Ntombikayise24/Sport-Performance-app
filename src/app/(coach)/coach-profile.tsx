@@ -68,10 +68,10 @@ export default function CoachProfile() {
         {/* Profile Image */}
         <TouchableOpacity
           style={styles.profileImageContainer}
-          onPress={() => router.push("/edit-profile-image")}
+          // onPress={() => router.push("/edit-profile-image")}
         >
           <Image
-            source={require("../assets/images/coach.png")}
+            source={require("../../assets/images/coach.png")}
             style={styles.profileImage}
           />
           <Text style={styles.editText}>Tap to Change</Text>

@@ -22,7 +22,7 @@ export default function Notifications() {
     { id: 5, name: "Michaela Smith", alert: "amber" },
   ]);
 
-  const [sortOrder, setSortOrder] = useState("asc"); // 'asc' or 'desc'
+  const [sortOrder, setSortOrder] = useState("asc");
 
   const logout = () => {
     router.push("/");
@@ -50,7 +50,7 @@ export default function Notifications() {
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity
-          onPress={() => router.push("/coach-view")}
+          onPress={() => router.push("/(coach)/coach-view")}
           activeOpacity={0.7}
         >
           <Ionicons name="arrow-back" size={24} color="white" />
@@ -105,25 +105,25 @@ export default function Notifications() {
       <View style={styles.bottomNav}>
         <TouchableOpacity
           style={styles.navButton}
-          onPress={() => router.push("/coach-view")}
+          onPress={() => router.push("/(coach)/coach-view")}
         >
           <Ionicons name="home-outline" size={28} color="#1E90FF" />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.navButton}
-          onPress={() => router.push("/coach-view-metrics")}
+          onPress={() => router.push("/(coach)/coach-view-metrics")}
         >
           <Ionicons name="heart-outline" size={28} color="#FF4500" />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.navButton}
-          onPress={() => router.push("/notifications")}
+          onPress={() => router.push("/(dashboard)/notifications")}
         >
           <Ionicons name="notifications-outline" size={28} color="#FFD700" />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.navButton}
-          onPress={() => router.push("/coach-profile")}
+          onPress={() => router.push("/(coach)/coach-profile")}
         >
           <Ionicons name="person-outline" size={28} color="#32CD32" />
         </TouchableOpacity>
@@ -190,14 +190,6 @@ const styles = StyleSheet.create({
   },
   notificationsList: {
     paddingBottom: 20,
-  },
-  notificationItem: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#3A5A7E",
-    padding: 10,
-    borderRadius: 5,
-    marginBottom: 10,
   },
   notificationText: {
     marginLeft: 10,

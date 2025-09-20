@@ -10,11 +10,11 @@ import {
 } from "react-native";
 import { IconButton, Searchbar, Text } from "react-native-paper";
 
-import BiometricImage from "../assets/images/Biometric.png";
-import HealthImage from "../assets/images/Health.png";
-import TrainingImage from "../assets/images/Training.png";
-import InjuryImage from "../assets/images/injury.png";
-import PhysicalImage from "../assets/images/physical.png";
+import BiometricImage from "../../assets/images/Biometric.png";
+import HealthImage from "../../assets/images/Health.png";
+import TrainingImage from "../../assets/images/Training.png";
+import InjuryImage from "../../assets/images/injury.png";
+import PhysicalImage from "../../assets/images/physical.png";
 
 const TeamMetricsScreen = () => {
   const router = useRouter();
@@ -103,14 +103,12 @@ const TeamMetricsScreen = () => {
         <IconButton
           icon="arrow-left"
           size={24}
-          color="white"
-          onPress={() => router.push("/coach-view")}
+          onPress={() => router.push("/(coach)/coach-view")}
         />
         <Text style={styles.title}>Team Metrics</Text>
         <IconButton
           icon="menu"
           size={24}
-          color="white"
           onPress={() => setIsMenuOpen(!isMenuOpen)}
         />
       </View>
@@ -140,7 +138,7 @@ const TeamMetricsScreen = () => {
             key={card.name}
             style={[styles.card, { backgroundColor: card.color }]}
           >
-            <Text style={[styles.cardText, card.textStyle]}>{card.text}</Text>
+            <Text style={styles.cardText}>{card.text}</Text>
             <View style={styles.iconContainer}>{card.icon}</View>
           </TouchableOpacity>
         ))}
@@ -150,25 +148,25 @@ const TeamMetricsScreen = () => {
       <View style={styles.bottomNav}>
         <TouchableOpacity
           style={styles.navButton}
-          onPress={() => router.push("/coach-view")}
+          onPress={() => router.push("/(coach)/coach-view")}
         >
           <Ionicons name="home-outline" size={28} color="#1E90FF" />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.navButton}
-          onPress={() => router.push("/coach-view-metrics")}
+          onPress={() => router.push("/(coach)/coach-view-metrics")}
         >
           <Ionicons name="heart-outline" size={28} color="#FF4500" />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.navButton}
-          onPress={() => router.push("/notifications")}
+          onPress={() => router.push("/(dashboard)/notifications")}
         >
           <Ionicons name="notifications-outline" size={28} color="#FFD700" />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.navButton}
-          onPress={() => router.push("/coach-profile")}
+          onPress={() => router.push("/(coach)/coach-profile")}
         >
           <Ionicons name="person-outline" size={28} color="#32CD32" />
         </TouchableOpacity>

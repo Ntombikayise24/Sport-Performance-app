@@ -14,13 +14,13 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { createAccount } from "../api/authService";
+import { createAccount } from "../../api/authService";
 import {
   validatePassword,
   passwordsMatch,
-} from "../validators/validatePassword";
-import { validateEmail } from "../validators/validateEmail";
-import { validateIdNumber } from "../validators/validateIdNumber";
+} from "../../validators/validatePassword";
+import { validateEmail } from "../../validators/validateEmail";
+import { validateIdNumber } from "../../validators/validateIdNumber";
 
 function CreateAccount() {
   const [name, setName] = useState("");
@@ -89,7 +89,7 @@ function CreateAccount() {
 
     if (res?.status) {
       Alert.alert("Success", res?.message || "Account created successfully");
-      router.push("verify-account");
+      router.push("/(auth)/verify-account");
     } else {
       Alert.alert("Error", res?.message || "Signup failed");
     }
@@ -105,7 +105,7 @@ function CreateAccount() {
         keyboardShouldPersistTaps="handled"
       >
         <Image
-          source={require("../assets/images/logo.jpeg")}
+          source={require("../../assets/images/logo.jpeg")}
           style={styles.logo}
         />
 

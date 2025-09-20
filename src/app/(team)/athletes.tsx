@@ -77,7 +77,7 @@ export default function Athletes() {
   const renderAthlete = ({ item }) => (
     <TouchableOpacity
       style={styles.athleteCard}
-      onPress={() => router.push("/athlete-view")}
+      onPress={() => router.push("/(athlete)/athlete-view")}
     >
       <View style={styles.iconPlaceholder}>
         <Ionicons name="person-circle-outline" size={40} color="#1A394B" />
@@ -179,25 +179,25 @@ export default function Athletes() {
       <View style={styles.bottomNav}>
         <TouchableOpacity
           style={styles.navButton}
-          onPress={() => router.push("/coach-view")}
+          onPress={() => router.push("/(coach)/coach-view")}
         >
           <Ionicons name="home-outline" size={28} color="#1E90FF" />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.navButton}
-          onPress={() => router.push("/coach-view-metrics")}
+          onPress={() => router.push("/(coach)/coach-view-metrics")}
         >
           <Ionicons name="heart-outline" size={28} color="#FF4500" />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.navButton}
-          onPress={() => router.push("/notifications")}
+          onPress={() => router.push("/(dashboard)/notifications")}
         >
           <Ionicons name="notifications-outline" size={28} color="#FFD700" />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.navButton}
-          onPress={() => router.push("/coach-profile")}
+          onPress={() => router.push("/(coach)/coach-profile")}
         >
           <Ionicons name="person-outline" size={28} color="#32CD32" />
         </TouchableOpacity>

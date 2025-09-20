@@ -1,9 +1,9 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-export default function OverallTeamForm() {
+export default function Vikings() {
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -17,7 +17,7 @@ export default function OverallTeamForm() {
         >
           <Text style={styles.backArrow}>&larr;</Text>
         </TouchableOpacity>
-        <Text style={styles.title}>Overall Team Form</Text>
+        <Text style={styles.title}>Vikings</Text>
         <TouchableOpacity
           style={styles.menuButton}
           onPress={() => setIsMenuOpen(!isMenuOpen)}
@@ -28,56 +28,49 @@ export default function OverallTeamForm() {
         </TouchableOpacity>
       </View>
 
-      {/* Stats box */}
-      <View style={styles.statsBox}>
-        <View style={styles.statItem}>
-          <Text style={styles.statNumber}>15</Text>
-          <Text style={styles.statLabel}>Team members</Text>
-        </View>
-        <View style={styles.statItem}>
-          <Text style={styles.statNumber}>5</Text>
-          <Text style={styles.statLabel}>Active Today</Text>
-        </View>
-        <View style={styles.statItem}>
-          <Text style={styles.statNumber}>35%</Text>
-          <Text style={styles.statLabel}>Avg performance</Text>
-        </View>
-      </View>
-
       {/* Buttons */}
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Team Fixtures</Text>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => router.push("/(team)/athletes")}
+      >
+        <Text style={styles.buttonText}>List of athletes</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Results</Text>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => router.push("/(coach)/overall-team-form")}
+      >
+        <Text style={styles.buttonText}>Overall team form</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Statistics</Text>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => router.push("/(athlete)/check-injuries")}
+      >
+        <Text style={styles.buttonText}>Check injuries</Text>
       </TouchableOpacity>
 
       {/* Bottom Navigation Bar */}
       <View style={styles.bottomNav}>
         <TouchableOpacity
           style={styles.navButton}
-          onPress={() => router.push("/coach-view")}
+          onPress={() => router.push("/(coach)/coach-view")}
         >
           <Ionicons name="home-outline" size={28} color="#1E90FF" />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.navButton}
-          onPress={() => router.push("/coach-view-metrics")}
+          onPress={() => router.push("/(coach)/coach-view-metrics")}
         >
           <Ionicons name="heart-outline" size={28} color="#FF4500" />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.navButton}
-          onPress={() => router.push("/notifications")}
+          onPress={() => router.push("/(dashboard)/notifications")}
         >
           <Ionicons name="notifications-outline" size={28} color="#FFD700" />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.navButton}
-          onPress={() => router.push("/coach-profile")}
+          onPress={() => router.push("/(coach)/coach-profile")}
         >
           <Ionicons name="person-outline" size={28} color="#32CD32" />
         </TouchableOpacity>
@@ -120,27 +113,6 @@ const styles = StyleSheet.create({
     height: 3,
     backgroundColor: "black",
     borderRadius: 2,
-  },
-  statsBox: {
-    flexDirection: "row",
-    backgroundColor: "#D9D9D9",
-    borderRadius: 5,
-    padding: 15,
-    marginBottom: 30,
-    justifyContent: "space-around",
-  },
-  statItem: {
-    alignItems: "center",
-  },
-  statNumber: {
-    fontSize: 24,
-    fontWeight: "700",
-    color: "black",
-  },
-  statLabel: {
-    fontSize: 14,
-    color: "black",
-    textAlign: "center",
   },
   button: {
     backgroundColor: "#D9D9D9",

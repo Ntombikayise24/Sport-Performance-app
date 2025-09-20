@@ -7,7 +7,7 @@ import { StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
 export default function CoachView() {
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [coachImage, setCoachImage] = useState(null);
+  const [coachImage, setCoachImage] = useState<string | null>(null);
 
   const pickImage = async () => {
     // Request permission
@@ -41,7 +41,7 @@ export default function CoachView() {
       <View style={styles.topBar}>
         <View style={styles.flexSpacer} />
         <Image
-          source={require("../assets/images/logo.jpeg")}
+          source={require("../../assets/images/logo.jpeg")}
           style={styles.logo}
         />
         <View style={styles.flexSpacer} />
@@ -62,7 +62,7 @@ export default function CoachView() {
               source={
                 coachImage
                   ? { uri: coachImage }
-                  : require("../assets/images/coach.png")
+                  : require("../../assets/images/coach.png")
               }
               style={styles.coachImage}
             />
@@ -91,7 +91,7 @@ export default function CoachView() {
 
       <TouchableOpacity
         style={styles.teamOverviewButton}
-        onPress={() => router.push("/team-overview")}
+        onPress={() => router.push("/(coach)/team-overview")}
       >
         <Ionicons name="people-outline" size={24} color="#1A394B" />
         <Text style={styles.teamOverviewText}>Team Overview</Text>
@@ -100,7 +100,7 @@ export default function CoachView() {
       {/* Notifications Section */}
       <TouchableOpacity
         style={styles.notificationsContainer}
-        onPress={() => router.push("/notifications")}
+        onPress={() => router.push("/(dashboard)/notifications")}
       >
         <Text style={styles.notificationsTitle}>Notifications</Text>
         <View style={styles.notificationItem}>
@@ -126,7 +126,7 @@ export default function CoachView() {
       {/* Training Plans Button */}
       <TouchableOpacity
         style={styles.trainingPlansButton}
-        onPress={() => router.push("/training-plans")}
+        onPress={() => router.push("/(coach)/training-plans")}
       >
         <Ionicons name="clipboard-outline" size={24} color="#1A394B" />
         <Text style={styles.trainingPlansText}>Training Plans</Text>
@@ -136,25 +136,25 @@ export default function CoachView() {
       <View style={styles.bottomNav}>
         <TouchableOpacity
           style={styles.navButton}
-          onPress={() => router.push("/coach-view")}
+          onPress={() => router.push("/(coach)/coach-view")}
         >
           <Ionicons name="home-outline" size={28} color="#1E90FF" />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.navButton}
-          onPress={() => router.push("/coach-view-metrics")}
+          onPress={() => router.push("/(coach)/coach-view-metrics")}
         >
           <Ionicons name="heart-outline" size={28} color="#FF4500" />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.navButton}
-          onPress={() => router.push("/notifications")}
+          onPress={() => router.push("/(dashboard)/notifications")}
         >
           <Ionicons name="notifications-outline" size={28} color="#FFD700" />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.navButton}
-          onPress={() => router.push("/coach-profile")}
+          onPress={() => router.push("/(coach)/coach-profile")}
         >
           <Ionicons name="person-outline" size={28} color="#32CD32" />
         </TouchableOpacity>

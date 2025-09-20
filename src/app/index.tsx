@@ -27,11 +27,11 @@ export default function LoginScreen() {
 
     // Navigate based on selected userType
     if (userType === "Athlete") {
-      router.push("/athlete-view");
+      router.push("/(athlete)/athlete-view");
     } else if (userType === "Medical") {
-      router.push("/medical-view");
+      router.push("/(athlete)/medical-view");
     } else if (userType === "Staff") {
-      router.push("/coach-view"); 
+      router.push("/(coach)/coach-view"); 
     } else {
       Alert.alert("Unknown user type");
     }
@@ -139,7 +139,7 @@ export default function LoginScreen() {
 
       <TouchableOpacity
         style={{ marginBottom: 10 }}
-        onPress={() => router.push("/forgot-password")}
+        onPress={() => router.push("/(auth)/forgot-password")}
       >
         <Text style={{ color: "white", textAlign: "center" }}>
           Forgot Password?
@@ -147,7 +147,7 @@ export default function LoginScreen() {
       </TouchableOpacity>
       <View style={{ flexDirection: "row", justifyContent: "center" }}>
         <Text style={{ color: "white" }}>Don’t have an account? </Text>
-        <TouchableOpacity onPress={() => router.push("/create-account")}>
+        <TouchableOpacity onPress={() => router.push("/(auth)/create-account")}>
           <Text style={{ color: "#DF1965" }}>Sign up</Text>
         </TouchableOpacity>
       </View>

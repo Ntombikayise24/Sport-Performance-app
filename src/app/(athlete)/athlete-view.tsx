@@ -21,10 +21,9 @@ export default function AthleteView() {
 
   return (
     <View style={styles.container}>
-      {/* Header */}
       <View style={styles.header}>
         <Image
-          source={require("../assets/images/logo.jpeg")}
+          source={require("../../assets/images/logo.jpeg")}
           style={styles.logo}
         />
         <TouchableOpacity
@@ -57,7 +56,7 @@ export default function AthleteView() {
             <Text style={styles.currentFormText}>Current Form</Text>
           </TouchableOpacity>
           <Image
-            source={require("../assets/images/hockey.png")}
+            source={require("../../assets/images/hockey.png")}
             style={styles.profileImage}
           />
         </View>

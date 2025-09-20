@@ -25,7 +25,7 @@ export default function ForgotPassword() {
     <View style={styles.container}>
       <View style={styles.lockIconContainer}>
         <Image
-          source={require("../assets/images/lock.png")}
+          source={require("../../assets/images/lock.png")}
           style={styles.lockIcon}
           resizeMode="contain"
         />

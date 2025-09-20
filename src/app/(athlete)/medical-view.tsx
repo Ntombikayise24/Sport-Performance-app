@@ -21,10 +21,9 @@ export default function MedicalView() {
 
   return (
     <View style={styles.container}>
-      {/* Header */}
       <View style={styles.header}>
         <Image
-          source={require("../assets/images/logo.jpeg")}
+          source={require("../../assets/images/logo.jpeg")}
           style={styles.logo}
         />
         <TouchableOpacity
@@ -35,7 +34,6 @@ export default function MedicalView() {
         </TouchableOpacity>
       </View>
 
-      {/* Dropdown Menu */}
       {menuVisible && (
         <View style={styles.menuDropdown}>
           <TouchableOpacity style={styles.menuItem} onPress={logout}>
@@ -46,19 +44,17 @@ export default function MedicalView() {
       )}
 
       <ScrollView contentContainerStyle={styles.contentContainer}>
-        {/* Greeting and Profile */}
         <View style={styles.greetingContainer}>
           <View>
             <Text style={styles.greetingText}>Hi, Meredith Grey</Text>
             <Text style={styles.roleText}>Medical Staff</Text>
           </View>
           <Image
-            source={require("../assets/images/hockey.png")}
+            source={require("../../assets/images/hockey.png")}
             style={styles.profileImage}
           />
         </View>
 
-        {/* Notifications */}
         <View style={styles.notificationsBox}>
           <Text style={styles.notificationsTitle}>Notifications</Text>
           <TouchableOpacity style={styles.notificationItem}>
@@ -75,26 +71,25 @@ export default function MedicalView() {
           </TouchableOpacity>
         </View>
 
-        {/* Sports Category */}
         <View style={styles.sportsCategoryContainer}>
           <Text style={styles.performanceTitle}>Sports Category</Text>
           <View style={styles.sportsGrid}>
             <View
-              style={[styles.metricCardWide, { backgroundColor: "#F57C00" }]}
+              style={{ backgroundColor: "#F57C00" }}
             >
               <Ionicons name="football" size={28} color="white" />
               <Text style={styles.metricLabel}>SOCCER</Text>
               <Text style={styles.metricValue}>Active</Text>
             </View>
             <View
-              style={[styles.metricCardWide, { backgroundColor: "#388E3C" }]}
+              style={{ backgroundColor: "#388E3C" }}
             >
               <Ionicons name="baseball" size={28} color="white" />
               <Text style={styles.metricLabel}>CRICKET</Text>
               <Text style={styles.metricValue}>Active</Text>
             </View>
             <View
-              style={[styles.metricCardWide, { backgroundColor: "#FBC02D" }]}
+              style={{ backgroundColor: "#FBC02D" }}
             >
               <Ionicons name="navigate" size={28} color="white" />
               <Text style={styles.metricLabel}>HOCKEY</Text>

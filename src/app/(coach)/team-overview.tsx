@@ -15,10 +15,10 @@ export default function TeamOverview() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const teams = [
-    { name: "Vikings", route: "/vikings" },
-    { name: "Warriors", route: "/warriors" },
-    { name: "Tigers", route: "/tigers" },
-    { name: "Eagles", route: "/eagles" },
+    { name: "Vikings", route: "/(team)/vikings" },
+    { name: "Warriors", route: "/(team)/warriors" },
+    { name: "Tigers", route: "/(team)/tigers" },
+    { name: "Eagles", route: "/(team)/eagles" },
   ];
 
   const filteredTeams = teams.filter((team) =>
@@ -80,7 +80,7 @@ export default function TeamOverview() {
         <TouchableOpacity
           key={team.name}
           style={styles.teamButton}
-          onPress={() => router.push(team.route)}
+          onPress={() => router.push(team.route as any)}
         >
           <Ionicons
             name="people-outline"

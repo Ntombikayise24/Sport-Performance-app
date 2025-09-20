@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 import { router } from "expo-router";
 
-import tickImage from "../assets/images/tick.png";
+import tickImage from "../../assets/images/tick.png";
 
 const Verified = () => {
   const handleLoginPress = () => {
