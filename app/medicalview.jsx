@@ -36,7 +36,7 @@ export default function MedicalView() {
         {/* Greeting and Profile */}
         <View style={styles.greetingContainer}>
           <View>
-            <Text style={styles.greetingText}>Hi, Meredith Grey</Text>
+            <Text style={styles.greetingText}>Hi, Brace</Text>
             <Text style={styles.roleText}>Medical Staff</Text>
           </View>
           <Image source={require('../assets/images/hockey.png')} style={styles.profileImage} />
@@ -192,19 +192,14 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     justifyContent: 'space-between',
   },
-  sportCard: {
-    flexBasis: '48%',
-    borderRadius: 12,
-    paddingVertical: 28,
-    paddingHorizontal: 15,
-    justifyContent: 'center',
+  metricCardWide: {
+    flex: 1,
+    borderRadius: 10,
+    padding: 15,
+    marginRight: 10,
+    marginBottom: 10,
     alignItems: 'center',
-    marginBottom: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.3,
-    shadowRadius: 5,
-    elevation: 5,
+    minWidth: 120,
   },
   metricLabel: {
     color: 'white',

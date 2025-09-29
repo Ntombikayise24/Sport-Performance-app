@@ -36,7 +36,7 @@ export default function AthleteView() {
         {/* Greeting and Profile */}
         <View style={styles.greetingContainer}>
           <View>
-            <Text style={styles.greetingText}>Hi, Jane Doe</Text>
+            <Text style={styles.greetingText}>Hi, Jabulile</Text>
             <Text style={styles.roleText}>Hockey Player</Text>
           </View>
           <TouchableOpacity style={styles.currentFormButton}>
@@ -78,7 +78,7 @@ export default function AthleteView() {
         {/* Performance Metrics */}
         <View style={styles.performanceMetricsContainer}>
           <Text style={styles.performanceTitle}>Performance Metrics</Text>
-          <TouchableOpacity style={styles.performanceArrow}>
+          <TouchableOpacity style={styles.performanceArrow} onPress={() => router.push('/playermetrics')}>
             <Ionicons name="arrow-forward-outline" size={20} color="white" />
           </TouchableOpacity>
         </View>
@@ -101,6 +101,22 @@ export default function AthleteView() {
           </View>
         </View>
       </ScrollView>
+
+      {/* Bottom Navigation Bar */}
+      <View style={styles.bottomNav}>
+        <TouchableOpacity style={styles.navButton} onPress={() => router.push('/athleteview')}>
+          <Ionicons name="home-outline" size={28} color="#1E90FF" />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navButton} onPress={() => router.push('/playermetrics')}>
+          <Ionicons name="heart-outline" size={28} color="#FF4500" />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navButton} onPress={() => router.push('/notifications')}>
+          <Ionicons name="notifications-outline" size={28} color="#FFD700" />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navButton} onPress={() => router.push('/dashboard')}>
+          <Ionicons name="person-outline" size={28} color="#32CD32" />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -150,7 +166,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     paddingHorizontal: 20,
-    paddingBottom: 80,
+    paddingBottom: 120, // Increased to account for bottom nav height
   },
   greetingContainer: {
     flexDirection: 'row',
@@ -269,5 +285,19 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: '700',
     fontSize: 18,
+  },
+  bottomNav: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    backgroundColor: '#0a394b',
+    paddingVertical: 10,
+    borderRadius: 10,
+    position: 'absolute',
+    bottom: 20,
+    left: 20,
+    right: 20,
+  },
+  navButton: {
+    padding: 10,
   },
 });

@@ -2,7 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function CoachView() {
   const router = useRouter();
@@ -19,7 +19,7 @@ export default function CoachView() {
 
     // Launch image picker
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      mediaTypes: ImagePicker.MediaType.Images,
       allowsEditing: true,
       aspect: [1, 1],
       quality: 1,
@@ -60,7 +60,7 @@ export default function CoachView() {
         </View>
       </View>
       <View style={styles.greetingContainer}>
-        <Text style={styles.greetingText}>Hi, Carter Smith</Text>
+        <Text style={styles.greetingText}>Hi, Ntombikayise</Text>
         <Text style={styles.subText}>Coach</Text>
       </View>
 
