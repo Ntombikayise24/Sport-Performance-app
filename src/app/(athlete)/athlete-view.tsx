@@ -21,6 +21,7 @@ export default function AthleteView() {
 
   return (
     <View style={styles.container}>
+      {/* Header */}
       <View style={styles.header}>
         <Image
           source={require("../../assets/images/logo.jpeg")}
@@ -45,23 +46,23 @@ export default function AthleteView() {
       )}
 
       <ScrollView contentContainerStyle={styles.contentContainer}>
-        {/* Greeting and Profile */}
+        {/* Greeting */}
         <View style={styles.greetingContainer}>
-          <View>
+          <View style={styles.greetingTextContainer}>
             <Text style={styles.greetingText}>Hi, Jabulile</Text>
             <Text style={styles.roleText}>Hockey Player</Text>
+            <TouchableOpacity style={styles.currentFormButton}>
+              <Ionicons name="barbell-outline" size={18} color="white" />
+              <Text style={styles.currentFormText}>Current Form</Text>
+            </TouchableOpacity>
           </View>
-          <TouchableOpacity style={styles.currentFormButton}>
-            <Ionicons name="barbell-outline" size={20} color="white" />
-            <Text style={styles.currentFormText}>Current Form</Text>
-          </TouchableOpacity>
           <Image
             source={require("../../assets/images/hockey.png")}
             style={styles.profileImage}
           />
         </View>
 
-        {/* Status and Notifications */}
+        {/* Status + Notifications */}
         <View style={styles.statusNotificationsContainer}>
           <View style={styles.statusBox}>
             <Text style={styles.statusTitle}>Status</Text>
@@ -70,43 +71,43 @@ export default function AthleteView() {
             </Text>
           </View>
 
-          <View style={styles.notificationsBox}>
-            <Text style={styles.notificationsTitle}>Notifications</Text>
-            <View style={styles.notificationItem}>
-              <Ionicons
-                name="person-outline"
-                size={20}
-                color="black"
-                style={styles.notificationIcon}
-              />
-              <View style={styles.notificationTextContainer}>
-                <Text style={styles.notificationTitle}>Coach</Text>
-                <Text style={styles.notificationMessage}>
-                  I need 10 laps so that you keep up the.. 21h ago
-                </Text>
-              </View>
+          <Text style={styles.notificationsTitle}>Notifications</Text>
+
+          <View style={styles.notificationItem}>
+            <Ionicons
+              name="person-outline"
+              size={20}
+              color="black"
+              style={styles.notificationIcon}
+            />
+            <View style={styles.notificationTextContainer}>
+              <Text style={styles.notificationTitle}>Coach</Text>
+              <Text style={styles.notificationMessage}>
+                I need 10 laps so that you keep up the.. 21h ago
+              </Text>
             </View>
-            <View style={styles.notificationItem}>
-              <Ionicons
-                name="medkit-outline"
-                size={20}
-                color="black"
-                style={styles.notificationIcon}
-              />
-              <View style={styles.notificationTextContainer}>
-                <Text style={styles.notificationTitle}>Medical</Text>
-                <Text style={styles.notificationMessage}>
-                  No notifications yet.
-                </Text>
-              </View>
+          </View>
+
+          <View style={styles.notificationItem}>
+            <Ionicons
+              name="medkit-outline"
+              size={20}
+              color="black"
+              style={styles.notificationIcon}
+            />
+            <View style={styles.notificationTextContainer}>
+              <Text style={styles.notificationTitle}>Medical</Text>
+              <Text style={styles.notificationMessage}>
+                No notifications yet.
+              </Text>
             </View>
           </View>
         </View>
 
-        {/* Performance Metrics */}
-        <View style={styles.performanceMetricsContainer}>
+        {/* Metrics Section */}
+        <View style={styles.performanceHeader}>
           <Text style={styles.performanceTitle}>Performance Metrics</Text>
-          <TouchableOpacity style={styles.performanceArrow} onPress={() => router.push('/playermetrics')}>
+          <TouchableOpacity onPress={() => router.push("/(athlete)/playermetrics")}>
             <Ionicons name="arrow-forward-outline" size={20} color="white" />
           </TouchableOpacity>
         </View>
@@ -130,18 +131,18 @@ export default function AthleteView() {
         </View>
       </ScrollView>
 
-      {/* Bottom Navigation Bar */}
+      {/* Bottom Navigation */}
       <View style={styles.bottomNav}>
-        <TouchableOpacity style={styles.navButton} onPress={() => router.push('/athleteview')}>
+        <TouchableOpacity onPress={() => router.push("/(athlete)/athlete-view")}>
           <Ionicons name="home-outline" size={28} color="#1E90FF" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navButton} onPress={() => router.push('/playermetrics')}>
+        <TouchableOpacity onPress={() => router.push("/(athlete)/playermetrics")}>
           <Ionicons name="heart-outline" size={28} color="#FF4500" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navButton} onPress={() => router.push('/notifications')}>
+        <TouchableOpacity onPress={() => router.push("/(athlete)/medical-view")}>
           <Ionicons name="notifications-outline" size={28} color="#FFD700" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navButton} onPress={() => router.push('/dashboard')}>
+        <TouchableOpacity onPress={() => router.push("/(athlete)/check-injuries")}>
           <Ionicons name="person-outline" size={28} color="#32CD32" />
         </TouchableOpacity>
       </View>
@@ -158,25 +159,24 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: "#1A394B",
     paddingHorizontal: 20,
-    paddingTop: 40,
+    paddingTop: 50,
     paddingBottom: 10,
   },
   logo: {
-    width: 60,
-    height: 40,
+    width: 150,
+    height: 130,
     resizeMode: "contain",
   },
   menuIcon: {
-    padding: 10,
+    padding: 8,
   },
   menuDropdown: {
     position: "absolute",
-    top: 80,
+    top: 90,
     right: 20,
     backgroundColor: "#D9D9D9",
-    borderRadius: 5,
+    borderRadius: 8,
     padding: 10,
     zIndex: 10,
     elevation: 10,
@@ -194,46 +194,51 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     paddingHorizontal: 20,
-    paddingBottom: 120, // Increased to account for bottom nav height
+    paddingBottom: 130,
   },
   greetingContainer: {
     flexDirection: "row",
+    justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 20,
   },
+  greetingTextContainer: {
+    flex: 1,
+  },
   greetingText: {
     color: "white",
-    fontSize: 20,
-    fontWeight: "600",
+    fontSize: 22,
+    fontWeight: "700",
   },
   roleText: {
-    color: "white",
+    color: "#B0C4DE",
     fontSize: 14,
-    marginTop: 2,
+    marginBottom: 10,
   },
   currentFormButton: {
     flexDirection: "row",
     backgroundColor: "#2E4E62",
     paddingHorizontal: 10,
     paddingVertical: 6,
-    borderRadius: 5,
-    marginLeft: 15,
+    borderRadius: 20,
     alignItems: "center",
+    alignSelf: "flex-start",
   },
   currentFormText: {
     color: "white",
-    marginLeft: 5,
+    marginLeft: 6,
     fontWeight: "600",
+    fontSize: 13,
   },
   profileImage: {
     width: 80,
-    height: 100,
+    height: 80,
     borderRadius: 40,
     marginLeft: 15,
   },
   statusNotificationsContainer: {
     backgroundColor: "#2E4E62",
-    borderRadius: 5,
+    borderRadius: 10,
     padding: 15,
     marginBottom: 20,
   },
@@ -249,8 +254,8 @@ const styles = StyleSheet.create({
   statusMessage: {
     color: "#3CB371",
     fontWeight: "600",
+    fontSize: 14,
   },
-  notificationsBox: {},
   notificationsTitle: {
     color: "white",
     fontWeight: "700",
@@ -259,8 +264,8 @@ const styles = StyleSheet.create({
   },
   notificationItem: {
     flexDirection: "row",
-    backgroundColor: "#A9A9A9",
-    borderRadius: 5,
+    backgroundColor: "#D3D3D3",
+    borderRadius: 6,
     padding: 10,
     marginBottom: 8,
     alignItems: "center",
@@ -277,20 +282,18 @@ const styles = StyleSheet.create({
   },
   notificationMessage: {
     color: "black",
+    fontSize: 12,
   },
-  performanceMetricsContainer: {
+  performanceHeader: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 10,
+    marginBottom: 12,
+    justifyContent: "space-between",
   },
   performanceTitle: {
     color: "white",
     fontWeight: "600",
     fontSize: 18,
-    flex: 1,
-  },
-  performanceArrow: {
-    paddingLeft: 10,
   },
   metricsCardsContainer: {
     flexDirection: "row",
@@ -300,32 +303,32 @@ const styles = StyleSheet.create({
     flex: 1,
     borderRadius: 10,
     padding: 15,
-    marginRight: 10,
     alignItems: "center",
+    marginHorizontal: 4,
   },
   metricLabel: {
     color: "white",
     fontWeight: "600",
     fontSize: 12,
     marginTop: 10,
+    textAlign: "center",
   },
   metricValue: {
     color: "white",
     fontWeight: "700",
     fontSize: 18,
+    marginTop: 5,
   },
   bottomNav: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    backgroundColor: '#0a394b',
+    flexDirection: "row",
+    justifyContent: "space-around",
+    backgroundColor: "#0a394b",
     paddingVertical: 10,
-    borderRadius: 10,
-    position: 'absolute',
+    borderRadius: 30,
+    position: "absolute",
     bottom: 20,
     left: 20,
     right: 20,
-  },
-  navButton: {
-    padding: 10,
+    elevation: 10,
   },
 });
