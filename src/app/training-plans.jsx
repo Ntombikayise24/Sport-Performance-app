@@ -170,7 +170,7 @@ export default function TrainingPlans() {
       {/* Weekly Training Plan */}
       <ScrollView style={styles.weeklyPlan}>
         <Text style={styles.sectionTitle}>Weekly Training Plan</Text>
-        <>
+        <View>
           {selectedPlayer ? (
             <Text style={styles.selectedPlayerText}>
               Planning for: {selectedPlayer.name}
@@ -181,7 +181,7 @@ export default function TrainingPlans() {
             </Text>
           )}
           {daysOfWeek.map((day) => renderDay(day))}
-        </>
+        </View>
       </ScrollView>
     </View>
   );

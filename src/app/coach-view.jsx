@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
-import { useRouter } from "expo-router";
+import { useRouter, useLocalSearchParams } from "expo-router";
 import { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
 
@@ -8,6 +8,9 @@ export default function CoachView() {
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [coachImage, setCoachImage] = useState(null);
+
+  // ✅ Get logged-in user info from navigation params
+  const { name, role } = useLocalSearchParams();
 
   const pickImage = async () => {
     // Request permission
@@ -72,9 +75,11 @@ export default function CoachView() {
           </TouchableOpacity>
         </View>
       </View>
+
+      {/* ✅ Greeting shows actual logged-in user */}
       <View style={styles.greetingContainer}>
-        <Text style={styles.greetingText}>Hi, Carter Smith</Text>
-        <Text style={styles.subText}>Coach</Text>
+        <Text style={styles.greetingText}>Hi, {name}</Text>
+        <Text style={styles.subText}>{role}</Text>
       </View>
 
       {/* Added space between Coach and Team Overview */}
@@ -94,7 +99,7 @@ export default function CoachView() {
         onPress={() => router.push("/team-overview")}
       >
         <Ionicons name="people-outline" size={24} color="#1A394B" />
-        <Text style={styles.teamOverviewText}>Team Overview</Text>
+        <Text style={styles.teamOverviewText}>Team {"\n"}Overview</Text>
       </TouchableOpacity>
 
       {/* Notifications Section */}
@@ -255,7 +260,7 @@ const styles = StyleSheet.create({
   teamOverviewButton: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#D9D9D9",
+    backgroundColor: "#0a394b",
     paddingVertical: 10,
     paddingHorizontal: 15,
     borderRadius: 5,
@@ -266,7 +271,7 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     fontSize: 16,
     marginLeft: 10,
-    color: "black",
+    color: "white",
   },
   notificationsContainer: {
     backgroundColor: "#D9D9D9",

@@ -14,13 +14,6 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { createAccount } from "../api/authService";
-import {
-  validatePassword,
-  passwordsMatch,
-} from "../validators/validatePassword";
-import { validateEmail } from "../validators/validateEmail";
-import { validateIdNumber } from "../validators/validateIdNumber";
 
 function CreateAccount() {
   const [name, setName] = useState("");
@@ -35,64 +28,67 @@ function CreateAccount() {
   const [selectedRole, setSelectedRole] = useState("");
   const [sportType, setSportType] = useState("");
 
+  const [errors, setErrors] = useState({});
+
   const races = ["African", "Coloured", "Indian", "Asian", "White"];
   const roles = ["Athlete", "Staff"];
 
-  const handleCreateAccount = async () => {
-    if (
-      !name ||
-      !surname ||
-      !id ||
-      !selectedRace ||
-      !selectedRole ||
-      !password ||
-      !email ||
-      !passwordVerify
-    ) {
-      Alert.alert("Error", "All fields are required.");
-      return;
-    }
+  // --- Inline Validators ---
 
-    if (!passwordsMatch(password, passwordVerify)) {
-      Alert.alert("Error", "Passwords must match");
-      return;
-    }
+  const validateEmail = (email) => {
+    const re = /\S+@\S+\.\S+/;
+    return re.test(email);
+  };
 
-    if (!validatePassword(password)) {
-      Alert.alert(
-        "Error",
-        "Password must be at least 8 characters and include uppercase, lowercase, and a special character."
-      );
-      return;
-    }
+  // *** FIXED PASSWORD VALIDATOR ***
+  const validatePassword = (password) => {
+    // Minimum 8 chars, at least one letter and one number, allow special characters
+    const re = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;
+    return re.test(password);
+  };
 
-    if (!validateEmail(email)) {
-      Alert.alert("Error", "Please enter a valid email address.");
-      return;
-    }
+  const passwordsMatch = (pass1, pass2) => pass1 === pass2;
 
-    if (!validateIdNumber(id)) {
-      Alert.alert("Error", "ID number must be exactly 13 digits and numeric.");
-      return;
-    }
+  const validateIdNumber = (id) => {
+    return id.length === 13 && /^\d+$/.test(id);
+  };
 
-    const res = await createAccount(
-      surname,
-      name,
-      password,
-      email,
-      id,
-      selectedRace,
-      selectedRole,
-      sportType
-    );
+  const handleCreateAccount = () => {
+    const newErrors = {};
 
-    if (res?.status) {
-      Alert.alert("Success", res?.message || "Account created successfully");
-      router.push("verify-account");
-    } else {
-      Alert.alert("Error", res?.message || "Signup failed");
-    }
+    if (!name.trim()) newErrors.name = "Name is required.";
+    if (!surname.trim()) newErrors.surname = "Surname is required.";
+    if (!id.trim()) newErrors.id = "ID number is required.";
+    else if (!validateIdNumber(id)) newErrors.id = "Invalid ID number.";
+
+    if (!selectedRace) newErrors.race = "Please select a race.";
+    if (!selectedRole) newErrors.role = "Please select a role.";
+
+    if (!sportType.trim())
+      newErrors.sportType =
+        selectedRole === "Athlete"
+          ? "Please enter the type of sport."
+          : "Please enter the type of staff.";
+
+    if (!email.trim()) newErrors.email = "Email is required.";
+    else if (!validateEmail(email)) newErrors.email = "Invalid email format.";
+
+    if (!password) newErrors.password = "Password is required.";
+    else if (!validatePassword(password))
+      newErrors.password =
+        "Password must be at least 8 characters and contain letters and numbers.";
+
+    if (!passwordVerify)
+      newErrors.passwordVerify = "Please confirm your password.";
+    else if (!passwordsMatch(password, passwordVerify))
+      newErrors.passwordVerify = "Passwords do not match.";
+
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length > 0) return;
+
+    // All validations passed
+    router.push("/verify-account");
   };
 
   return (
@@ -111,6 +107,7 @@ function CreateAccount() {
 
         <View style={styles.inputBox}>
           <Text style={styles.signUp}>Sign up</Text>
+
           <TextInput
             style={styles.inputs}
             placeholder="Name"
@@ -118,6 +115,7 @@ function CreateAccount() {
             value={name}
             onChangeText={setName}
           />
+          {errors.name && <Text style={styles.error}>{errors.name}</Text>}
 
           <TextInput
             style={styles.inputs}
@@ -126,6 +124,7 @@ function CreateAccount() {
             value={surname}
             onChangeText={setSurname}
           />
+          {errors.surname && <Text style={styles.error}>{errors.surname}</Text>}
 
           <TextInput
             style={styles.inputs}
@@ -135,6 +134,7 @@ function CreateAccount() {
             value={id}
             onChangeText={setId}
           />
+          {errors.id && <Text style={styles.error}>{errors.id}</Text>}
 
           <Picker
             selectedValue={selectedRace}
@@ -146,6 +146,7 @@ function CreateAccount() {
               <Picker.Item key={index} label={race} value={race} />
             ))}
           </Picker>
+          {errors.race && <Text style={styles.error}>{errors.race}</Text>}
 
           <Picker
             selectedValue={selectedRole}
@@ -157,25 +158,25 @@ function CreateAccount() {
               <Picker.Item key={index} label={role} value={role} />
             ))}
           </Picker>
+          {errors.role && <Text style={styles.error}>{errors.role}</Text>}
 
-          {selectedRole === "Athlete" && (
-            <TextInput
-              style={styles.inputs}
-              placeholder="Type of sport"
-              value={sportType}
-              onChangeText={setSportType}
-              placeholderTextColor="gray"
-            />
-          )}
-          
-          {selectedRole === "Staff" && (
-            <TextInput
-              style={styles.inputs}
-              placeholder="Type of staff"
-              value={sportType}
-              onChangeText={setSportType}
-              placeholderTextColor="gray"
-            />
+          {(selectedRole === "Athlete" || selectedRole === "Staff") && (
+            <>
+              <TextInput
+                style={styles.inputs}
+                placeholder={
+                  selectedRole === "Athlete"
+                    ? "Type of sport"
+                    : "Type of staff"
+                }
+                value={sportType}
+                onChangeText={setSportType}
+                placeholderTextColor="gray"
+              />
+              {errors.sportType && (
+                <Text style={styles.error}>{errors.sportType}</Text>
+              )}
+            </>
           )}
 
           <TextInput
@@ -184,7 +185,10 @@ function CreateAccount() {
             placeholderTextColor="gray"
             value={email}
             onChangeText={setEmail}
+            autoCapitalize="none"
+            keyboardType="email-address"
           />
+          {errors.email && <Text style={styles.error}>{errors.email}</Text>}
 
           <View style={styles.passwordContainer}>
             <TextInput
@@ -206,6 +210,9 @@ function CreateAccount() {
               />
             </TouchableOpacity>
           </View>
+          {errors.password && (
+            <Text style={styles.error}>{errors.password}</Text>
+          )}
 
           <View style={styles.passwordContainer}>
             <TextInput
@@ -227,6 +234,9 @@ function CreateAccount() {
               />
             </TouchableOpacity>
           </View>
+          {errors.passwordVerify && (
+            <Text style={styles.error}>{errors.passwordVerify}</Text>
+          )}
 
           <Text style={styles.paragraph}>
             By signing up, you agree to our Terms,
@@ -241,7 +251,7 @@ function CreateAccount() {
         </TouchableOpacity>
 
         <Text style={styles.text1}>Have an account?</Text>
-        <TouchableOpacity onPress={() => router.push("/")}>
+        <TouchableOpacity onPress={() => router.push("/verify-account")}>
           <Text style={styles.text2}>Log in</Text>
         </TouchableOpacity>
       </ScrollView>
@@ -260,8 +270,8 @@ const styles = StyleSheet.create({
   },
   logo: {
     alignSelf: "center",
-    width: 100,
-    height: 100,
+    width: 250,
+    height: 250,
     marginBottom: 10,
   },
   inputBox: {
@@ -341,6 +351,13 @@ const styles = StyleSheet.create({
     color: "black",
   },
   eye: {
-    padding: 5,
+    padding: 8,
+  },
+  error: {
+    color: "red",
+    fontSize: 13,
+    marginTop: -5,
+    marginBottom: 8,
+    marginLeft: 4,
   },
 });

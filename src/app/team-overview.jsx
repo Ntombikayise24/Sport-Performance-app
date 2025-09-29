@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
   teamButton: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#D9D9D9",
+    backgroundColor: "#0a394b",
     paddingVertical: 10,
     paddingHorizontal: 15,
     borderRadius: 10,
@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
   teamText: {
     fontSize: 18,
     fontWeight: "700",
-    color: "black",
+    color: "white",
   },
   bottomNav: {
     flexDirection: "row",
