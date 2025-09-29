@@ -32,11 +32,7 @@ export default function LoginScreen() {
     } else if (userType === "Medical") {
       router.push("/(athlete)/medical-view");
     } else if (userType === "Staff") {
-<<<<<<< HEAD:src/app/index.jsx
-      router.push("/coach-view");
-=======
       router.push("/(coach)/coach-view"); 
->>>>>>> 4a1ef0c3451fccdb62252bb0cb502fb3c5187861:src/app/index.tsx
     } else {
       Alert.alert("Unknown user type");
     }
@@ -107,19 +103,6 @@ export default function LoginScreen() {
         <View style={{ width: 200, height: 1, backgroundColor: "#08ee70ff" }} />
       </View>
 
-<<<<<<< HEAD:src/app/index.jsx
-
-      {/* Forgot Password */}
-      <TouchableOpacity onPress={() => router.push("/forgot-password")}>
-        <Text style={styles.forgotText}>Forgot Password?</Text>
-      </TouchableOpacity>
-
-      {/* Sign Up */}
-      <View style={styles.signupContainer}>
-        <Text style={styles.signupText}>Don't have an account?</Text>
-        <TouchableOpacity onPress={() => router.push("/create-account")}>
-          <Text style={styles.signupLink}> Sign up</Text>
-=======
       <TouchableOpacity
         style={{ marginBottom: 10 }}
         onPress={() => router.push("/(auth)/forgot-password")}
@@ -132,7 +115,6 @@ export default function LoginScreen() {
         <Text style={{ color: "white" }}>Don’t have an account? </Text>
         <TouchableOpacity onPress={() => router.push("/(auth)/create-account")}>
           <Text style={{ color: "#DF1965" }}>Sign up</Text>
->>>>>>> 4a1ef0c3451fccdb62252bb0cb502fb3c5187861:src/app/index.tsx
         </TouchableOpacity>
       </View>
     </ScrollView>

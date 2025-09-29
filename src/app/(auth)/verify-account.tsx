@@ -9,15 +9,10 @@ function verification() {
     if(code.trim().length === 0){
       alert("Please enter the verification code.");
       return;
-<<<<<<< HEAD:src/app/verify-account.jsx
-    }else{
-       router.push("/verified");
-=======
     } else {
       router.push("/(auth)/verified");
->>>>>>> 4a1ef0c3451fccdb62252bb0cb502fb3c5187861:src/app/(auth)/verify-account.tsx
     }
-/*
+    /*
     // API to send code on email for verification.
     try{
       const response = await axios.post("", {code,});
@@ -60,11 +55,7 @@ function verification() {
       </TouchableOpacity>
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 10 }}>
         <Text style={styles.didntGetCodeText}>Didn’t get the code? </Text>
-<<<<<<< HEAD:src/app/verify-account.jsx
-        <TouchableOpacity onPress={() => router.push('/forgot-password')}>
-=======
         <TouchableOpacity onPress={() => router.push("/(auth)/forgot-password")}>
->>>>>>> 4a1ef0c3451fccdb62252bb0cb502fb3c5187861:src/app/(auth)/verify-account.tsx
           <Text style={styles.resendCodeText}>Resend code</Text>
         </TouchableOpacity>
       </View>

@@ -1,36 +1,24 @@
-<<<<<<< HEAD:app/coachview.jsx
-import { Ionicons } from '@expo/vector-icons';
-import * as ImagePicker from 'expo-image-picker';
-import { useRouter } from 'expo-router';
-import { useState } from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-=======
 import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
->>>>>>> 92eeddab8306013455697786f4b4f7ec4a41bb8d:src/app/(coach)/coach-view.tsx
 
 export default function CoachView() {
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [coachImage, setCoachImage] = useState<string | null>(null);
-
-  // ✅ Get logged-in user info from navigation params
   const { name, role } = useLocalSearchParams();
 
   const pickImage = async () => {
-    // Request permission
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== "granted") {
       alert("Permission to access media library is required!");
       return;
     }
 
-    // Launch image picker
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaType.Images,
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [1, 1],
       quality: 1,
@@ -48,133 +36,93 @@ export default function CoachView() {
 
   return (
     <View style={styles.container}>
-      {/* Top bar with logo and menu */}
-      <View style={styles.topBar}>
-        <View style={styles.flexSpacer} />
+      {/* Header */}
+      <View style={styles.header}>
         <Image
           source={require("../../assets/images/logo.jpeg")}
           style={styles.logo}
         />
-        <View style={styles.flexSpacer} />
-        <View style={styles.menuAndCoachContainer}>
-          <TouchableOpacity
-            style={styles.menuButton}
-            onPress={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            <View style={styles.menuLine} />
-            <View style={styles.menuLine} />
-            <View style={styles.menuLine} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.coachImageContainer}
-            onPress={pickImage}
-          >
-            <Image
-              source={
-                coachImage
-                  ? { uri: coachImage }
-                  : require("../../assets/images/coach.png")
-              }
-              style={styles.coachImage}
-            />
-            <View style={styles.editIconContainer}>
-              <Ionicons name="camera" size={24} color="white" />
-            </View>
-          </TouchableOpacity>
-        </View>
+
+        <TouchableOpacity
+          style={styles.menuButton}
+          onPress={() => setIsMenuOpen(!isMenuOpen)}
+        >
+          <Ionicons name="menu" size={28} color="white" />
+        </TouchableOpacity>
+
+        {isMenuOpen && (
+          <View style={styles.menuDropdown}>
+            <TouchableOpacity onPress={logout}>
+              <Ionicons name="log-out-outline" size={20} color="black" />
+              <Text style={styles.menuText}>Logout</Text>
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
 
-      {/* ✅ Greeting shows actual logged-in user */}
-      <View style={styles.greetingContainer}>
-<<<<<<< HEAD:src/app/coach-view.jsx
-        <Text style={styles.greetingText}>Hi, {name}</Text>
-        <Text style={styles.subText}>{role}</Text>
-=======
-        <Text style={styles.greetingText}>Hi, Ntombikayise</Text>
-        <Text style={styles.subText}>Coach</Text>
->>>>>>> 4a1ef0c3451fccdb62252bb0cb502fb3c5187861:src/app/(coach)/coach-view.tsx
-      </View>
-
-      {/* Added space between Coach and Team Overview */}
-      <View style={styles.spacer20} />
-
-      {/* Menu Dropdown */}
-      {isMenuOpen && (
-        <View style={styles.menuDropdown}>
-          <TouchableOpacity style={styles.menuItem} onPress={logout}>
-            <Text style={styles.menuItemText}>Logout</Text>
+      {/* Profile Section */}
+      <View style={styles.profileSection}>
+        <View style={styles.profileTextContainer}>
+          <Text style={styles.greeting}>Hi, {name}</Text>
+          <Text style={styles.role}>{role}</Text>
+          <TouchableOpacity
+            style={styles.teamButton}
+            onPress={() => router.push("/(coach)/team-overview")}
+          >
+            <Ionicons name="people-outline" size={20} color="white" />
+            <Text style={styles.teamButtonText}>Team Overview</Text>
           </TouchableOpacity>
         </View>
-      )}
 
-      <TouchableOpacity
-        style={styles.teamOverviewButton}
-        onPress={() => router.push("/(coach)/team-overview")}
-      >
-        <Ionicons name="people-outline" size={24} color="#1A394B" />
-        <Text style={styles.teamOverviewText}>Team {"\n"}Overview</Text>
-      </TouchableOpacity>
+        <TouchableOpacity onPress={pickImage} style={styles.imageWrapper}>
+          <Image
+            source={
+              coachImage
+                ? { uri: coachImage }
+                : require("../../assets/images/coach.png")
+            }
+            style={styles.profileImage}
+          />
+        </TouchableOpacity>
+      </View>
 
-      {/* Notifications Section */}
-      <TouchableOpacity
-        style={styles.notificationsContainer}
-        onPress={() => router.push("/(dashboard)/notifications")}
-      >
+      {/* Notifications */}
+      <View style={styles.notificationsBox}>
         <Text style={styles.notificationsTitle}>Notifications</Text>
-        <View style={styles.notificationItem}>
-          <Ionicons name="alert-circle-outline" size={20} color="#FF0000" />
-          <Text style={styles.notificationText}>
-            Naledi Motaung is on red alert.
-          </Text>
-        </View>
-        <View style={styles.notificationItem}>
-          <Ionicons name="alert-circle-outline" size={20} color="#FF0000" />
-          <Text style={styles.notificationText}>
-            Ayanda Dlamini is on red alert.
-          </Text>
-        </View>
-        <View style={styles.notificationItem}>
-          <Ionicons name="alert-circle-outline" size={20} color="#FFA500" />
-          <Text style={styles.notificationText}>
-            Sarah van de Merwe is on amber alert.
-          </Text>
-        </View>
-      </TouchableOpacity>
+        {[
+          { msg: "Naledi Motaung is on red alert.", color: "#FF0000" },
+          { msg: "Ayanda Dlamini is on red alert.", color: "#FF0000" },
+          { msg: "Sarah van de Merwe is on amber alert.", color: "#FFA500" },
+        ].map((n, idx) => (
+          <View style={styles.notificationItem} key={idx}>
+            <Ionicons name="alert-circle-outline" size={20} color={n.color} />
+            <Text style={styles.notificationText}>{n.msg}</Text>
+          </View>
+        ))}
+      </View>
 
       {/* Training Plans Button */}
       <TouchableOpacity
-        style={styles.trainingPlansButton}
+        style={styles.trainingButton}
         onPress={() => router.push("/(coach)/training-plans")}
       >
-        <Ionicons name="clipboard-outline" size={24} color="#1A394B" />
-        <Text style={styles.trainingPlansText}>Training Plans</Text>
+        <Ionicons name="clipboard-outline" size={24} color="white" />
+        <Text style={styles.trainingText}>Training Plans</Text>
       </TouchableOpacity>
 
-      {/* Bottom Navigation Bar */}
+      {/* Bottom Navigation */}
       <View style={styles.bottomNav}>
-        <TouchableOpacity
-          style={styles.navButton}
-          onPress={() => router.push("/(coach)/coach-view")}
-        >
-          <Ionicons name="home-outline" size={28} color="#1E90FF" />
+        <TouchableOpacity onPress={() => router.push("/(coach)/coach-view")}>
+          <Ionicons name="home-outline" size={26} color="#1E90FF" />
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.navButton}
-          onPress={() => router.push("/(coach)/coach-view-metrics")}
-        >
-          <Ionicons name="heart-outline" size={28} color="#FF4500" />
+        <TouchableOpacity onPress={() => router.push("/(coach)/coach-view-metrics")}>
+          <Ionicons name="heart-outline" size={26} color="#FF4500" />
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.navButton}
-          onPress={() => router.push("/(dashboard)/notifications")}
-        >
-          <Ionicons name="notifications-outline" size={28} color="#FFD700" />
+        <TouchableOpacity onPress={() => router.push("/(dashboard)/notifications")}>
+          <Ionicons name="notifications-outline" size={26} color="#FFD700" />
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.navButton}
-          onPress={() => router.push("/(coach)/coach-profile")}
-        >
-          <Ionicons name="person-outline" size={28} color="#32CD32" />
+        <TouchableOpacity onPress={() => router.push("/(coach)/coach-profile")}>
+          <Ionicons name="person-outline" size={26} color="#32CD32" />
         </TouchableOpacity>
       </View>
     </View>
@@ -185,175 +133,133 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#1A394B",
-    padding: 20,
-    justifyContent: "flex-start",
+    paddingTop: 50,
+    paddingHorizontal: 20,
   },
-  flexSpacer: {
-    flex: 1,
-  },
-  spacer20: {
-    height: 20,
-  },
-  topBar: {
+  header: {
     flexDirection: "row",
-    justifyContent: "center",
-    marginBottom: 20,
-  },
-  logo: {
-    width: 200,
-    height: 180,
-    resizeMode: "contain",
-    alignSelf: "center",
-  },
-  greetingContainer: {
-    marginTop: 10,
+    justifyContent: "space-between",
     alignItems: "center",
   },
-  greetingText: {
-    color: "black",
-    fontSize: 18,
-    fontWeight: "600",
-  },
-  subText: {
-    color: "black",
-    fontSize: 14,
+  logo: {
+    width: 150,
+    height: 130,
+    resizeMode: "contain",
   },
   menuButton: {
-    width: 30,
-    justifyContent: "space-between",
-    height: 20,
-    marginBottom: 5,
-  },
-  menuLine: {
-    height: 3,
-    backgroundColor: "white",
-    borderRadius: 2,
+    padding: 8,
   },
   menuDropdown: {
     position: "absolute",
-    top: 40,
+    top: 60,
     right: 20,
     backgroundColor: "#D9D9D9",
-    borderRadius: 5,
+    borderRadius: 6,
     padding: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
+    zIndex: 100,
   },
-  menuItem: {
-    paddingVertical: 2,
-    paddingHorizontal: 4,
-  },
-  menuItemText: {
-    fontSize: 10,
+  menuText: {
     color: "black",
-  },
-  coachImageContainer: {
-    width: 120,
-    height: 140,
-    borderRadius: 70,
-    overflow: "hidden",
-    borderWidth: 4,
-    borderColor: "#0a394b",
-    backgroundColor: "#1A394B",
-    justifyContent: "center",
-    alignItems: "center",
-    marginLeft: 10,
     marginTop: 5,
   },
-  menuAndCoachContainer: {
-    flexDirection: "column",
-    alignItems: "flex-end",
-    position: "absolute",
-    top: 0,
-    right: 20,
-  },
-  teamOverviewButton: {
+  profileSection: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#0a394b",
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    borderRadius: 5,
-    marginBottom: 20,
-    alignSelf: "center",
+    marginTop: 30,
+    justifyContent: "space-between",
   },
-  teamOverviewText: {
-    fontWeight: "700",
-    fontSize: 16,
-    marginLeft: 10,
+  profileTextContainer: {
+    flex: 1,
+  },
+  greeting: {
     color: "white",
+    fontSize: 22,
+    fontWeight: "bold",
   },
-  notificationsContainer: {
-    backgroundColor: "#D9D9D9",
-    padding: 15,
+  role: {
+    color: "white",
+    fontSize: 14,
+    marginBottom: 10,
+  },
+  teamButton: {
+    flexDirection: "row",
+    backgroundColor: "#2E4E62",
+    paddingVertical: 8,
+    paddingHorizontal: 12,
     borderRadius: 5,
-    marginBottom: 20,
-    marginTop: 10,
-    alignSelf: "center",
+    alignItems: "center",
+    alignSelf: "flex-start",
+  },
+  teamButtonText: {
+    color: "white",
+    fontWeight: "600",
+    marginLeft: 6,
+  },
+  imageWrapper: {
+    borderRadius: 60,
+    borderWidth: 3,
+    borderColor: "#fff",
+    overflow: "hidden",
+    width: 100,
+    height: 100,
+    backgroundColor: "#2E4E62",
+  },
+  profileImage: {
+    width: "100%",
+    height: "100%",
+    borderRadius: 60,
+  },
+  notificationsBox: {
+    backgroundColor: "#2E4E62",
+    borderRadius: 8,
+    padding: 15,
+    marginTop: 30,
   },
   notificationsTitle: {
-    fontWeight: "700",
+    color: "white",
     fontSize: 18,
+    fontWeight: "700",
     marginBottom: 10,
-    color: "black",
   },
   notificationItem: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#A3A3A3",
-    padding: 8,
-    borderRadius: 10,
-    marginBottom: 10,
+    backgroundColor: "#A9A9A9",
+    padding: 10,
+    borderRadius: 8,
+    marginBottom: 8,
   },
   notificationText: {
-    marginLeft: 8,
+    marginLeft: 10,
     color: "black",
     fontSize: 14,
   },
-  trainingPlansButton: {
+  trainingButton: {
     flexDirection: "row",
+    backgroundColor: "#2E4E62",
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 6,
+    marginTop: 20,
     alignItems: "center",
-    backgroundColor: "#D9D9D9",
-    paddingVertical: 10,
-    paddingHorizontal: 90,
-    borderRadius: 5,
-    marginBottom: 20,
-    alignSelf: "center",
+    justifyContent: "center",
   },
-  trainingPlansText: {
-    fontWeight: "700",
+  trainingText: {
+    color: "white",
     fontSize: 16,
+    fontWeight: "700",
     marginLeft: 10,
-    color: "black",
   },
   bottomNav: {
     flexDirection: "row",
     justifyContent: "space-around",
     backgroundColor: "#0a394b",
-    paddingVertical: 10,
-    borderRadius: 10,
+    paddingVertical: 12,
+    borderRadius: 20,
     position: "absolute",
     bottom: 20,
     left: 20,
     right: 20,
-  },
-  navButton: {
-    padding: 10,
-  },
-  coachImage: {
-    width: 100,
-    height: 140,
-    borderRadius: 100,
-  },
-  editIconContainer: {
-    position: "absolute",
-    bottom: 10,
-    right: 10,
-    backgroundColor: "#0a394b",
-    borderRadius: 20,
-    padding: 5,
+    elevation: 8,
   },
 });

@@ -74,23 +74,17 @@ export default function MedicalView() {
         <View style={styles.sportsCategoryContainer}>
           <Text style={styles.performanceTitle}>Sports Category</Text>
           <View style={styles.sportsGrid}>
-            <View
-              style={{ backgroundColor: "#F57C00" }}
-            >
+            <View style={[styles.sportCard, { backgroundColor: "#F57C00" }]}>
               <Ionicons name="football" size={28} color="white" />
               <Text style={styles.metricLabel}>SOCCER</Text>
               <Text style={styles.metricValue}>Active</Text>
             </View>
-            <View
-              style={{ backgroundColor: "#388E3C" }}
-            >
+            <View style={[styles.sportCard, { backgroundColor: "#388E3C" }]}>
               <Ionicons name="baseball" size={28} color="white" />
               <Text style={styles.metricLabel}>CRICKET</Text>
               <Text style={styles.metricValue}>Active</Text>
             </View>
-            <View
-              style={{ backgroundColor: "#FBC02D" }}
-            >
+            <View style={[styles.sportCard, { backgroundColor: "#FBC02D" }]}>
               <Ionicons name="navigate" size={28} color="white" />
               <Text style={styles.metricLabel}>HOCKEY</Text>
               <Text style={styles.metricValue}>Active</Text>
@@ -209,16 +203,6 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     justifyContent: "space-between",
   },
-<<<<<<< HEAD:app/medicalview.jsx
-  metricCardWide: {
-    flex: 1,
-    borderRadius: 10,
-    padding: 15,
-    marginRight: 10,
-    marginBottom: 10,
-    alignItems: 'center',
-    minWidth: 120,
-=======
   sportCard: {
     flexBasis: "48%",
     borderRadius: 12,
@@ -232,7 +216,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 5,
     elevation: 5,
->>>>>>> 92eeddab8306013455697786f4b4f7ec4a41bb8d:src/app/(athlete)/medical-view.tsx
   },
   metricLabel: {
     color: "white",

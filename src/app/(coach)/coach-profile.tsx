@@ -49,16 +49,18 @@ const darkTheme = {
 
 export default function CoachProfile() {
   const router = useRouter();
-  const { name: userName, email: userEmail, role: userRole } =
-    useLocalSearchParams();
+  const params = useLocalSearchParams();
+  const userName = Array.isArray(params.name) ? params.name[0] : params.name || "";
+  const userEmail = Array.isArray(params.email) ? params.email[0] : params.email || "";
+  const userRole = Array.isArray(params.role) ? params.role[0] : params.role || "";
 
   const systemTheme = useColorScheme();
-  const [coachImage, setCoachImage] = useState(null);
+  const [coachImage, setCoachImage] = useState<string | null>(null);
 
   // Editable fields
-  const [name, setName] = useState(userName || "");
-  const [email, setEmail] = useState(userEmail || "");
-  const [role, setRole] = useState(userRole || "");
+  const [name, setName] = useState(userName);
+  const [email, setEmail] = useState(userEmail);
+  const [role, setRole] = useState(userRole);
 
   const [showNotifications, setShowNotifications] = useState(false);
   const [notificationTones, setNotificationTones] = useState(false);
@@ -215,21 +217,14 @@ export default function CoachProfile() {
         {/* Profile Image */}
         <TouchableOpacity
           style={styles.profileImageContainer}
-<<<<<<< HEAD:src/app/coach-profile.jsx
           onPress={pickImage}
         >
           <Image
             source={
               coachImage
                 ? { uri: coachImage }
-                : require("../assets/images/coach.png")
+                : require("../../assets/images/coach.png")
             }
-=======
-          // onPress={() => router.push("/edit-profile-image")}
-        >
-          <Image
-            source={require("../../assets/images/coach.png")}
->>>>>>> 4a1ef0c3451fccdb62252bb0cb502fb3c5187861:src/app/(coach)/coach-profile.tsx
             style={styles.profileImage}
           />
           <Text style={styles.editText}>Tap to Change</Text>
