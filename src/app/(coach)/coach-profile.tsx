@@ -2,6 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { useState, useRef } from "react";
+import { useTheme } from "../../contexts/ThemeContext";
 import {
   FlatList,
   Image,
@@ -13,7 +14,6 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-  useColorScheme,
   Animated,
 } from "react-native";
 
@@ -23,47 +23,24 @@ const themeOptions = [
   { key: "dark", label: "Dark Mode" },
 ];
 
-const lightTheme = {
-  background: "#FFFFFF",
-  text: "#000000",
-  inputBackground: "#F0F0F0",
-  sectionTitle: "#333333",
-  switchTrackFalse: "#767577",
-  switchTrackTrue: "#81b0ff",
-  switchThumbFalse: "#f4f3f4",
-  switchThumbTrue: "#f5dd4b",
-  borderColor: "#DDD",
-};
 
-const darkTheme = {
-  background: "#1E3A4D",
-  text: "white",
-  inputBackground: "#2C4A5A",
-  sectionTitle: "white",
-  switchTrackFalse: "#767577",
-  switchTrackTrue: "#81b0ff",
-  switchThumbFalse: "#f4f3f4",
-  switchThumbTrue: "#f5dd4b",
-  borderColor: "#444",
-};
 
 export default function CoachProfile() {
   const router = useRouter();
   const { name: userName, email: userEmail, role: userRole } =
     useLocalSearchParams();
+  const { themePreference, updateThemePreference, colors, effectiveTheme } = useTheme();
 
-  const systemTheme = useColorScheme();
-  const [coachImage, setCoachImage] = useState(null);
+  const [coachImage, setCoachImage] = useState<string | null>(null);
 
   // Editable fields
-  const [name, setName] = useState(userName || "");
-  const [email, setEmail] = useState(userEmail || "");
-  const [role, setRole] = useState(userRole || "");
+  const [name, setName] = useState(userName?.toString() || "");
+  const [email, setEmail] = useState(userEmail?.toString() || "");
+  const [role, setRole] = useState(userRole?.toString() || "");
 
   const [showNotifications, setShowNotifications] = useState(false);
   const [notificationTones, setNotificationTones] = useState(false);
   const [encryptedBackup, setEncryptedBackup] = useState(false);
-  const [theme, setTheme] = useState("system");
   const [themeModalVisible, setThemeModalVisible] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -80,16 +57,7 @@ export default function CoachProfile() {
   const [showToast, setShowToast] = useState(false);
   const toastAnim = useRef(new Animated.Value(0)).current;
 
-  const colors =
-    theme === "system"
-      ? systemTheme === "light"
-        ? lightTheme
-        : darkTheme
-      : theme === "light"
-      ? lightTheme
-      : darkTheme;
-
-  const styles = getStyles(colors);
+  const styles = getStyles(colors, effectiveTheme);
 
   const pickImage = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -118,7 +86,7 @@ export default function CoachProfile() {
     <TouchableOpacity
       style={styles.themeOptionItem}
       onPress={() => {
-        setTheme(item.key);
+        updateThemePreference(item.key as any);
         setThemeModalVisible(false);
       }}
     >
@@ -215,21 +183,14 @@ export default function CoachProfile() {
         {/* Profile Image */}
         <TouchableOpacity
           style={styles.profileImageContainer}
-<<<<<<< HEAD:src/app/coach-profile.jsx
           onPress={pickImage}
         >
           <Image
             source={
               coachImage
                 ? { uri: coachImage }
-                : require("../assets/images/coach.png")
+                : require("../../assets/images/coach.png")
             }
-=======
-          // onPress={() => router.push("/edit-profile-image")}
-        >
-          <Image
-            source={require("../../assets/images/coach.png")}
->>>>>>> 4a1ef0c3451fccdb62252bb0cb502fb3c5187861:src/app/(coach)/coach-profile.tsx
             style={styles.profileImage}
           />
           <Text style={styles.editText}>Tap to Change</Text>
@@ -275,7 +236,7 @@ export default function CoachProfile() {
           onPress={() => setThemeModalVisible(true)}
         >
           <Text style={styles.themeText}>
-            {themeOptions.find((option) => option.key === theme)?.label ||
+            {themeOptions.find((option) => option.key === themePreference)?.label ||
               "Select Theme"}
           </Text>
           <Ionicons name="chevron-down" size={20} color={colors.text} />
@@ -335,7 +296,7 @@ export default function CoachProfile() {
                           ? newPassword === confirmPassword
                             ? "green"
                             : "red"
-                          : colors.borderColor,
+                          : colors.surfaceVariant,
                     },
                   ]}
                   value={newPassword}
@@ -364,7 +325,7 @@ export default function CoachProfile() {
                           ? newPassword === confirmPassword
                             ? "green"
                             : "red"
-                          : colors.borderColor,
+                          : colors.surfaceVariant,
                     },
                   ]}
                   value={confirmPassword}
@@ -389,7 +350,7 @@ export default function CoachProfile() {
                   {
                     backgroundColor: saveButtonEnabled
                       ? "#4CAF50"
-                      : colors.inputBackground,
+                      : colors.surface,
                     marginTop: 10,
                   },
                 ]}
@@ -507,7 +468,7 @@ export default function CoachProfile() {
   );
 }
 
-function getStyles(colors) {
+function getStyles(colors, effectiveTheme) {
   return StyleSheet.create({
     container: {
       flex: 1,
@@ -534,38 +495,40 @@ function getStyles(colors) {
       height: 140,
       borderRadius: 70,
       borderWidth: 2,
-      borderColor: colors.switchTrackTrue,
+      borderColor: colors.primary,
     },
     editText: {
       color: colors.text,
       marginTop: 5,
     },
     sectionTitle: {
-      color: colors.sectionTitle,
+      color: colors.primary,
       fontWeight: "bold",
       fontSize: 16,
       marginTop: 20,
       marginBottom: 10,
     },
     input: {
-      backgroundColor: colors.inputBackground,
+      backgroundColor: effectiveTheme === 'dark' ? colors.background : colors.surface,
       color: colors.text,
       borderRadius: 5,
       paddingHorizontal: 10,
       paddingVertical: 8,
       marginBottom: 10,
       borderWidth: 1,
-      borderColor: colors.borderColor,
+      borderColor: colors.surfaceVariant,
     },
     changePassword: {
       flexDirection: "row",
       justifyContent: "space-between",
-      backgroundColor: colors.inputBackground,
+      backgroundColor: effectiveTheme === 'dark' ? '#1A394B' : colors.surface,
       borderRadius: 5,
       paddingHorizontal: 10,
       paddingVertical: 12,
       marginBottom: 10,
       alignItems: "center",
+      borderWidth: 1,
+      borderColor: colors.surfaceVariant,
     },
     changePasswordText: {
       color: colors.text,
@@ -574,12 +537,14 @@ function getStyles(colors) {
     themeSelector: {
       flexDirection: "row",
       justifyContent: "space-between",
-      backgroundColor: colors.inputBackground,
+      backgroundColor: effectiveTheme === 'dark' ? '#1A394B' : colors.surface,
       borderRadius: 5,
       paddingHorizontal: 10,
       paddingVertical: 12,
       marginBottom: 10,
       alignItems: "center",
+      borderWidth: 1,
+      borderColor: colors.surfaceVariant,
     },
     themeText: {
       color: colors.text,
@@ -592,13 +557,13 @@ function getStyles(colors) {
       alignItems: "center",
     },
     modalContent: {
-      backgroundColor: colors.inputBackground,
+      backgroundColor: colors.surface,
       borderRadius: 5,
       width: 200,
       paddingVertical: 10,
     },
     passwordModalContent: {
-      backgroundColor: colors.inputBackground,
+      backgroundColor: colors.surface,
       borderRadius: 15,
       padding: 20,
       width: "90%",
@@ -629,12 +594,14 @@ function getStyles(colors) {
     themeOption: {
       flexDirection: "row",
       justifyContent: "space-between",
-      backgroundColor: colors.inputBackground,
+      backgroundColor: effectiveTheme === 'dark' ? '#1A394B' : colors.surface,
       borderRadius: 5,
       paddingHorizontal: 10,
       paddingVertical: 12,
       marginBottom: 10,
       alignItems: "center",
+      borderWidth: 1,
+      borderColor: colors.surfaceVariant,
     },
     buttonsRow: {
       flexDirection: "row",
@@ -642,16 +609,20 @@ function getStyles(colors) {
       marginTop: 30,
     },
     deleteButton: {
-      backgroundColor: colors.inputBackground,
+      backgroundColor: effectiveTheme === 'dark' ? '#1A394B' : colors.surface,
       paddingVertical: 12,
       paddingHorizontal: 20,
       borderRadius: 20,
+      borderWidth: 1,
+      borderColor: colors.surfaceVariant,
     },
     signOutButton: {
-      backgroundColor: colors.inputBackground,
+      backgroundColor: effectiveTheme === 'dark' ? '#1A394B' : colors.surface,
       paddingVertical: 12,
       paddingHorizontal: 20,
       borderRadius: 20,
+      borderWidth: 1,
+      borderColor: colors.surfaceVariant,
     },
     buttonText: {
       color: colors.text,
@@ -661,7 +632,7 @@ function getStyles(colors) {
       position: "absolute",
       top: 75,
       right: 20,
-      backgroundColor: colors.background === "#FFFFFF" ? "#D9D9D9" : "#2C4A5A",
+      backgroundColor: colors.surface,
       borderRadius: 5,
       padding: 10,
       shadowColor: "#000",
@@ -676,7 +647,7 @@ function getStyles(colors) {
     },
     menuItemText: {
       fontSize: 10,
-      color: colors.text === "white" ? "white" : "black",
+      color: colors.text,
     },
     toast: {
       position: "absolute",

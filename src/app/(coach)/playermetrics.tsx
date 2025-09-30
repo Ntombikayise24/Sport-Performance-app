@@ -17,7 +17,7 @@ export default function PlayerMetrics() {
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <Image source={require('../assets/images/logo.jpeg')} style={styles.logo} />
+        <Image source={require('../../assets/images/logo.jpeg')} style={styles.logo} />
         <TouchableOpacity style={styles.menuIcon} onPress={() => setMenuVisible(!menuVisible)}>
           <Ionicons name="menu" size={28} color="white" />
         </TouchableOpacity>
@@ -52,44 +52,44 @@ export default function PlayerMetrics() {
         {/* Metrics Grid */}
         <View style={styles.metricsGrid}>
           {/* Row 1 */}
-          <View style={styles.metricCard} backgroundColor="#FFD700"> {/* Distance - Yellow */}
+          <View style={[styles.metricCard, {backgroundColor: "#FFD700"}]}> {/* Distance - Yellow */}
             <Ionicons name="location-outline" size={24} color="white" />
             <Text style={styles.metricLabel}>Distance</Text>
             <Text style={styles.metricValue}>4.5 km</Text>
           </View>
 
-          <View style={styles.metricCard} backgroundColor="#FF69B4"> {/* Steps - Pink */}
+          <View style={[styles.metricCard, {backgroundColor: "#FF69B4"}]}> {/* Steps - Pink */}
             <Ionicons name="footsteps" size={24} color="white" />
             <Text style={styles.metricLabel}>Steps</Text>
             <Text style={styles.metricValue}>4087</Text>
           </View>
 
-          <View style={styles.metricCard} backgroundColor="#A9A9A9"> {/* Weight - Gray */}
+          <View style={[styles.metricCard, {backgroundColor: "#A9A9A9"}]}> {/* Weight - Gray */}
             <Ionicons name="barbell-outline" size={24} color="white" />
             <Text style={styles.metricLabel}>Weight</Text>
             <Text style={styles.metricValue}>68 kg</Text>
           </View>
 
-          <View style={styles.metricCard} backgroundColor="#E26A2C"> {/* Avg Heart - Orange */}
+          <View style={[styles.metricCard, {backgroundColor: "#E26A2C"}]}> {/* Avg Heart - Orange */}
             <Ionicons name="heart" size={24} color="white" />
             <Text style={styles.metricLabel}>Your Avg Heart</Text>
             <Text style={styles.metricValue}>145 bpm</Text>
           </View>
 
           {/* Row 2 */}
-          <View style={styles.metricCard} backgroundColor="#2E7D32"> {/* Sleep - Green */}
+          <View style={[styles.metricCard, {backgroundColor: "#2E7D32"}]}> {/* Sleep - Green */}
             <Ionicons name="moon-outline" size={24} color="white" />
             <Text style={styles.metricLabel}>Sleep</Text>
             <Text style={styles.metricValue}>24 hrs</Text>
           </View>
 
-          <View style={styles.metricCard} backgroundColor="#4169E1"> {/* Check O2 - Blue */}
+          <View style={[styles.metricCard, {backgroundColor: "#4169E1"}]}> {/* Check O2 - Blue */}
             <Ionicons name="checkmark-circle-outline" size={24} color="white" />
             <Text style={styles.metricLabel}>Check O2 Level</Text>
             <Text style={styles.metricValue}>98%</Text>
           </View>
 
-          <View style={styles.metricCard} backgroundColor="#DC143C"> {/* Blood Pressure - Red */}
+          <View style={[styles.metricCard, {backgroundColor: "#DC143C"}]}> {/* Blood Pressure - Red */}
             <Ionicons name="pulse-outline" size={24} color="white" />
             <Text style={styles.metricLabel}>Blood Pressure</Text>
             <Text style={styles.metricValue}>120/80</Text>
@@ -99,16 +99,16 @@ export default function PlayerMetrics() {
 
       {/* Bottom Navigation Bar */}
       <View style={styles.bottomNav}>
-        <TouchableOpacity style={styles.navButton} onPress={() => router.push('/athleteview')}>
+        <TouchableOpacity style={styles.navButton} onPress={() => router.push('/(athlete)/athlete-view')}>
           <Ionicons name="home-outline" size={28} color="#1E90FF" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navButton} onPress={() => router.push('/playermetrics')}>
+        <TouchableOpacity style={styles.navButton} onPress={() => router.push('/(coach)/playermetrics')}>
           <Ionicons name="heart-outline" size={28} color="#FF4500" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navButton} onPress={() => router.push('/notifications')}>
+        <TouchableOpacity style={styles.navButton} onPress={() => router.push('/(dashboard)/notifications')}>
           <Ionicons name="notifications-outline" size={28} color="#FFD700" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navButton} onPress={() => router.push('/dashboard')}>
+        <TouchableOpacity style={styles.navButton} onPress={() => router.push('/(coach)/coach-profile')}>
           <Ionicons name="person-outline" size={28} color="#32CD32" />
         </TouchableOpacity>
       </View>

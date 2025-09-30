@@ -1,5 +1,7 @@
+import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useState } from "react";
+import { useTheme } from "../contexts/ThemeContext";
 import {
   Alert,
   Image,
@@ -17,6 +19,7 @@ export default function LoginScreen() {
   const [userType, setUserType] = useState("Athlete");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = () => {
     if (!username || !password) {
@@ -32,11 +35,7 @@ export default function LoginScreen() {
     } else if (userType === "Medical") {
       router.push("/(athlete)/medical-view");
     } else if (userType === "Staff") {
-<<<<<<< HEAD:src/app/index.jsx
-      router.push("/coach-view");
-=======
-      router.push("/(coach)/coach-view"); 
->>>>>>> 4a1ef0c3451fccdb62252bb0cb502fb3c5187861:src/app/index.tsx
+      router.push("/(coach)/coach-view");
     } else {
       Alert.alert("Unknown user type");
     }
@@ -44,14 +43,11 @@ export default function LoginScreen() {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-
-
       {/* Runner logo */}
-       <Image
-                source={require("../assets/images/logo.jpeg")}
-                style={styles.logo}
-              />
-
+      <Image
+        source={require("../assets/images/logo.jpeg")}
+        style={styles.logo}
+      />
 
       {/* Role Selection */}
       <View style={styles.roleContainer}>
@@ -86,14 +82,26 @@ export default function LoginScreen() {
       />
 
       {/* Password Input */}
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        placeholderTextColor="#ccc"
-        secureTextEntry
-        value={password}
-        onChangeText={setPassword}
-      />
+      <View style={styles.passwordContainer}>
+        <TextInput
+          style={styles.passwordInput}
+          placeholder="Password"
+          placeholderTextColor="#ccc"
+          secureTextEntry={!showPassword}
+          value={password}
+          onChangeText={setPassword}
+        />
+        <TouchableOpacity
+          onPress={() => setShowPassword(!showPassword)}
+          style={styles.eye}
+        >
+          <Ionicons
+            name={showPassword ? "eye" : "eye-off"}
+            size={22}
+            color="#ccc"
+          />
+        </TouchableOpacity>
+      </View>
 
       {/* Login Button */}
       <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
@@ -107,19 +115,6 @@ export default function LoginScreen() {
         <View style={{ width: 200, height: 1, backgroundColor: "#08ee70ff" }} />
       </View>
 
-<<<<<<< HEAD:src/app/index.jsx
-
-      {/* Forgot Password */}
-      <TouchableOpacity onPress={() => router.push("/forgot-password")}>
-        <Text style={styles.forgotText}>Forgot Password?</Text>
-      </TouchableOpacity>
-
-      {/* Sign Up */}
-      <View style={styles.signupContainer}>
-        <Text style={styles.signupText}>Don't have an account?</Text>
-        <TouchableOpacity onPress={() => router.push("/create-account")}>
-          <Text style={styles.signupLink}> Sign up</Text>
-=======
       <TouchableOpacity
         style={{ marginBottom: 10 }}
         onPress={() => router.push("/(auth)/forgot-password")}
@@ -132,7 +127,6 @@ export default function LoginScreen() {
         <Text style={{ color: "white" }}>Don’t have an account? </Text>
         <TouchableOpacity onPress={() => router.push("/(auth)/create-account")}>
           <Text style={{ color: "#DF1965" }}>Sign up</Text>
->>>>>>> 4a1ef0c3451fccdb62252bb0cb502fb3c5187861:src/app/index.tsx
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -154,7 +148,7 @@ const styles = StyleSheet.create({
     resizeMode: "stretch",
     marginBottom: 20,
   },
-   logo: {
+  logo: {
     alignSelf: "center",
     width: 300,
     height: 300,
@@ -192,7 +186,6 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     backgroundColor: "#0F2C3C",
     color: "#fff",
-   
   },
   loginButton: {
     backgroundColor: "#0A4A7B",
@@ -218,7 +211,6 @@ const styles = StyleSheet.create({
     height: 1,
     backgroundColor: "#0e922fff",
     width: 300,
-
   },
   orContainer: {
     flexDirection: "row",
@@ -226,7 +218,7 @@ const styles = StyleSheet.create({
     width: "90%",
     marginBottom: 20,
   },
-   line: {
+  line: {
     flex: 1,
     height: 0.5,
     backgroundColor: "#000000",
@@ -249,5 +241,24 @@ const styles = StyleSheet.create({
   signupLink: {
     color: "#DF1965",
     fontWeight: "600",
+  },
+  passwordContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#0A4A7B",
+    borderRadius: 20,
+    marginBottom: 15,
+    backgroundColor: "#0F2C3C",
+    width: 320,
+  },
+  passwordInput: {
+    flex: 1,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    color: "#fff",
+  },
+  eye: {
+    padding: 8,
   },
 });

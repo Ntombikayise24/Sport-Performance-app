@@ -132,7 +132,7 @@ export default function AthleteView() {
 
       {/* Bottom Navigation Bar */}
       <View style={styles.bottomNav}>
-        <TouchableOpacity style={styles.navButton} onPress={() => router.push('/athleteview')}>
+        <TouchableOpacity style={styles.navButton} onPress={() => router.push('/athlete-view')}>
           <Ionicons name="home-outline" size={28} color="#1E90FF" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.navButton} onPress={() => router.push('/playermetrics')}>

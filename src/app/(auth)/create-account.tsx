@@ -14,8 +14,6 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-<<<<<<< HEAD:src/app/create-account.jsx
-=======
 import { createAccount } from "../../api/authService";
 import {
   validatePassword,
@@ -23,7 +21,6 @@ import {
 } from "../../validators/validatePassword";
 import { validateEmail } from "../../validators/validateEmail";
 import { validateIdNumber } from "../../validators/validateIdNumber";
->>>>>>> 4a1ef0c3451fccdb62252bb0cb502fb3c5187861:src/app/(auth)/create-account.tsx
 
 function CreateAccount() {
   const [name, setName] = useState("");
@@ -38,35 +35,14 @@ function CreateAccount() {
   const [selectedRole, setSelectedRole] = useState("");
   const [sportType, setSportType] = useState("");
 
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   const races = ["African", "Coloured", "Indian", "Asian", "White"];
   const roles = ["Athlete", "Staff"];
 
-  // --- Inline Validators ---
-
-  const validateEmail = (email) => {
-    const re = /\S+@\S+\.\S+/;
-    return re.test(email);
-  };
-
-  // *** FIXED PASSWORD VALIDATOR ***
-  const validatePassword = (password) => {
-    // Minimum 8 chars, at least one letter and one number, allow special characters
-    const re = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;
-    return re.test(password);
-  };
-
-  const passwordsMatch = (pass1, pass2) => pass1 === pass2;
-
-  const validateIdNumber = (id) => {
-    return id.length === 13 && /^\d+$/.test(id);
-  };
-
   const handleCreateAccount = () => {
-    const newErrors = {};
+    const newErrors: Record<string, string> = {};
 
-<<<<<<< HEAD:src/app/create-account.jsx
     if (!name.trim()) newErrors.name = "Name is required.";
     if (!surname.trim()) newErrors.surname = "Surname is required.";
     if (!id.trim()) newErrors.id = "ID number is required.";
@@ -87,7 +63,7 @@ function CreateAccount() {
     if (!password) newErrors.password = "Password is required.";
     else if (!validatePassword(password))
       newErrors.password =
-        "Password must be at least 8 characters and contain letters and numbers.";
+        "Password must be at least 8 characters and contain a lowercase letter, an uppercase letter, and a special character.";
 
     if (!passwordVerify)
       newErrors.passwordVerify = "Please confirm your password.";
@@ -98,16 +74,8 @@ function CreateAccount() {
 
     if (Object.keys(newErrors).length > 0) return;
 
-    // All validations passed
-    router.push("/verify-account");
-=======
-    if (res?.status) {
-      Alert.alert("Success", res?.message || "Account created successfully");
-      router.push("/(auth)/verify-account");
-    } else {
-      Alert.alert("Error", res?.message || "Signup failed");
-    }
->>>>>>> 4a1ef0c3451fccdb62252bb0cb502fb3c5187861:src/app/(auth)/create-account.tsx
+    Alert.alert("Success", "Account details validated. Proceeding to verification.");
+    router.push("/(auth)/verify-account");
   };
 
   return (
@@ -270,7 +238,7 @@ function CreateAccount() {
         </TouchableOpacity>
 
         <Text style={styles.text1}>Have an account?</Text>
-        <TouchableOpacity onPress={() => router.push("/verify-account")}>
+        <TouchableOpacity onPress={() => router.push("/")}>
           <Text style={styles.text2}>Log in</Text>
         </TouchableOpacity>
       </ScrollView>

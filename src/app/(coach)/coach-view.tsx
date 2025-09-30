@@ -1,16 +1,8 @@
-<<<<<<< HEAD:app/coachview.jsx
-import { Ionicons } from '@expo/vector-icons';
-import * as ImagePicker from 'expo-image-picker';
-import { useRouter } from 'expo-router';
-import { useState } from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-=======
 import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
->>>>>>> 92eeddab8306013455697786f4b4f7ec4a41bb8d:src/app/(coach)/coach-view.tsx
 
 export default function CoachView() {
   const router = useRouter();
@@ -30,7 +22,7 @@ export default function CoachView() {
 
     // Launch image picker
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaType.Images,
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [1, 1],
       quality: 1,
@@ -86,13 +78,8 @@ export default function CoachView() {
 
       {/* ✅ Greeting shows actual logged-in user */}
       <View style={styles.greetingContainer}>
-<<<<<<< HEAD:src/app/coach-view.jsx
         <Text style={styles.greetingText}>Hi, {name}</Text>
         <Text style={styles.subText}>{role}</Text>
-=======
-        <Text style={styles.greetingText}>Hi, Ntombikayise</Text>
-        <Text style={styles.subText}>Coach</Text>
->>>>>>> 4a1ef0c3451fccdb62252bb0cb502fb3c5187861:src/app/(coach)/coach-view.tsx
       </View>
 
       {/* Added space between Coach and Team Overview */}
