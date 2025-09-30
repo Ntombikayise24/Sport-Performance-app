@@ -1,4 +1,4 @@
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import {
@@ -105,7 +105,7 @@ export default function TeamOverview() {
           style={styles.navButton}
           onPress={() => router.push("/coach-view-metrics")}
         >
-          <Ionicons name="heart-outline" size={28} color="#FF4500" />
+        <MaterialCommunityIcons name="chart-bar" size={28} color="#FF4500" />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.navButton}

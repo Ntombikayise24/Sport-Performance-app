@@ -55,9 +55,9 @@ export default function ForgotPassword() {
           marginBottom: 20,
         }}
       >
-        <View style={{ width: 200, height: 1, backgroundColor: "#090a0aff" }} />
+        <View style={{ width: 200, height: 1, backgroundColor: "#09da9bff" }} />
         <Text style={{ marginHorizontal: 10, color: "#ccc" }}>OR</Text>
-        <View style={{ width: 200, height: 1, backgroundColor: "#090a09ff" }} />
+        <View style={{ width: 200, height: 1, backgroundColor: "#09da9bff" }} />
       </View>
       <Text style={styles.createAccountText}>Have an Account?</Text>
       <TouchableOpacity onPress={() => router.push("/")}>
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
   input: {
     width: 320,
     borderWidth: 1,
-    borderColor: "#000",
+    borderColor: "#5f0ce6ff",
     borderRadius: 8,
     paddingHorizontal: 15,
     paddingVertical: 10,

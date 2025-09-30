@@ -1,8 +1,7 @@
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import {
-  Image,
   ScrollView,
   StyleSheet,
   Text,
@@ -25,11 +24,17 @@ export default function PlayerMetrics() {
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity style={styles.backButton} onPress={() => router.push('/(athlete)/athlete-view')}>
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => router.push('/(athlete)/athlete-view')}
+        >
           <Ionicons name="chevron-back-outline" size={28} color="white" />
         </TouchableOpacity>
         <Text style={styles.pageTitle}>Player Metrics</Text>
-        <TouchableOpacity style={styles.menuIcon} onPress={() => setMenuVisible(!menuVisible)}>
+        <TouchableOpacity
+          style={styles.menuIcon}
+          onPress={() => setMenuVisible(!menuVisible)}
+        >
           <Ionicons name="menu" size={28} color="white" />
         </TouchableOpacity>
       </View>
@@ -46,7 +51,12 @@ export default function PlayerMetrics() {
 
       {/* Search Bar */}
       <View style={styles.searchContainer}>
-        <Ionicons name="search-outline" size={20} color="#666" style={styles.searchIcon} />
+        <Ionicons
+          name="search-outline"
+          size={20}
+          color="#666"
+          style={styles.searchIcon}
+        />
         <TextInput
           style={styles.searchInput}
           placeholder="Search metric..."
@@ -60,7 +70,10 @@ export default function PlayerMetrics() {
       <ScrollView contentContainerStyle={styles.metricsContainer}>
         <View style={styles.metricGrid}>
           {metrics.map((item, index) => (
-            <View key={index} style={[styles.metricCard, { backgroundColor: item.color }]}>
+            <View
+              key={index}
+              style={[styles.metricCard, { backgroundColor: item.color }]}
+            >
               <Ionicons name={item.icon} size={30} color="white" />
               <Text style={styles.metricTitle}>{item.title}</Text>
               <Text style={styles.metricSubtitle}>{item.subtitle}</Text>
@@ -76,7 +89,7 @@ export default function PlayerMetrics() {
           <Ionicons name="home-outline" size={28} color="#1E90FF" />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => router.push('/playermetrics')}>
-          <Ionicons name="heart-outline" size={28} color="#FF4500" />
+          <MaterialCommunityIcons name="chart-line" size={28} color="#FF4500" />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => router.push('/notifications')}>
           <Ionicons name="notifications-outline" size={28} color="#FFD700" />
@@ -89,9 +102,15 @@ export default function PlayerMetrics() {
   );
 }
 
-type IoniconsName = 
-  | 'location-outline' | 'walk-outline' | 'fitness-outline' | 'flash-outline' | 'heart-outline' 
-  | 'moon-outline' | 'water-outline' | 'pulse-outline';
+type IoniconsName =
+  | 'location-outline'
+  | 'walk-outline'
+  | 'fitness-outline'
+  | 'flash-outline'
+  | 'heart-outline'
+  | 'moon-outline'
+  | 'water-outline'
+  | 'pulse-outline';
 
 const metrics: {
   title: string;
@@ -100,14 +119,62 @@ const metrics: {
   icon: IoniconsName;
   color: string;
 }[] = [
-  { title: 'Distance', subtitle: 'You’ve walked', value: '4.5 km', icon: 'location-outline', color: '#FFB300' },
-  { title: 'Steps', subtitle: 'You’ve taken', value: '4057 steps', icon: 'walk-outline', color: '#FF69B4' },
-  { title: 'Weight', subtitle: 'Stay on top of', value: '65 kg', icon: 'fitness-outline', color: '#A9A9A9' },
-  { title: 'Speed', subtitle: 'Sprint speed', value: '24.5 km/h', icon: 'flash-outline', color: '#388E3C' },
-  { title: 'Heart Rate', subtitle: 'Avg heart rate', value: '124.5 bpm', icon: 'heart-outline', color: '#FF6347' },
-  { title: 'Sleep', subtitle: 'Schedule & improve', value: '7.5 hrs', icon: 'moon-outline', color: '#4682B4' },
-  { title: 'SpO2', subtitle: 'Oxygen level', value: '98%', icon: 'water-outline', color: '#C71585' },
-  { title: 'Blood Pressure', subtitle: 'Current pressure', value: '110/70', icon: 'pulse-outline', color: '#f8e007ff' },
+  {
+    title: 'Distance',
+    subtitle: 'You’ve walked',
+    value: '4.5 km',
+    icon: 'location-outline',
+    color: '#FFB300',
+  },
+  {
+    title: 'Steps',
+    subtitle: 'You’ve taken',
+    value: '4057 steps',
+    icon: 'walk-outline',
+    color: '#FF69B4',
+  },
+  {
+    title: 'Weight',
+    subtitle: 'Stay on top of',
+    value: '65 kg',
+    icon: 'fitness-outline',
+    color: '#A9A9A9',
+  },
+  {
+    title: 'Speed',
+    subtitle: 'Sprint speed',
+    value: '24.5 km/h',
+    icon: 'flash-outline',
+    color: '#388E3C',
+  },
+  {
+    title: 'Heart Rate',
+    subtitle: 'Avg heart rate',
+    value: '124.5 bpm',
+    icon: 'heart-outline',
+    color: '#FF6347',
+  },
+  {
+    title: 'Sleep',
+    subtitle: 'Schedule & improve',
+    value: '7.5 hrs',
+    icon: 'moon-outline',
+    color: '#4682B4',
+  },
+  {
+    title: 'SpO2',
+    subtitle: 'Oxygen level',
+    value: '98%',
+    icon: 'water-outline',
+    color: '#C71585',
+  },
+  {
+    title: 'Blood Pressure',
+    subtitle: 'Current pressure',
+    value: '110/70',
+    icon: 'pulse-outline',
+    color: '#f8e007ff',
+  },
 ];
 
 const styles = StyleSheet.create({

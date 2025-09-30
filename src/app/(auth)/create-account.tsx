@@ -74,15 +74,8 @@ function CreateAccount() {
 
     if (Object.keys(newErrors).length > 0) return;
 
-    // All validations passed, call API
-    const res = await createAccount(surname, name, password, email, id, selectedRace, selectedRole, sportType);
-
-    if (res?.status) {
-      Alert.alert("Success", res?.message || "Account created successfully");
-      router.push("/(auth)/verify-account");
-    } else {
-      Alert.alert("Error", res?.message || "Signup failed");
-    }
+    // All validations passed, navigate to verify account
+    router.push("/(auth)/verify-account");
   };
 
   return (
@@ -245,7 +238,7 @@ function CreateAccount() {
         </TouchableOpacity>
 
         <Text style={styles.text1}>Have an account?</Text>
-        <TouchableOpacity onPress={() => router.push("/verify-account")}>
+        <TouchableOpacity onPress={() => router.push("/")}>
           <Text style={styles.text2}>Log in</Text>
         </TouchableOpacity>
       </ScrollView>

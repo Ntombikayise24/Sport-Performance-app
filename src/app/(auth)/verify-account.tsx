@@ -2,7 +2,7 @@ import { router } from 'expo-router';
 import { useState } from 'react';
 import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
-function verification() {
+function Verification() {
   const [code, setCode] = useState('');
 
   const handleVerify = async () => {
@@ -60,9 +60,9 @@ function verification() {
         </TouchableOpacity>
       </View>
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 20 }}>
-              <View style={{ width: 200, height: 1, backgroundColor: '#0e0606ff'  }} />
+              <View style={{ width: 200, height: 1, backgroundColor: '#d45114'  }} />
               <Text style={{ marginHorizontal: 10, color: '#ccc' }}>OR</Text>
-              <View style={{ width: 200, height: 1, backgroundColor: '#0e0606ff'  }} />
+              <View style={{ width: 200, height: 1, backgroundColor: '#d45114'  }} />
             </View>
       <Text style={styles.haveAccountText}>Have an account?</Text>
       <TouchableOpacity onPress={() => router.push("/")}>
@@ -72,7 +72,7 @@ function verification() {
   );
 }
 
-export default verification;
+export default Verification;
 
 const styles = StyleSheet.create({
   container: {

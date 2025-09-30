@@ -1,4 +1,4 @@
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import React from "react";
 import {
@@ -152,12 +152,15 @@ const TeamMetricsScreen = () => {
         >
           <Ionicons name="home-outline" size={28} color="#1E90FF" />
         </TouchableOpacity>
+
+        {/* Changed heart-outline -> chart-bar */}
         <TouchableOpacity
           style={styles.navButton}
           onPress={() => router.push("/(coach)/coach-view-metrics")}
         >
-          <Ionicons name="heart-outline" size={28} color="#FF4500" />
+          <MaterialCommunityIcons name="chart-bar" size={28} color="#FF4500" />
         </TouchableOpacity>
+
         <TouchableOpacity
           style={styles.navButton}
           onPress={() => router.push("/(dashboard)/notifications")}

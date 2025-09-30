@@ -1,194 +1,131 @@
-import { useRouter } from "expo-router";
-import { useState } from "react";
+import React, { useState } from "react";
 import {
-  Alert,
-  FlatList,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
   View,
+  Text,
+  TextInput,
+  FlatList,
+  TouchableOpacity,
+  StyleSheet,
+  SafeAreaView,
 } from "react-native";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 
-import { Player } from "@/types/Player";
-import { TrainingTemplate } from "@/types/TrainingTemplate";
-import { WeeklyPlan } from "@/types/WeeklyPlan";
-
-// Mock data for players
-const players: Player[] = [
-  { id: "1", name: "Naledi Motaung", position: "Forward" },
-  { id: "2", name: "Ayanda Dlamini", position: "Midfielder" },
-  { id: "3", name: "Sarah van de Merwe", position: "Defender" },
-  { id: "4", name: "John Doe", position: "Goalkeeper" },
-  { id: "5", name: "Jane Smith", position: "Forward" },
+const athletesData = [
+  { id: "1", name: "Sarah van de Merwe", role: "Team Captain", status: "Online" },
+  { id: "2", name: "Ayanda Dlamini", role: "Goalkeeper", status: "Training" },
+  { id: "3", name: "Siphosethu Khumalo", role: "Midfielder", status: "Training" },
+  { id: "4", name: "Michaela Smith", role: "Midfielder", status: "Offline" },
+  { id: "5", name: "Chloe Anderson", role: "Winger", status: "Offline" },
+  { id: "6", name: "Karabelo Ndlovu", role: "Winger", status: "Online" },
+  { id: "7", name: "Lerato Mthembu", role: "Center", status: "Training" },
 ];
 
-// Training plan templates
-const trainingTemplates: TrainingTemplate[] = [
-  {
-    id: "1",
-    name: "Endurance Training",
-    description: "Improve cardiovascular fitness and stamina",
-  },
-  {
-    id: "2",
-    name: "Strength Training",
-    description: "Build muscle strength and power",
-  },
-  {
-    id: "3",
-    name: "Skill Development",
-    description: "Enhance technical skills and ball control",
-  },
-  {
-    id: "4",
-    name: "Recovery Session",
-    description: "Light recovery and flexibility work",
-  },
-  {
-    id: "5",
-    name: "Team Tactics",
-    description: "Practice team formations and strategies",
-  },
-];
-
-const daysOfWeek = [
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-  "Sunday",
-];
+const statusColors = {
+  Online: "#4CAF50",
+  Training: "#FF9800",
+  Offline: "#9E9E9E",
+};
 
 export default function TrainingPlans() {
   const router = useRouter();
-  const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
-  const [weeklyPlan, setWeeklyPlan] = useState<WeeklyPlan>({});
-  const [viewMode, setViewMode] = useState("individual"); // 'individual' or 'overview'
+  const [searchText, setSearchText] = useState("");
+  const [selectedAthleteId, setSelectedAthleteId] = useState(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const assignTraining = (day: string, templateId: string) => {
-    if (!selectedPlayer) {
-      Alert.alert("Please select a player first");
-      return;
-    }
-
-    const template = trainingTemplates.find((t) => t.id === templateId);
-    if (!template) return;
-    const newPlan = { ...weeklyPlan };
-
-    if (!newPlan[selectedPlayer.id]) {
-      newPlan[selectedPlayer.id] = {};
-    }
-
-    newPlan[selectedPlayer.id][day] = template;
-    setWeeklyPlan(newPlan);
-
-    Alert.alert(
-      "Training Assigned",
-      `${template.name} assigned to ${selectedPlayer.name} for ${day}`
-    );
-  };
-
-  const renderPlayer = ({ item }: { item: Player }) => (
-    <TouchableOpacity
-      style={[
-        styles.playerItem,
-        selectedPlayer?.id === item.id && styles.selectedPlayer,
-      ]}
-      onPress={() => setSelectedPlayer(item)}
-    >
-      <Text style={styles.playerName}>{item.name}</Text>
-      <Text style={styles.playerPosition}>{item.position}</Text>
-    </TouchableOpacity>
+  const filteredAthletes = athletesData.filter((athlete) =>
+    athlete.name.toLowerCase().includes(searchText.toLowerCase())
   );
 
-  const renderDay = (day) => {
-    const playerPlan = selectedPlayer ? weeklyPlan[selectedPlayer.id] : null;
-    const assignedTraining = playerPlan ? playerPlan[day] : null;
-
+  const renderAthleteItem = ({ item }) => {
+    const isSelected = item.id === selectedAthleteId;
     return (
-      <View style={styles.dayContainer} key={day}>
-        <Text style={styles.dayTitle}>{day}</Text>
-        {assignedTraining ? (
-          <View style={styles.assignedTraining}>
-            <Text style={styles.trainingName}>{assignedTraining.name}</Text>
-            <Text style={styles.trainingDesc}>
-              {assignedTraining.description}
-            </Text>
-          </View>
-        ) : (
-          <View style={styles.trainingOptions}>
-            {trainingTemplates.map((template) => (
-              <TouchableOpacity
-                key={template.id}
-                style={styles.trainingButton}
-                onPress={() => assignTraining(day, template.id)}
-              >
-                <Text style={styles.trainingButtonText}>{template.name}</Text>
-              </TouchableOpacity>
-            ))}
-          </View>
-        )}
-      </View>
+      <TouchableOpacity
+        style={styles.athleteItem}
+        onPress={() => setSelectedAthleteId(item.id)}
+      >
+        <View style={styles.avatar}>
+          <Ionicons name="person" size={24} color="white" />
+        </View>
+        <View style={styles.athleteInfo}>
+          <Text style={styles.athleteName}>{item.name}</Text>
+          <Text style={styles.athleteRole}>{item.role}</Text>
+          <Text style={[styles.athleteStatus, { color: statusColors[item.status] || "#000" }]}>
+            {item.status}
+          </Text>
+        </View>
+        <View style={styles.radioButtonOuter}>
+          {isSelected && <View style={styles.radioButtonInner} />}
+        </View>
+      </TouchableOpacity>
     );
   };
 
   return (
-    <View style={styles.container}>
-      {/* Header */}
+    <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity
-          style={styles.backButton}
-          onPress={() => router.back()}
-        >
-          <Text style={styles.backButtonText}>← Back</Text>
-        </TouchableOpacity>
+        <Ionicons name="arrow-back" size={28} color="white" onPress={() => router.back()} />
         <Text style={styles.headerTitle}>Training Plans</Text>
+        <TouchableOpacity onPress={() => setIsMenuOpen((prev) => !prev)}>
+          <Ionicons name="menu" size={28} color="white" />
+        </TouchableOpacity>
+        {isMenuOpen && (
+          <View style={styles.menuDropdown}>
+            <TouchableOpacity onPress={() => { router.push("/"); setIsMenuOpen(false); }}>
+              <Ionicons name="log-out-outline" size={20} color="black" />
+              <Text style={styles.menuText}>Logout</Text>
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
 
-      {/* View Mode Toggle */}
-      <View style={styles.viewModeSection}>
-        <TouchableOpacity
-          style={[styles.viewModeButton, styles.activeViewMode]}
-        >
-          <Text style={styles.viewModeText}>Individual Plans</Text>
+      <TextInput
+        style={styles.searchInput}
+        placeholder="Search athlete"
+        placeholderTextColor="#ccc"
+        value={searchText}
+        onChangeText={setSearchText}
+      />
+
+      <Text style={styles.subtitle}>Select an athlete to assign training.</Text>
+
+      <FlatList
+        data={filteredAthletes}
+        keyExtractor={(item) => item.id}
+        renderItem={renderAthleteItem}
+        contentContainerStyle={styles.listContent}
+      />
+
+      {/* Next Button */}
+      <TouchableOpacity
+        style={styles.nextButton}
+        onPress={() => {
+          if (selectedAthleteId) {
+            router.push("./training-types");
+          } else {
+            alert("Please select an athlete before proceeding.");
+          }
+        }}
+      >
+        <Text style={styles.nextButtonText}>Next</Text>
+      </TouchableOpacity>
+
+      {/* Bottom Navigation */}
+      <View style={styles.bottomNav}>
+        <TouchableOpacity onPress={() => router.push("/(coach)/coach-view")}>
+          <Ionicons name="home-outline" size={26} color="#1E90FF" />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => router.push("/(coach)/coach-view-metrics")}>
+          <MaterialCommunityIcons name="chart-bar" size={28} color="#FF4500" />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => router.push("/(dashboard)/notifications")}>
+          <Ionicons name="notifications-outline" size={26} color="#FFD700" />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => router.push("/(coach)/coach-profile")}>
+          <Ionicons name="person-outline" size={26} color="#32CD32" />
         </TouchableOpacity>
       </View>
-
-      {/* Player Selection */}
-      {viewMode === "individual" && (
-        <View style={styles.playerSection}>
-          <Text style={styles.sectionTitle}>Select Player</Text>
-          <FlatList
-            data={players}
-            renderItem={renderPlayer}
-            keyExtractor={(item) => item.id}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            style={styles.playerList}
-          />
-        </View>
-      )}
-
-      {/* Weekly Training Plan */}
-      <ScrollView style={styles.weeklyPlan}>
-        <Text style={styles.sectionTitle}>Weekly Training Plan</Text>
-        <View>
-          {selectedPlayer ? (
-            <Text style={styles.selectedPlayerText}>
-              Planning for: {selectedPlayer.name}
-            </Text>
-          ) : (
-            <Text style={styles.selectPlayerPrompt}>
-              Please select a player to assign training
-            </Text>
-          )}
-          {daysOfWeek.map((day) => renderDay(day))}
-        </View>
-      </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -196,178 +133,120 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#1A394B",
-    padding: 20,
+    paddingHorizontal: 15,
   },
   header: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 20,
-  },
-  backButton: {
-    backgroundColor: "#D9D9D9",
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    borderRadius: 5,
-    marginRight: 15,
-  },
-  backButtonText: {
-    fontWeight: "700",
-    fontSize: 16,
-    color: "black",
+    justifyContent: "space-between",
+    paddingVertical: 15,
   },
   headerTitle: {
+    color: "white",
     fontSize: 24,
     fontWeight: "bold",
-    color: "white",
   },
-  playerSection: {
-    marginBottom: 20,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
+  searchInput: {
+    backgroundColor: "#0F2C3C",
+    borderRadius: 20,
+    paddingHorizontal: 15,
+    paddingVertical: 8,
     color: "white",
     marginBottom: 10,
   },
-  playerList: {
-    maxHeight: 80,
+  subtitle: {
+    color: "white",
+    marginBottom: 10,
   },
-  playerItem: {
-    backgroundColor: "#D9D9D9",
-    padding: 10,
+  listContent: {
+    paddingBottom: 80, // to avoid bottom nav overlap
+  },
+  athleteItem: {
+    flexDirection: "row",
+    backgroundColor: "#20506B",
     borderRadius: 8,
-    marginRight: 10,
-    minWidth: 120,
+    padding: 15,
+    marginBottom: 10,
     alignItems: "center",
   },
-  selectedPlayer: {
-    backgroundColor: "#4CAF50",
+  avatar: {
+    backgroundColor: "#000",
+    borderRadius: 25,
+    width: 50,
+    height: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: 15,
   },
-  playerName: {
-    fontSize: 14,
-    fontWeight: "bold",
-    color: "black",
-  },
-  playerPosition: {
-    fontSize: 12,
-    color: "#666",
-  },
-  weeklyPlan: {
+  athleteInfo: {
     flex: 1,
   },
-  selectedPlayerText: {
-    fontSize: 16,
-    color: "#4CAF50",
-    marginBottom: 15,
-    textAlign: "center",
-  },
-  selectPlayerPrompt: {
-    fontSize: 16,
-    color: "#FFA500",
-    marginBottom: 15,
-    textAlign: "center",
-  },
-  dayContainer: {
-    backgroundColor: "#D9D9D9",
-    padding: 15,
-    borderRadius: 8,
-    marginBottom: 10,
-    marginHorizontal: 10,
-  },
-  dayTitle: {
-    fontSize: 16,
+  athleteName: {
+    color: "white",
     fontWeight: "bold",
-    color: "black",
-    marginBottom: 10,
+    fontSize: 16,
   },
-  assignedTraining: {
-    backgroundColor: "#4CAF50",
-    padding: 10,
-    borderRadius: 5,
-  },
-  trainingName: {
+  athleteRole: {
+    color: "#ccc",
     fontSize: 14,
-    fontWeight: "bold",
-    color: "white",
   },
-  trainingDesc: {
+  athleteStatus: {
     fontSize: 12,
-    color: "white",
     marginTop: 2,
   },
-  trainingOptions: {
-    flexDirection: "row",
-    flexWrap: "wrap",
+  radioButtonOuter: {
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: "white",
+    justifyContent: "center",
+    alignItems: "center",
   },
-  trainingButton: {
-    backgroundColor: "#2196F3",
-    paddingVertical: 6,
-    paddingHorizontal: 10,
-    borderRadius: 4,
-    marginRight: 8,
-    marginBottom: 8,
+  radioButtonInner: {
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    backgroundColor: "white",
   },
-  trainingButtonText: {
-    fontSize: 12,
+  menuDropdown: {
+    position: "absolute",
+    top: 50,
+    right: 10,
+    backgroundColor: "#D9D9D9",
+    borderRadius: 6,
+    padding: 10,
+    zIndex: 100,
+  },
+  menuText: {
+    color: "black",
+    marginTop: 5,
+  },
+  nextButton: {
+    position: "absolute",
+    bottom: 80,
+    right: 20,
+    backgroundColor: "#20506B",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 20,
+    elevation: 5,
+  },
+  nextButtonText: {
     color: "white",
     fontWeight: "bold",
-  },
-  viewModeSection: {
-    flexDirection: "row",
-    backgroundColor: "#D9D9D9",
-    borderRadius: 8,
-    marginBottom: 20,
-    padding: 4,
-  },
-  viewModeButton: {
-    flex: 1,
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    borderRadius: 6,
-    alignItems: "center",
-  },
-  activeViewMode: {
-    backgroundColor: "#4CAF50",
-  },
-  viewModeText: {
-    fontSize: 14,
-    fontWeight: "bold",
-    color: "black",
-  },
-  playerOverview: {
-    backgroundColor: "#D9D9D9",
-    padding: 15,
-    borderRadius: 8,
-    marginBottom: 15,
-  },
-  playerOverviewName: {
     fontSize: 16,
-    fontWeight: "bold",
-    color: "black",
-    marginBottom: 5,
   },
-  playerOverviewPosition: {
-    fontSize: 14,
-    color: "#666",
-    marginBottom: 10,
-  },
-  playerTrainingSummary: {
+  bottomNav: {
     flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  daySummary: {
-    alignItems: "center",
-    flex: 1,
-  },
-  daySummaryLabel: {
-    fontSize: 12,
-    fontWeight: "bold",
-    color: "black",
-    marginBottom: 4,
-  },
-  daySummaryTraining: {
-    fontSize: 10,
-    color: "#666",
-    textAlign: "center",
+    justifyContent: "space-around",
+    backgroundColor: "#0a394b",
+    paddingVertical: 12,
+    borderRadius: 20,
+    position: "absolute",
+    bottom: 20,
+    left: 20,
+    right: 20,
+    elevation: 8,
   },
 });

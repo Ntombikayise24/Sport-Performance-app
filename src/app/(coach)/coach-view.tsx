@@ -1,4 +1,4 @@
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { useState } from "react";
@@ -17,7 +17,7 @@ export default function CoachView() {
       return;
     }
 
-    let result = await ImagePicker.launchImageLibraryAsync({
+    const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [1, 1],
@@ -34,6 +34,12 @@ export default function CoachView() {
     setIsMenuOpen(false);
   };
 
+  const notifications = [
+    { msg: "Naledi Motaung is on red alert.", color: "#FF0000" },
+    { msg: "Ayanda Dlamini is on red alert.", color: "#FF0000" },
+    { msg: "Sarah van de Merwe is on amber alert.", color: "#FFA500" },
+  ];
+
   return (
     <View style={styles.container}>
       {/* Header */}
@@ -42,17 +48,15 @@ export default function CoachView() {
           source={require("../../assets/images/logo.jpeg")}
           style={styles.logo}
         />
-
         <TouchableOpacity
           style={styles.menuButton}
           onPress={() => setIsMenuOpen(!isMenuOpen)}
         >
           <Ionicons name="menu" size={28} color="white" />
         </TouchableOpacity>
-
         {isMenuOpen && (
           <View style={styles.menuDropdown}>
-            <TouchableOpacity onPress={logout}>
+            <TouchableOpacity onPress={logout} style={styles.menuItem}>
               <Ionicons name="log-out-outline" size={20} color="black" />
               <Text style={styles.menuText}>Logout</Text>
             </TouchableOpacity>
@@ -63,7 +67,7 @@ export default function CoachView() {
       {/* Profile Section */}
       <View style={styles.profileSection}>
         <View style={styles.profileTextContainer}>
-          <Text style={styles.greeting}>Hi, {name}</Text>
+          <Text style={styles.greeting}>Hi, Ntombikayise</Text>
           <Text style={styles.role}>{role}</Text>
           <TouchableOpacity
             style={styles.teamButton}
@@ -73,7 +77,6 @@ export default function CoachView() {
             <Text style={styles.teamButtonText}>Team Overview</Text>
           </TouchableOpacity>
         </View>
-
         <TouchableOpacity onPress={pickImage} style={styles.imageWrapper}>
           <Image
             source={
@@ -89,15 +92,16 @@ export default function CoachView() {
       {/* Notifications */}
       <View style={styles.notificationsBox}>
         <Text style={styles.notificationsTitle}>Notifications</Text>
-        {[
-          { msg: "Naledi Motaung is on red alert.", color: "#FF0000" },
-          { msg: "Ayanda Dlamini is on red alert.", color: "#FF0000" },
-          { msg: "Sarah van de Merwe is on amber alert.", color: "#FFA500" },
-        ].map((n, idx) => (
-          <View style={styles.notificationItem} key={idx}>
+        {notifications.map((n, idx) => (
+          <TouchableOpacity
+            style={styles.notificationItem}
+            key={idx}
+            onPress={() => router.push("/(dashboard)/notifications")}
+            activeOpacity={0.7}
+          >
             <Ionicons name="alert-circle-outline" size={20} color={n.color} />
             <Text style={styles.notificationText}>{n.msg}</Text>
-          </View>
+          </TouchableOpacity>
         ))}
       </View>
 
@@ -115,8 +119,10 @@ export default function CoachView() {
         <TouchableOpacity onPress={() => router.push("/(coach)/coach-view")}>
           <Ionicons name="home-outline" size={26} color="#1E90FF" />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => router.push("/(coach)/coach-view-metrics")}>
-          <Ionicons name="heart-outline" size={26} color="#FF4500" />
+        <TouchableOpacity
+          onPress={() => router.push("/(coach)/coach-view-metrics")}
+        >
+          <MaterialCommunityIcons name="chart-bar" size={28} color="#FF4500" />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => router.push("/(dashboard)/notifications")}>
           <Ionicons name="notifications-outline" size={26} color="#FFD700" />
@@ -158,9 +164,14 @@ const styles = StyleSheet.create({
     padding: 10,
     zIndex: 100,
   },
+  menuItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 4,
+  },
   menuText: {
     color: "black",
-    marginTop: 5,
+    marginLeft: 6,
   },
   profileSection: {
     flexDirection: "row",

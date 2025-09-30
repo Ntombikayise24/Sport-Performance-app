@@ -1,4 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons"; // ✅ Added
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import {
@@ -136,12 +137,16 @@ export default function AthleteView() {
         <TouchableOpacity onPress={() => router.push("/(athlete)/athlete-view")}>
           <Ionicons name="home-outline" size={28} color="#1E90FF" />
         </TouchableOpacity>
+
         <TouchableOpacity onPress={() => router.push("/(athlete)/playermetrics")}>
-          <Ionicons name="heart-outline" size={28} color="#FF4500" />
+          {/* ✅ Changed heart-outline → chart-line */}
+          <MaterialCommunityIcons name="chart-line" size={28} color="#FF4500" />
         </TouchableOpacity>
+
         <TouchableOpacity onPress={() => router.push("/(athlete)/medical-view")}>
           <Ionicons name="notifications-outline" size={28} color="#FFD700" />
         </TouchableOpacity>
+
         <TouchableOpacity onPress={() => router.push("/(athlete)/check-injuries")}>
           <Ionicons name="person-outline" size={28} color="#32CD32" />
         </TouchableOpacity>
