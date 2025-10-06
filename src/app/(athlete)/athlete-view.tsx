@@ -108,7 +108,7 @@ export default function AthleteView() {
         {/* Metrics Section */}
         <View style={styles.performanceHeader}>
           <Text style={styles.performanceTitle}>Performance Metrics</Text>
-          <TouchableOpacity onPress={() => router.push("/(athlete)/playermetrics")}>
+          <TouchableOpacity onPress={() => router.push("/")}>
             <Ionicons name="arrow-forward-outline" size={20} color="white" />
           </TouchableOpacity>
         </View>
@@ -133,7 +133,7 @@ export default function AthleteView() {
       </ScrollView>
 
       {/* Bottom Navigation */}
-      <View style={styles.bottomNav}>
+<View style={styles.bottomNav}>
         <TouchableOpacity onPress={() => router.push("/(athlete)/athlete-view")}>
           <Ionicons name="home-outline" size={28} color="#1E90FF" />
         </TouchableOpacity>
@@ -167,6 +167,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 50,
     paddingBottom: 10,
+    position: "relative",
   },
   logo: {
     width: 150,
@@ -178,7 +179,7 @@ const styles = StyleSheet.create({
   },
   menuDropdown: {
     position: "absolute",
-    top: 90,
+    top: '100%',
     right: 20,
     backgroundColor: "#D9D9D9",
     borderRadius: 8,
@@ -335,5 +336,8 @@ const styles = StyleSheet.create({
     left: 20,
     right: 20,
     elevation: 10,
+  },
+  navButton: {
+    padding: 10,
   },
 });

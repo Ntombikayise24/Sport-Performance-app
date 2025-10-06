@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { IconButton, Searchbar, Text } from "react-native-paper";
+import { Searchbar, Text } from "react-native-paper";
 
 import BiometricImage from "../../assets/images/Biometric.png";
 import HealthImage from "../../assets/images/Health.png";
@@ -21,7 +21,7 @@ const TeamMetricsScreen = () => {
   const [searchQuery, setSearchQuery] = React.useState("");
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
-  const onChangeSearch = (query) => setSearchQuery(query);
+  const onChangeSearch = (query: string) => setSearchQuery(query);
 
   const logout = () => {
     router.push("/");
@@ -100,17 +100,13 @@ const TeamMetricsScreen = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <IconButton
-          icon="arrow-left"
-          size={24}
-          onPress={() => router.push("/(coach)/coach-view")}
-        />
+        <TouchableOpacity onPress={() => router.push("/(coach)/coach-view")}>
+          <Ionicons name="arrow-back" size={24} color="white" />
+        </TouchableOpacity>
         <Text style={styles.title}>Team Metrics</Text>
-        <IconButton
-          icon="menu"
-          size={24}
-          onPress={() => setIsMenuOpen(!isMenuOpen)}
-        />
+        <TouchableOpacity onPress={() => setIsMenuOpen(!isMenuOpen)}>
+          <MaterialCommunityIcons name="menu" size={24} color="white" />
+        </TouchableOpacity>
       </View>
 
       {/* Menu Dropdown */}
@@ -137,13 +133,6 @@ const TeamMetricsScreen = () => {
           <TouchableOpacity
             key={card.name}
             style={[styles.card, { backgroundColor: card.color }]}
-            onPress={() => {
-              if (card.name === "PHYSICAL") {
-                router.push("/(coach)/physical");
-              } else if (card.name === "HEALTH & WELLNESS") {
-                router.push("/(coach)/health");
-              }
-            }}
           >
             <Text style={styles.cardText}>{card.text}</Text>
             <View style={styles.iconContainer}>{card.icon}</View>

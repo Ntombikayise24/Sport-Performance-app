@@ -43,7 +43,6 @@ export default function CoachProfile() {
   const [notificationTones, setNotificationTones] = useState(false);
   const [encryptedBackup, setEncryptedBackup] = useState(false);
 
-  // Modals
   const [themeModalVisible, setThemeModalVisible] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [changePasswordVisible, setChangePasswordVisible] = useState(false);
@@ -84,7 +83,60 @@ export default function CoachProfile() {
   const handleDeleteAccount = () => alert("Delete account functionality coming soon.");
   const handleSignOut = () => router.push("/");
 
-  const saveButtonEnabled = newPassword && confirmPassword && newPassword === confirmPassword;
+  const renderThemeOption = ({ item }) => (
+    <TouchableOpacity
+      style={styles.themeOptionItem}
+      onPress={() => {
+        updateThemePreference(item.key as any);
+        setThemeModalVisible(false);
+      }}
+    >
+      <Text style={styles.themeOptionText}>{item.label}</Text>
+    </TouchableOpacity>
+  );
+
+  const handleChangePassword = () => {
+    if (!currentPassword || !newPassword || !confirmPassword) return;
+    if (newPassword !== confirmPassword) return;
+
+    // Play checkmark animation
+    Animated.sequence([
+      Animated.timing(successAnim, {
+        toValue: 1,
+        duration: 500,
+        useNativeDriver: true,
+      }),
+      Animated.timing(successAnim, {
+        toValue: 0,
+        duration: 500,
+        useNativeDriver: true,
+      }),
+    ]).start();
+
+    // Show toast
+    setShowToast(true);
+    Animated.timing(toastAnim, {
+      toValue: 1,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+
+    setTimeout(() => {
+      Animated.timing(toastAnim, {
+        toValue: 0,
+        duration: 300,
+        useNativeDriver: true,
+      }).start(() => setShowToast(false));
+    }, 2000);
+
+    setCurrentPassword("");
+    setNewPassword("");
+    setConfirmPassword("");
+    setChangePasswordVisible(false);
+  };
+
+  const saveButtonEnabled =
+    newPassword && confirmPassword && newPassword === confirmPassword;
 
   const animatedCheckStyle = {
     opacity: successAnim,
@@ -109,40 +161,6 @@ export default function CoachProfile() {
       },
     ],
   };
-
-  const handleChangePassword = () => {
-    if (!saveButtonEnabled) return;
-
-    // Animate checkmark
-    Animated.sequence([
-      Animated.timing(successAnim, { toValue: 1, duration: 500, useNativeDriver: true }),
-      Animated.timing(successAnim, { toValue: 0, duration: 500, useNativeDriver: true }),
-    ]).start();
-
-    // Show toast
-    setShowToast(true);
-    Animated.timing(toastAnim, { toValue: 1, duration: 300, useNativeDriver: true }).start();
-    setTimeout(() => {
-      Animated.timing(toastAnim, { toValue: 0, duration: 300, useNativeDriver: true }).start(() => setShowToast(false));
-    }, 2000);
-
-    setCurrentPassword("");
-    setNewPassword("");
-    setConfirmPassword("");
-    setChangePasswordVisible(false);
-  };
-
-  const renderThemeOption = ({ item }) => (
-    <TouchableOpacity
-      style={styles.themeOptionItem}
-      onPress={() => {
-        updateThemePreference(item.key);
-        setThemeModalVisible(false);
-      }}
-    >
-      <Text style={styles.themeOptionText}>{item.label}</Text>
-    </TouchableOpacity>
-  );
 
   return (
     <View style={styles.container}>
@@ -178,10 +196,144 @@ export default function CoachProfile() {
         <Text style={styles.sectionTitle}>Theme</Text>
         <TouchableOpacity style={styles.themeSelector} onPress={() => setThemeModalVisible(true)}>
           <Text style={styles.themeText}>
-            {themeOptions.find((option) => option.key === themePreference)?.label || "Select Theme"}
+            {themeOptions.find((option) => option.key === themePreference)?.label ||
+              "Select Theme"}
           </Text>
           <Ionicons name="chevron-down" size={20} color={colors.text} />
         </TouchableOpacity>
+
+        <Modal
+          visible={themeModalVisible}
+          transparent
+          animationType="fade"
+          onRequestClose={() => setThemeModalVisible(false)}
+        >
+          <TouchableOpacity
+            style={styles.modalOverlay}
+            activeOpacity={1}
+            onPress={() => setThemeModalVisible(false)}
+          >
+            <View style={styles.modalContent}>
+              <FlatList
+                data={themeOptions}
+                renderItem={renderThemeOption}
+                keyExtractor={(item) => item.key}
+              />
+            </View>
+          </TouchableOpacity>
+        </Modal>
+
+        {/* Change Password Modal */}
+        <Modal
+          visible={changePasswordVisible}
+          transparent
+          animationType="fade"
+          onRequestClose={() => setChangePasswordVisible(false)}
+        >
+          <View style={styles.modalOverlay}>
+            <View style={styles.passwordModalContent}>
+              <Text style={[styles.sectionTitle, { marginBottom: 15 }]}>
+                Change Password
+              </Text>
+
+              <TextInput
+                style={styles.input}
+                value={currentPassword}
+                onChangeText={setCurrentPassword}
+                placeholder="Current Password"
+                secureTextEntry
+                placeholderTextColor={colors.text + "99"}
+              />
+
+              {/* New Password with Eye */}
+              <View style={{ position: "relative" }}>
+                <TextInput
+                  style={[
+                    styles.input,
+                    {
+                      borderColor:
+                        newPassword && confirmPassword
+                          ? newPassword === confirmPassword
+                            ? "green"
+                            : "red"
+                          : colors.surfaceVariant,
+                    },
+                  ]}
+                  value={newPassword}
+                  onChangeText={setNewPassword}
+                  placeholder="New Password"
+                  secureTextEntry={!showNewPassword}
+                  placeholderTextColor={colors.text + "99"}
+                />
+                <Ionicons
+                  name={showNewPassword ? "eye-off" : "eye"}
+                  size={20}
+                  color={colors.text}
+                  style={{ position: "absolute", right: 10, top: 12 }}
+                  onPress={() => setShowNewPassword(!showNewPassword)}
+                />
+              </View>
+
+              {/* Confirm Password with Eye */}
+              <View style={{ position: "relative" }}>
+                <TextInput
+                  style={[
+                    styles.input,
+                    {
+                      borderColor:
+                        newPassword && confirmPassword
+                          ? newPassword === confirmPassword
+                            ? "green"
+                            : "red"
+                          : colors.surfaceVariant,
+                    },
+                  ]}
+                  value={confirmPassword}
+                  onChangeText={setConfirmPassword}
+                  placeholder="Confirm New Password"
+                  secureTextEntry={!showConfirmPassword}
+                  placeholderTextColor={colors.text + "99"}
+                />
+                <Ionicons
+                  name={showConfirmPassword ? "eye-off" : "eye"}
+                  size={20}
+                  color={colors.text}
+                  style={{ position: "absolute", right: 10, top: 12 }}
+                  onPress={() => setShowConfirmPassword(!showConfirmPassword)}
+                />
+              </View>
+
+              {/* Save Button */}
+              <TouchableOpacity
+                style={[
+                  styles.signOutButton,
+                  {
+                    backgroundColor: saveButtonEnabled
+                      ? "#4CAF50"
+                      : colors.surface,
+                    marginTop: 10,
+                  },
+                ]}
+                disabled={!saveButtonEnabled}
+                onPress={handleChangePassword}
+              >
+                <Text style={styles.buttonText}>Save</Text>
+              </TouchableOpacity>
+
+              {/* Animated Checkmark */}
+              <Animated.View
+                style={{
+                  position: "absolute",
+                  top: 10,
+                  right: 10,
+                  ...animatedCheckStyle,
+                }}
+              >
+                <Ionicons name="checkmark-circle" size={28} color="green" />
+              </Animated.View>
+            </View>
+          </View>
+        </Modal>
 
         {/* Notifications */}
         <Text style={styles.sectionTitle}>Notifications</Text>
@@ -231,62 +383,6 @@ export default function CoachProfile() {
         </View>
       </ScrollView>
 
-      {/* Theme Modal */}
-      <Modal visible={themeModalVisible} transparent animationType="fade" onRequestClose={() => setThemeModalVisible(false)}>
-        <TouchableOpacity style={styles.modalOverlay} activeOpacity={1} onPress={() => setThemeModalVisible(false)}>
-          <View style={styles.modalContent}>
-            <FlatList data={themeOptions} renderItem={renderThemeOption} keyExtractor={(item) => item.key} />
-          </View>
-        </TouchableOpacity>
-      </Modal>
-
-      {/* Change Password Modal */}
-      <Modal visible={changePasswordVisible} transparent animationType="fade" onRequestClose={() => setChangePasswordVisible(false)}>
-        <View style={styles.modalOverlay}>
-          <View style={styles.passwordModalContent}>
-            <Text style={[styles.sectionTitle, { marginBottom: 15 }]}>Change Password</Text>
-
-            <TextInput style={styles.input} value={currentPassword} onChangeText={setCurrentPassword} placeholder="Current Password" secureTextEntry placeholderTextColor={colors.text + "99"} />
-
-            <View style={{ position: "relative" }}>
-              <TextInput
-                style={[styles.input, { borderColor: newPassword && confirmPassword ? (newPassword === confirmPassword ? "green" : "red") : colors.surfaceVariant }]}
-                value={newPassword}
-                onChangeText={setNewPassword}
-                placeholder="New Password"
-                secureTextEntry={!showNewPassword}
-                placeholderTextColor={colors.text + "99"}
-              />
-              <Ionicons name={showNewPassword ? "eye-off" : "eye"} size={20} color={colors.text} style={{ position: "absolute", right: 10, top: 12 }} onPress={() => setShowNewPassword(!showNewPassword)} />
-            </View>
-
-            <View style={{ position: "relative" }}>
-              <TextInput
-                style={[styles.input, { borderColor: newPassword && confirmPassword ? (newPassword === confirmPassword ? "green" : "red") : colors.surfaceVariant }]}
-                value={confirmPassword}
-                onChangeText={setConfirmPassword}
-                placeholder="Confirm New Password"
-                secureTextEntry={!showConfirmPassword}
-                placeholderTextColor={colors.text + "99"}
-              />
-              <Ionicons name={showConfirmPassword ? "eye-off" : "eye"} size={20} color={colors.text} style={{ position: "absolute", right: 10, top: 12 }} onPress={() => setShowConfirmPassword(!showConfirmPassword)} />
-            </View>
-
-            <TouchableOpacity
-              style={[styles.signOutButton, { backgroundColor: saveButtonEnabled ? "#4CAF50" : colors.surface, marginTop: 10 }]}
-              disabled={!saveButtonEnabled}
-              onPress={handleChangePassword}
-            >
-              <Text style={styles.buttonText}>Save</Text>
-            </TouchableOpacity>
-
-            <Animated.View style={{ position: "absolute", top: 10, right: 10, ...animatedCheckStyle }}>
-              <Ionicons name="checkmark-circle" size={28} color="green" />
-            </Animated.View>
-          </View>
-        </View>
-      </Modal>
-
       {/* Menu Dropdown */}
       {isMenuOpen && (
         <View style={styles.menuDropdown}>
@@ -308,15 +404,46 @@ export default function CoachProfile() {
 
 function getStyles(colors, effectiveTheme) {
   return StyleSheet.create({
-    container: { flex: 1, backgroundColor: colors.background, paddingTop: 40 },
-    header: { height: 50, flexDirection: "row", justifyContent: "space-between", alignItems: "center", paddingHorizontal: 20 },
-    content: { paddingHorizontal: 20, paddingBottom: 40 },
-    profileImageContainer: { alignItems: "center", marginBottom: 20 },
-    profileImage: { width: 120, height: 120, borderRadius: 60, borderWidth: 2, borderColor: colors.primary },
-    editText: { color: colors.text, marginTop: 5 },
-    sectionTitle: { color: colors.primary, fontWeight: "bold", fontSize: 16, marginTop: 20, marginBottom: 10 },
+    container: {
+      flex: 1,
+      backgroundColor: colors.background,
+      paddingTop: 40,
+    },
+    header: {
+      height: 50,
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      paddingHorizontal: 20,
+    },
+    content: {
+      paddingHorizontal: 20,
+      paddingBottom: 40,
+    },
+    profileImageContainer: {
+      alignItems: "center",
+      marginBottom: 20,
+    },
+    profileImage: {
+      width: 100,
+      height: 140,
+      borderRadius: 70,
+      borderWidth: 2,
+      borderColor: colors.primary,
+    },
+    editText: {
+      color: colors.text,
+      marginTop: 5,
+    },
+    sectionTitle: {
+      color: colors.primary,
+      fontWeight: "bold",
+      fontSize: 16,
+      marginTop: 20,
+      marginBottom: 10,
+    },
     input: {
-      backgroundColor: effectiveTheme === "dark" ? colors.background : colors.surface,
+      backgroundColor: effectiveTheme === 'dark' ? colors.background : colors.surface,
       color: colors.text,
       borderRadius: 8,
       paddingHorizontal: 12,
@@ -328,9 +455,9 @@ function getStyles(colors, effectiveTheme) {
     changePassword: {
       flexDirection: "row",
       justifyContent: "space-between",
-      backgroundColor: effectiveTheme === "dark" ? "#1A394B" : colors.surface,
-      borderRadius: 8,
-      paddingHorizontal: 12,
+      backgroundColor: effectiveTheme === 'dark' ? '#1A394B' : colors.surface,
+      borderRadius: 5,
+      paddingHorizontal: 10,
       paddingVertical: 12,
       marginBottom: 10,
       alignItems: "center",
@@ -341,18 +468,31 @@ function getStyles(colors, effectiveTheme) {
     themeSelector: {
       flexDirection: "row",
       justifyContent: "space-between",
-      backgroundColor: effectiveTheme === "dark" ? "#1A394B" : colors.surface,
-      borderRadius: 8,
-      paddingHorizontal: 12,
+      backgroundColor: effectiveTheme === 'dark' ? '#1A394B' : colors.surface,
+      borderRadius: 5,
+      paddingHorizontal: 10,
       paddingVertical: 12,
       marginBottom: 10,
       alignItems: "center",
       borderWidth: 1,
       borderColor: colors.surfaceVariant,
     },
-    themeText: { color: colors.text, fontWeight: "600" },
-    modalOverlay: { flex: 1, backgroundColor: "rgba(0,0,0,0.5)", justifyContent: "center", alignItems: "center" },
-    modalContent: { backgroundColor: colors.surface, borderRadius: 10, width: 220, paddingVertical: 10 },
+    themeText: {
+      color: colors.text,
+      fontWeight: "600",
+    },
+    modalOverlay: {
+      flex: 1,
+      backgroundColor: "rgba(0,0,0,0.5)",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    modalContent: {
+      backgroundColor: colors.surface,
+      borderRadius: 5,
+      width: 200,
+      paddingVertical: 10,
+    },
     passwordModalContent: {
       backgroundColor: colors.surface,
       borderRadius: 15,
@@ -364,19 +504,99 @@ function getStyles(colors, effectiveTheme) {
       shadowRadius: 4,
       elevation: 5,
     },
-    themeOptionItem: { paddingVertical: 12, paddingHorizontal: 20 },
-    themeOptionText: { color: colors.text, fontSize: 16 },
-    switchRow: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 10 },
-    switchLabel: { color: colors.text, flex: 1 },
-    themeOption: { flexDirection: "row", justifyContent: "space-between", backgroundColor: effectiveTheme === "dark" ? "#1A394B" : colors.surface, borderRadius: 8, paddingHorizontal: 12, paddingVertical: 12, marginBottom: 10, alignItems: "center", borderWidth: 1, borderColor: colors.surfaceVariant },
-    buttonsRow: { flexDirection: "row", justifyContent: "space-between", marginTop: 30 },
-    deleteButton: { backgroundColor: effectiveTheme === "dark" ? "#1A394B" : colors.surface, paddingVertical: 12, paddingHorizontal: 20, borderRadius: 20, borderWidth: 1, borderColor: colors.surfaceVariant },
-    signOutButton: { backgroundColor: effectiveTheme === "dark" ? "#1A394B" : colors.surface, paddingVertical: 12, paddingHorizontal: 20, borderRadius: 20, borderWidth: 1, borderColor: colors.surfaceVariant },
-    buttonText: { color: colors.text, fontWeight: "600" },
-    menuDropdown: { position: "absolute", top: 75, right: 20, backgroundColor: colors.surface, borderRadius: 8, padding: 10, shadowColor: "#000", shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5 },
-    menuItem: { paddingVertical: 6, paddingHorizontal: 10 },
-    menuItemText: { fontSize: 14, color: colors.text },
-    toast: { position: "absolute", bottom: 50, alignSelf: "center", backgroundColor: "#4CAF50", paddingHorizontal: 20, paddingVertical: 10, borderRadius: 25, elevation: 5, shadowColor: "#000", shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84 },
-    toastText: { color: "white", fontWeight: "600" },
+    themeOptionItem: {
+      paddingVertical: 10,
+      paddingHorizontal: 20,
+    },
+    themeOptionText: {
+      color: colors.text,
+      fontSize: 16,
+    },
+    switchRow: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      marginBottom: 10,
+    },
+    switchLabel: {
+      color: colors.text,
+      flex: 1,
+    },
+    themeOption: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      backgroundColor: effectiveTheme === 'dark' ? '#1A394B' : colors.surface,
+      borderRadius: 5,
+      paddingHorizontal: 10,
+      paddingVertical: 12,
+      marginBottom: 10,
+      alignItems: "center",
+      borderWidth: 1,
+      borderColor: colors.surfaceVariant,
+    },
+    buttonsRow: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      marginTop: 30,
+    },
+    deleteButton: {
+      backgroundColor: effectiveTheme === 'dark' ? '#1A394B' : colors.surface,
+      paddingVertical: 12,
+      paddingHorizontal: 20,
+      borderRadius: 20,
+      borderWidth: 1,
+      borderColor: colors.surfaceVariant,
+    },
+    signOutButton: {
+      backgroundColor: effectiveTheme === 'dark' ? '#1A394B' : colors.surface,
+      paddingVertical: 12,
+      paddingHorizontal: 20,
+      borderRadius: 20,
+      borderWidth: 1,
+      borderColor: colors.surfaceVariant,
+    },
+    buttonText: {
+      color: colors.text,
+      fontWeight: "600",
+    },
+    menuDropdown: {
+      position: "absolute",
+      top: 75,
+      right: 20,
+      backgroundColor: colors.surface,
+      borderRadius: 5,
+      padding: 10,
+      shadowColor: "#000",
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
+      elevation: 5,
+    },
+    menuItem: {
+      paddingVertical: 2,
+      paddingHorizontal: 4,
+    },
+    menuItemText: {
+      fontSize: 10,
+      color: colors.text,
+    },
+    toast: {
+      position: "absolute",
+      bottom: 50,
+      alignSelf: "center",
+      backgroundColor: "#4CAF50",
+      paddingHorizontal: 20,
+      paddingVertical: 10,
+      borderRadius: 25,
+      elevation: 5,
+      shadowColor: "#000",
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
+    },
+    toastText: {
+      color: "white",
+      fontWeight: "600",
+    },
   });
 }

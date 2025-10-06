@@ -1,5 +1,7 @@
+import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useState } from "react";
+
 import {
   Alert,
   Image,
@@ -10,7 +12,6 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import Icon from "react-native-vector-icons/Ionicons";
 
 export default function LoginScreen() {
   const router = useRouter();
@@ -18,8 +19,7 @@ export default function LoginScreen() {
   const [userType, setUserType] = useState("Athlete");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const [usernameFocused, setUsernameFocused] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = () => {
     if (!username || !password) {
@@ -42,11 +42,13 @@ export default function LoginScreen() {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
+      {/* Runner logo */}
       <Image
         source={require("../assets/images/logo.jpeg")}
         style={styles.logo}
       />
 
+      {/* Role Selection */}
       <View style={styles.roleContainer}>
         {["Athlete", "Medical", "Staff"].map((role) => (
           <TouchableOpacity
@@ -70,35 +72,30 @@ export default function LoginScreen() {
       </View>
 
       <TextInput
-        style={[
-          styles.input,
-          usernameFocused && { borderColor: "#0A4A7B" },
-        ]}
+        style={styles.input}
         placeholder="Username"
         placeholderTextColor="#ccc"
         value={username}
         onChangeText={setUsername}
-        onFocus={() => setUsernameFocused(true)}
-        onBlur={() => setUsernameFocused(false)}
       />
 
-      <View style={styles.inputContainer}>
+      {/* Password Input */}
+      <View style={styles.passwordContainer}>
         <TextInput
-          style={styles.inputPassword}
+          style={styles.passwordInput}
           placeholder="Password"
           placeholderTextColor="#ccc"
-          secureTextEntry={!isPasswordVisible}
+          secureTextEntry={!showPassword}
           value={password}
           onChangeText={setPassword}
-          underlineColorAndroid="transparent" // Remove underline in Android
         />
         <TouchableOpacity
-          style={styles.eyeIcon}
-          onPress={() => setIsPasswordVisible(!isPasswordVisible)}
+          onPress={() => setShowPassword(!showPassword)}
+          style={styles.eye}
         >
-          <Icon
-            name={isPasswordVisible ? "eye-off" : "eye"}
-            size={20}
+          <Ionicons
+            name={showPassword ? "eye" : "eye-off"}
+            size={22}
             color="#ccc"
           />
         </TouchableOpacity>
@@ -141,13 +138,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingVertical: 40,
   },
-
-  statusBar: {
-    width: "100%",
-    height: 40,
-    resizeMode: "stretch",
-    marginBottom: 20,
-  },
   logo: {
     alignSelf: "center",
     width: 300,
@@ -187,35 +177,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#0F2C3C",
     color: "#fff",
   },
-  inputContainer: {
-    width: 320,
-    borderWidth: 1,
-    borderColor: "#0A4A7B",
-    borderRadius: 20,
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    marginBottom: 15,
-    backgroundColor: "#0F2C3C",
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  inputPassword: {
-    flex: 1,
-    color: "#fff",
-    padding: 0,
-    margin: 0,
-    backgroundColor: "transparent",
-    borderWidth: 0,
-    includeFontPadding: false,
-    textAlignVertical: "center",
-  },
-  eyeIcon: {
-    position: "absolute",
-    right: 15,
-    backgroundColor: "transparent",
-    borderWidth: 0,
-    padding: 0,
-  },
   loginButton: {
     backgroundColor: "#0A4A7B",
     paddingVertical: 12,
@@ -235,40 +196,23 @@ const styles = StyleSheet.create({
     width: "80%",
     marginVertical: 20,
   },
-  divider: {
-    flex: 1,
-    height: 1,
-    backgroundColor: "#0e922fff",
-    width: 300,
-  },
-  orContainer: {
+  passwordContainer: {
     flexDirection: "row",
     alignItems: "center",
-    width: "90%",
-    marginBottom: 20,
+    borderWidth: 1,
+    borderColor: "#0A4A7B",
+    borderRadius: 20,
+    marginBottom: 15,
+    backgroundColor: "#0F2C3C",
+    width: 320,
   },
-  line: {
+  passwordInput: {
     flex: 1,
-    height: 0.5,
-    backgroundColor: "#000000",
-  },
-  orText: {
-    marginHorizontal: 10,
-    color: "#ccc",
-  },
-  forgotText: {
-    color: "#1E90FF",
-    marginBottom: 20,
-  },
-  signupContainer: {
-    flexDirection: "row",
-    marginTop: 10,
-  },
-  signupText: {
+    paddingVertical: 10,
+    paddingHorizontal: 15,
     color: "#fff",
   },
-  signupLink: {
-    color: "#DF1965",
-    fontWeight: "600",
+  eye: {
+    padding: 8,
   },
 });

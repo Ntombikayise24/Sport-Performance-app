@@ -14,7 +14,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { createAccount } from "../../api/authService";
+
 import {
   validatePassword,
   passwordsMatch,
@@ -63,7 +63,7 @@ function CreateAccount() {
     if (!password) newErrors.password = "Password is required.";
     else if (!validatePassword(password))
       newErrors.password =
-        "Password must be at least 8 characters and contain letters and numbers.";
+        "Password must be at least 8 characters and contain a lowercase letter, an uppercase letter, and a special character.";
 
     if (!passwordVerify)
       newErrors.passwordVerify = "Please confirm your password.";
@@ -74,7 +74,8 @@ function CreateAccount() {
 
     if (Object.keys(newErrors).length > 0) return;
 
-    // All validations passed, navigate to verify account
+    // All validations passed, proceed to verification
+    Alert.alert("Success", "Account details validated. Proceeding to verification.");
     router.push("/(auth)/verify-account");
   };
 

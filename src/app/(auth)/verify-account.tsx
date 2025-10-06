@@ -6,7 +6,7 @@ function Verification() {
   const [code, setCode] = useState('');
 
   const handleVerify = async () => {
-    if(code.trim().length === 0){
+    if (code.trim().length === 0) {
       alert("Please enter the verification code.");
       return;
     } else {
@@ -14,19 +14,19 @@ function Verification() {
     }
     /*
     // API to send code on email for verification.
-    try{
-      const response = await axios.post("", {code,});
-      if(response.status === 200){
-        alert("Your account hass been verified");
+    try {
+      const response = await axios.post("", { code });
+      if (response.status === 200) {
+        alert("Your account has been verified");
         router.push("/");
-      }else{
-        alert("Error", response.data.message || "Invalid verification code."
-        );
+      } else {
+        alert("Error", response.data.message || "Invalid verification code.");
       }
-    }catch(error){
+    } catch (error) {
       console.error(error);
       alert("Error", error.response?.data?.message || "Something went wrong, Please try again.");
-    }*/
+    }
+    */
   };
 
   return (
@@ -36,7 +36,7 @@ function Verification() {
         style={styles.mailImage}
         resizeMode="contain"
       />
-      <Text style={styles.title}>Verification Your Account</Text>
+      <Text style={styles.title}>Verify Your Account</Text>
       <Text style={styles.subtitle}>
         Thank you for signing-up.{'\n'}
         We’ve sent a 6-digit verification code{'\n'}
@@ -60,10 +60,10 @@ function Verification() {
         </TouchableOpacity>
       </View>
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 20 }}>
-              <View style={{ width: 200, height: 1, backgroundColor: '#d45114'  }} />
-              <Text style={{ marginHorizontal: 10, color: '#ccc' }}>OR</Text>
-              <View style={{ width: 200, height: 1, backgroundColor: '#d45114'  }} />
-            </View>
+        <View style={{ width: 200, height: 1, backgroundColor: '#08ee70ff' }} />
+        <Text style={{ marginHorizontal: 10, color: '#ccc' }}>OR</Text>
+        <View style={{ width: 200, height: 1, backgroundColor: '#08ee70ff' }} />
+      </View>
       <Text style={styles.haveAccountText}>Have an account?</Text>
       <TouchableOpacity onPress={() => router.push("/")}>
         <Text style={styles.loginLink}>Log in</Text>
@@ -129,21 +129,6 @@ const styles = StyleSheet.create({
   resendCodeText: {
     color: '#DF1965',
     fontSize: 12,
-  },
-  orContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: '90%',
-    marginBottom: 20,
-  },
-  line: {
-    flex: 1,
-    height: 0.5,
-    backgroundColor: '#000000',
-  },
-  orText: {
-    marginHorizontal: 10,
-    color: '#ccc',
   },
   haveAccountText: {
     color: 'white',

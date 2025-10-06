@@ -8,7 +8,7 @@ export default function CoachView() {
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [coachImage, setCoachImage] = useState<string | null>(null);
-  const { name, role } = useLocalSearchParams();
+  const { role } = useLocalSearchParams();
 
   const pickImage = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -33,12 +33,6 @@ export default function CoachView() {
     router.push("/");
     setIsMenuOpen(false);
   };
-
-  const notifications = [
-    { msg: "Naledi Motaung is on red alert.", color: "#FF0000" },
-    { msg: "Ayanda Dlamini is on red alert.", color: "#FF0000" },
-    { msg: "Sarah van de Merwe is on amber alert.", color: "#FFA500" },
-  ];
 
   return (
     <View style={styles.container}>
@@ -92,7 +86,11 @@ export default function CoachView() {
       {/* Notifications */}
       <View style={styles.notificationsBox}>
         <Text style={styles.notificationsTitle}>Notifications</Text>
-        {notifications.map((n, idx) => (
+        {[
+          { msg: "Naledi Motaung is on red alert.", color: "#FF0000" },
+          { msg: "Ayanda Dlamini is on red alert.", color: "#FF0000" },
+          { msg: "Sarah van de Merwe is on amber alert.", color: "#FFA500" },
+        ].map((n, idx) => (
           <TouchableOpacity
             style={styles.notificationItem}
             key={idx}
@@ -233,6 +231,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   notificationItem: {
+    width: '100%',
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: "#A9A9A9",
