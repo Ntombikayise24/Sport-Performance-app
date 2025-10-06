@@ -14,7 +14,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { createAccount } from "../../api/authService";
+
 import {
   validatePassword,
   passwordsMatch,
@@ -40,7 +40,7 @@ function CreateAccount() {
   const races = ["African", "Coloured", "Indian", "Asian", "White"];
   const roles = ["Athlete", "Staff"];
 
-  const handleCreateAccount = () => {
+  const handleCreateAccount = async () => {
     const newErrors: Record<string, string> = {};
 
     if (!name.trim()) newErrors.name = "Name is required.";
@@ -74,6 +74,7 @@ function CreateAccount() {
 
     if (Object.keys(newErrors).length > 0) return;
 
+    // All validations passed, proceed to verification
     Alert.alert("Success", "Account details validated. Proceeding to verification.");
     router.push("/(auth)/verify-account");
   };

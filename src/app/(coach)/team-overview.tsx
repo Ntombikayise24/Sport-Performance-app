@@ -63,6 +63,7 @@ export default function TeamOverview() {
 
       {/* Search bar */}
       <View style={styles.searchContainer}>
+        <Ionicons name="search" size={20} color="black" style={{marginRight: 10}} />
         <TextInput
           style={styles.searchInput}
           placeholder="Search team"
@@ -85,7 +86,7 @@ export default function TeamOverview() {
           <Ionicons
             name="people-outline"
             size={24}
-            color="#1A394B"
+            color="black"
             style={{ marginRight: 10 }}
           />
           <Text style={styles.teamText}>{team.name}</Text>
@@ -183,9 +184,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: "#D9D9D9",
-    borderRadius: 20,
+    borderRadius: 25,
     paddingHorizontal: 15,
-    paddingVertical: 8,
+    paddingVertical: 12,
     marginBottom: 20,
     marginTop: 50,
   },
@@ -204,7 +205,7 @@ const styles = StyleSheet.create({
   teamButton: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#0a394b",
+    backgroundColor: "#D9D9D9",
     paddingVertical: 10,
     paddingHorizontal: 15,
     borderRadius: 10,
@@ -214,7 +215,7 @@ const styles = StyleSheet.create({
   teamText: {
     fontSize: 18,
     fontWeight: "700",
-    color: "white",
+    color: "black",
   },
   bottomNav: {
     flexDirection: "row",

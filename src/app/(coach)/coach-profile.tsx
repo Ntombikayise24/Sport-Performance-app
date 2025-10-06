@@ -23,20 +23,20 @@ const themeOptions = [
   { key: "dark", label: "Dark Mode" },
 ];
 
-
-
 export default function CoachProfile() {
   const router = useRouter();
-  const { name: userName, email: userEmail, role: userRole } =
-    useLocalSearchParams();
+  const params = useLocalSearchParams();
+  const userName = Array.isArray(params.name) ? params.name[0] : params.name || "";
+  const userEmail = Array.isArray(params.email) ? params.email[0] : params.email || "";
+  const userRole = Array.isArray(params.role) ? params.role[0] : params.role || "";
   const { themePreference, updateThemePreference, colors, effectiveTheme } = useTheme();
 
   const [coachImage, setCoachImage] = useState<string | null>(null);
 
   // Editable fields
-  const [name, setName] = useState(userName?.toString() || "");
-  const [email, setEmail] = useState(userEmail?.toString() || "");
-  const [role, setRole] = useState(userRole?.toString() || "");
+  const [name, setName] = useState(userName);
+  const [email, setEmail] = useState(userEmail);
+  const [role, setRole] = useState(userRole);
 
   const [showNotifications, setShowNotifications] = useState(false);
   const [notificationTones, setNotificationTones] = useState(false);

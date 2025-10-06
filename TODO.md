@@ -1,6 +1,5 @@
-- [x] Wrap app with ThemeProvider in _layout.tsx
-- [ ] Update ThemeContext to provide colors based on effective theme
-- [ ] Modify coach-profile.tsx to use global theme context instead of local state
-- [ ] Update index.tsx to use theme colors
-- [ ] Update other pages (create-account.tsx, verify-account.tsx, etc.) to use theme colors
-- [ ] Test theme changes across pages
+- [ ] Add useState for menuVisible in injuryandrecovery.tsx
+- [ ] Add onPress to hamburger menu TouchableOpacity to toggle menuVisible
+- [ ] Add conditional menu View with logout button
+- [ ] Implement logout functionality: hide menu and navigate to login screen
+- [ ] Add styles for the menu

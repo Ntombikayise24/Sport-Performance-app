@@ -133,15 +133,24 @@ const TeamMetricsScreen = () => {
       />
 
       <ScrollView contentContainerStyle={styles.cardsContainer}>
-        {filteredCards.map((card) => (
-          <TouchableOpacity
-            key={card.name}
-            style={[styles.card, { backgroundColor: card.color }]}
-          >
-            <Text style={styles.cardText}>{card.text}</Text>
-            <View style={styles.iconContainer}>{card.icon}</View>
-          </TouchableOpacity>
-        ))}
+{filteredCards.map((card) => (
+  <TouchableOpacity
+    key={card.name}
+    style={[styles.card, { backgroundColor: card.color }]}
+    onPress={() => {
+      if (card.name === "TRAINING PERFORMANCE") {
+        router.push("/(coach)/team/trainingperformance");
+      } else if (card.name === "INJURY & RECOVERY") {
+        router.push("/(coach)/injuryandrecovery");
+      } else if (card.name === "BIO-METRIC DATA") {
+        router.push("/(coach)/team/biometrics");
+      }
+    }}
+  >
+    <Text style={styles.cardText}>{card.text}</Text>
+    <View style={styles.iconContainer}>{card.icon}</View>
+  </TouchableOpacity>
+))}
       </ScrollView>
 
       {/* Bottom Navigation Bar */}

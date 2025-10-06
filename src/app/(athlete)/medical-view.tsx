@@ -74,23 +74,17 @@ export default function MedicalView() {
         <View style={styles.sportsCategoryContainer}>
           <Text style={styles.performanceTitle}>Sports Category</Text>
           <View style={styles.sportsGrid}>
-            <View
-              style={[styles.sportCard, { backgroundColor: "#F57C00" }]}
-            >
+            <View style={[styles.sportCard, { backgroundColor: "#F57C00" }]}>
               <Ionicons name="football" size={28} color="white" />
               <Text style={styles.metricLabel}>SOCCER</Text>
               <Text style={styles.metricValue}>Active</Text>
             </View>
-            <View
-              style={[styles.sportCard, { backgroundColor: "#388E3C" }]}
-            >
+            <View style={[styles.sportCard, { backgroundColor: "#388E3C" }]}>
               <Ionicons name="baseball" size={28} color="white" />
               <Text style={styles.metricLabel}>CRICKET</Text>
               <Text style={styles.metricValue}>Active</Text>
             </View>
-            <View
-              style={[styles.sportCard, { backgroundColor: "#FBC02D" }]}
-            >
+            <View style={[styles.sportCard, { backgroundColor: "#FBC02D" }]}>
               <Ionicons name="navigate" size={28} color="white" />
               <Text style={styles.metricLabel}>HOCKEY</Text>
               <Text style={styles.metricValue}>Active</Text>
