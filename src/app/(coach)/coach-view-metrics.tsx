@@ -137,6 +137,13 @@ const TeamMetricsScreen = () => {
           <TouchableOpacity
             key={card.name}
             style={[styles.card, { backgroundColor: card.color }]}
+            onPress={() => {
+              if (card.name === "PHYSICAL") {
+                router.push("/(coach)/physical");
+              } else if (card.name === "HEALTH & WELLNESS") {
+                router.push("/(coach)/health");
+              }
+            }}
           >
             <Text style={styles.cardText}>{card.text}</Text>
             <View style={styles.iconContainer}>{card.icon}</View>
