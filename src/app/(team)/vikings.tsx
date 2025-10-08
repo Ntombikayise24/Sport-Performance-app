@@ -1,4 +1,4 @@
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
@@ -54,25 +54,25 @@ export default function Vikings() {
           style={styles.navButton}
           onPress={() => router.push("/(coach)/coach-view")}
         >
-          <Ionicons name="home-outline" size={28} color="#1E90FF" />
+          <Ionicons name="home-outline" size={26} color="#1E90FF" />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.navButton}
           onPress={() => router.push("/(coach)/coach-view-metrics")}
         >
-          <Ionicons name="heart-outline" size={28} color="#FF4500" />
+          <MaterialCommunityIcons name="chart-bar" size={28} color="#FF4500" />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.navButton}
           onPress={() => router.push("/(dashboard)/notifications")}
         >
-          <Ionicons name="notifications-outline" size={28} color="#FFD700" />
+          <Ionicons name="notifications-outline" size={26} color="#FFD700" />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.navButton}
           onPress={() => router.push("/(coach)/coach-profile")}
         >
-          <Ionicons name="person-outline" size={28} color="#32CD32" />
+          <Ionicons name="person-outline" size={26} color="#32CD32" />
         </TouchableOpacity>
       </View>
     </View>
@@ -128,13 +128,14 @@ const styles = StyleSheet.create({
   bottomNav: {
     flexDirection: "row",
     justifyContent: "space-around",
-    backgroundColor: "#0a394b",
-    paddingVertical: 10,
-    borderRadius: 10,
+    backgroundColor: "#12324E",
+    paddingVertical: 12,
+    borderRadius: 20,
     position: "absolute",
     bottom: 20,
     left: 20,
     right: 20,
+    elevation: 8,
   },
   navButton: {
     padding: 10,

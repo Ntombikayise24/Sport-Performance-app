@@ -93,31 +93,19 @@ export default function TeamOverview() {
         </TouchableOpacity>
       ))}
 
-      {/* Bottom Navigation Bar */}
+      {/* Bottom Navigation */}
       <View style={styles.bottomNav}>
-        <TouchableOpacity
-          style={styles.navButton}
-          onPress={() => router.push("/coach-view")}
-        >
-          <Ionicons name="home-outline" size={28} color="#1E90FF" />
+        <TouchableOpacity onPress={() => router.push("/(coach)/coach-view")}>
+          <Ionicons name="home-outline" size={26} color="#1E90FF" />
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.navButton}
-          onPress={() => router.push("/coach-view-metrics")}
-        >
-        <MaterialCommunityIcons name="chart-bar" size={28} color="#FF4500" />
+        <TouchableOpacity onPress={() => router.push("/(coach)/coach-view-metrics")}>
+          <MaterialCommunityIcons name="chart-bar" size={28} color="#FF4500" />
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.navButton}
-          onPress={() => router.push("/notifications")}
-        >
-          <Ionicons name="notifications-outline" size={28} color="#FFD700" />
+        <TouchableOpacity onPress={() => router.push("/(dashboard)/notifications")}>
+          <Ionicons name="notifications-outline" size={26} color="#FFD700" />
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.navButton}
-          onPress={() => router.push("/coach-profile")}
-        >
-          <Ionicons name="person-outline" size={28} color="#32CD32" />
+        <TouchableOpacity onPress={() => router.push("/(coach)/coach-profile")}>
+          <Ionicons name="person-outline" size={26} color="#32CD32" />
         </TouchableOpacity>
       </View>
     </View>

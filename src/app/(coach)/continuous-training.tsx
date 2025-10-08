@@ -7,10 +7,13 @@ import {
   SafeAreaView,
 } from "react-native";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-import { useRouter } from "expo-router";
+import { useRouter, useLocalSearchParams } from "expo-router";
 
 export default function ContinuousTraining() {
   const router = useRouter();
+  const params = useLocalSearchParams();
+  const trainingType = params.type || "Continuous Training";
+  const trainingDescription = params.description || "Focuses on endurance activities for long periods without rest.";
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
   return (
@@ -20,7 +23,7 @@ export default function ContinuousTraining() {
         <TouchableOpacity onPress={() => router.back()}>
           <Ionicons name="arrow-back" size={24} color="white" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Continuous Training</Text>
+        <Text style={styles.headerTitle}>{trainingType}</Text>
         <TouchableOpacity
           style={styles.menuButton}
           onPress={() => setIsMenuOpen(!isMenuOpen)}
@@ -46,26 +49,26 @@ export default function ContinuousTraining() {
       <View style={styles.card}>
         <Ionicons name="calendar" size={32} color="#fff" style={{ marginRight: 15 }} />
         <View style={{ flex: 1 }}>
-          <Text style={styles.cardTitle}>Continuous Training</Text>
+          <Text style={styles.cardTitle}>{trainingType}</Text>
           <Text style={styles.cardDescription}>
-            Focuses on endurance activities for long periods without rest.
+            {trainingDescription}
           </Text>
         </View>
       </View>
 
       {/* Training Buttons */}
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.trainingButton}>
+        <TouchableOpacity style={styles.trainingButton} onPress={() => router.push({ pathname: "./daily-training", params: { type: trainingType, description: trainingDescription } })}>
           <Text style={styles.buttonText}>Daily Training</Text>
           <Ionicons name="chevron-forward" size={20} color="#fff" />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.trainingButton} onPress={() => router.push("./weekly-training")}>
+        <TouchableOpacity style={styles.trainingButton} onPress={() => router.push({ pathname: "./weekly-training", params: { type: trainingType, description: trainingDescription } })}>
           <Text style={styles.buttonText}>Weekly Training</Text>
           <Ionicons name="chevron-forward" size={20} color="#fff" />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.trainingButton}>
+        <TouchableOpacity style={styles.trainingButton} onPress={() => router.push({ pathname: "./monthly-training", params: { type: trainingType, description: trainingDescription } })}>
           <Text style={styles.buttonText}>Monthly Training</Text>
           <Ionicons name="chevron-forward" size={20} color="#fff" />
         </TouchableOpacity>

@@ -1,12 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { IconButton } from "react-native-paper";
 
 export default function JuryAndRecovery() {
   const router = useRouter();
-  const [menuVisible, setMenuVisible] = useState(false);
 
   return (
     <View style={styles.container}>
@@ -62,7 +60,7 @@ export default function JuryAndRecovery() {
           <Ionicons name="home-outline" size={26} color="#1E90FF" />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => router.push("/(coach)/coach-view-metrics")}>
-          <Ionicons name="heart-outline" size={26} color="#FF4500" />
+          <MaterialCommunityIcons name="chart-bar" size={28} color="#FF4500" />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => router.push("/(dashboard)/notifications")}>
           <Ionicons name="notifications-outline" size={26} color="#FFD700" />

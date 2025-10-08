@@ -1,4 +1,4 @@
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import {
@@ -10,45 +10,31 @@ import {
   View,
 } from "react-native";
 
+// Dummy athlete data
 const initialAthletes = [
-  {
-    id: "1",
-    name: "Sarah van de Merwe",
-    position: "Team Captain",
-    status: "Online",
-  },
-  {
-    id: "2",
-    name: "Ayanda Dlamini",
-    position: "Goalkeeper",
-    status: "Training",
-  },
-  {
-    id: "3",
-    name: "Siphosethu Khumalo",
-    position: "Midfielder",
-    status: "Training",
-  },
-  {
-    id: "4",
-    name: "Michaela Smith",
-    position: "Midfielder",
-    status: "Offline",
-  },
+  { id: "1", name: "Sarah van de Merwe", position: "Team Captain", status: "Online" },
+  { id: "2", name: "Ayanda Dlamini", position: "Goalkeeper", status: "Training" },
+  { id: "3", name: "Siphosethu Khumalo", position: "Midfielder", status: "Training" },
+  { id: "4", name: "Michaela Smith", position: "Midfielder", status: "Offline" },
   { id: "5", name: "Chloe Anderson", position: "Winger", status: "Offline" },
   { id: "6", name: "Karabelo Ndlovu", position: "Winger", status: "Online" },
 ];
 
 export default function Athletes() {
   const router = useRouter();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [athletes, setAthletes] = useState(initialAthletes);
-  const [sortOrder, setSortOrder] = useState("desc");
-  const [searchQuery, setSearchQuery] = useState("");
 
+  // State
+  const [athletes, setAthletes] = useState(initialAthletes);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
+
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  // Sort athletes alphabetically
   const sortAthletes = () => {
-    const newSortOrder = sortOrder === "desc" ? "asc" : "desc";
+    const newSortOrder = sortOrder === "asc" ? "desc" : "asc";
     setSortOrder(newSortOrder);
+
     const sorted = [...athletes].sort((a, b) =>
       newSortOrder === "asc"
         ? a.name.localeCompare(b.name)
@@ -57,7 +43,13 @@ export default function Athletes() {
     setAthletes(sorted);
   };
 
-  const getStatusStyle = (status) => {
+  // Filter athletes by name
+  const filteredAthletes = athletes.filter((athlete) =>
+    athlete.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  // Status color styling
+  const getStatusStyle = (status: string) => {
     switch (status) {
       case "Online":
         return { color: "#32CD32" };
@@ -70,37 +62,29 @@ export default function Athletes() {
     }
   };
 
-  const filteredAthletes = athletes.filter((athlete) =>
-    athlete.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
-  const renderAthlete = ({ item }) => (
-    <TouchableOpacity
-      style={styles.athleteCard}
-      onPress={() => router.push("/(athlete)/athlete-view")}
-    >
-      <View style={styles.iconPlaceholder}>
-        <Ionicons name="person-circle-outline" size={40} color="#1A394B" />
-      </View>
-      <View style={styles.athleteInfo}>
-        <Text style={styles.athleteName}>{item.name}</Text>
-        <Text style={styles.athletePosition}>{item.position}</Text>
-        <Text style={[styles.athleteStatus, getStatusStyle(item.status)]}>
-          {item.status}
-        </Text>
-      </View>
-      <Ionicons name="chevron-forward" size={24} color="black" />
-    </TouchableOpacity>
-  );
+  // Render athlete card
+  const renderAthlete = ({ item }: { item: typeof initialAthletes[0] }) => {
+    return (
+      <TouchableOpacity style={styles.athleteCard} onPress={() => router.push({ pathname: "/(athlete)/athlete-profile", params: { name: item.name } })}>
+        <View style={styles.iconPlaceholder}>
+          <Ionicons name="person-circle-outline" size={40} color="#1A394B" />
+        </View>
+        <View style={styles.athleteInfo}>
+          <Text style={styles.athleteName}>{item.name}</Text>
+          <Text style={styles.athletePosition}>{item.position}</Text>
+          <Text style={[styles.athleteStatus, getStatusStyle(item.status)]}>
+            {item.status}
+          </Text>
+        </View>
+      </TouchableOpacity>
+    );
+  };
 
   return (
     <View style={styles.container}>
-      {/* Top bar */}
+      {/* Top Bar */}
       <View style={styles.topBar}>
-        <TouchableOpacity
-          style={styles.backButton}
-          onPress={() => router.back()}
-        >
+        <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
           <Ionicons name="arrow-back" size={24} color="black" />
         </TouchableOpacity>
         <Text style={styles.title}>Athletes</Text>
@@ -118,7 +102,7 @@ export default function Athletes() {
               style={styles.logoutButton}
               onPress={() => {
                 setIsMenuOpen(false);
-                router.push("/");
+                router.push("/"); // logout to home
               }}
             >
               <Text style={styles.logoutText}>Logout</Text>
@@ -127,14 +111,9 @@ export default function Athletes() {
         )}
       </View>
 
-      {/* Search bar */}
+      {/* Search Bar */}
       <View style={styles.searchBarContainer}>
-        <Ionicons
-          name="search"
-          size={20}
-          color="gray"
-          style={styles.searchIcon}
-        />
+        <Ionicons name="search" size={20} color="gray" style={styles.searchIcon} />
         <TextInput
           style={styles.searchInput}
           placeholder="Search team"
@@ -154,7 +133,7 @@ export default function Athletes() {
         )}
       </View>
 
-      {/* Add and Sort buttons */}
+      {/* Actions */}
       <View style={styles.actionButtons}>
         <TouchableOpacity style={styles.actionButton}>
           <Text style={styles.actionButtonText}>Add +</Text>
@@ -166,42 +145,32 @@ export default function Athletes() {
         </TouchableOpacity>
       </View>
 
-      {/* Athletes list */}
+      {/* List */}
       <FlatList
         data={filteredAthletes}
         renderItem={renderAthlete}
         keyExtractor={(item) => item.id}
-        style={styles.list}
         contentContainerStyle={{ paddingBottom: 100 }}
+        style={styles.list}
       />
 
-      {/* Bottom Navigation Bar */}
+      {/* Bottom Navigation */}
       <View style={styles.bottomNav}>
-        <TouchableOpacity
-          style={styles.navButton}
-          onPress={() => router.push("/(coach)/coach-view")}
-        >
-          <Ionicons name="home-outline" size={28} color="#1E90FF" />
+        <TouchableOpacity onPress={() => router.push("/(coach)/coach-view")}>
+          <Ionicons name="home-outline" size={26} color="#1E90FF" />
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.navButton}
-          onPress={() => router.push("/(coach)/coach-view-metrics")}
-        >
-          <Ionicons name="heart-outline" size={28} color="#FF4500" />
+        <TouchableOpacity onPress={() => router.push("/(coach)/coach-view-metrics")}>
+          <MaterialCommunityIcons name="chart-bar" size={28} color="#FF4500" />
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.navButton}
-          onPress={() => router.push("/(dashboard)/notifications")}
-        >
-          <Ionicons name="notifications-outline" size={28} color="#FFD700" />
+        <TouchableOpacity onPress={() => router.push("/(dashboard)/notifications")}>
+          <Ionicons name="notifications-outline" size={26} color="#FFD700" />
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.navButton}
-          onPress={() => router.push("/(coach)/coach-profile")}
-        >
-          <Ionicons name="person-outline" size={28} color="#32CD32" />
+        <TouchableOpacity onPress={() => router.push("/(coach)/coach-profile")}>
+          <Ionicons name="person-outline" size={26} color="#32CD32" />
         </TouchableOpacity>
       </View>
+
+
     </View>
   );
 }
@@ -211,7 +180,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#1A394B",
     padding: 20,
-    justifyContent: "flex-start",
   },
   topBar: {
     flexDirection: "row",
@@ -323,18 +291,18 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "600",
   },
+
   bottomNav: {
     flexDirection: "row",
     justifyContent: "space-around",
-    backgroundColor: "#0a394b",
-    paddingVertical: 10,
-    borderRadius: 10,
+    backgroundColor: "#12324E",
+    paddingVertical: 12,
+    borderRadius: 20,
     position: "absolute",
     bottom: 20,
     left: 20,
     right: 20,
+    elevation: 8,
   },
-  navButton: {
-    padding: 10,
-  },
+
 });

@@ -5,14 +5,11 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  Alert,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useUser } from '../contexts/UserContext';
 import { getActiveUsers, subscribeToActiveUsers } from '../api/authService';
 
 export default function ActiveUsersDisplay({ showHeader = true, maxDisplay = 5 }) {
-  const { state } = useUser();
   const [activeUsers, setActiveUsers] = useState([]);
   const [showAll, setShowAll] = useState(false);
 

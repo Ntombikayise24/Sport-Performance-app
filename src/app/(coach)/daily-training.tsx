@@ -10,7 +10,7 @@ import {
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter, useLocalSearchParams } from "expo-router";
 
-export default function WeeklyTraining() {
+export default function DailyTraining() {
   const router = useRouter();
   const params = useLocalSearchParams();
   const trainingType = params.type || "Continuous Training";
@@ -27,7 +27,7 @@ export default function WeeklyTraining() {
           color="white"
           onPress={() => router.back()}
         />
-        <Text style={styles.headerTitle}>Weekly Training</Text>
+        <Text style={styles.headerTitle}>Daily Training</Text>
         <TouchableOpacity
           style={styles.menuButton}
           onPress={() => setMenuOpen((prev) => !prev)}
@@ -59,7 +59,7 @@ export default function WeeklyTraining() {
         />
         <View style={styles.trainingInfo}>
           <Text style={styles.trainingTitle}>{trainingType}</Text>
-          <Text style={styles.trainingDescription}>Weekly training</Text>
+          <Text style={styles.trainingDescription}>Daily training</Text>
         </View>
       </View>
 

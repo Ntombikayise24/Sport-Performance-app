@@ -53,11 +53,7 @@ export default function TrainingTypes() {
   const renderTrainingType = ({ item }) => (
     <TouchableOpacity
       style={styles.trainingItem}
-      onPress={() => {
-        if (item.title === "Continuous Training") {
-          router.push("./continuous-training");
-        }
-      }}
+      onPress={() => router.push({ pathname: "./continuous-training", params: { type: item.title, description: item.description } })}
     >
       <View style={styles.avatar}>
         <Ionicons name="person" size={24} color="white" />

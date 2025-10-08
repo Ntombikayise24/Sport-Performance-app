@@ -1,11 +1,11 @@
 import React, { createContext, useContext, ReactNode } from "react";
 import { useThemePreference, ThemePreference } from "../hooks/useThemePreference";
-import { colors } from "../constants/Colors";
+import { Colors } from "../constants/Colors";
 
 interface ThemeContextType {
   themePreference: ThemePreference;
   updateThemePreference: (preference: ThemePreference) => void;
-  colors: typeof colors.light;
+  colors: typeof Colors.light | typeof Colors.dark;
   effectiveTheme: ThemePreference;
 }
 
@@ -19,7 +19,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
       value={{
         themePreference,
         updateThemePreference,
-        colors: colors[effectiveTheme],
+        colors: Colors[effectiveTheme],
         effectiveTheme,
       }}
     >
@@ -28,28 +28,10 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-export const useTheme = () => {
+export const useTheme = (): ThemeContextType => {
   const context = useContext(ThemeContext);
   if (!context) {
     throw new Error("useTheme must be used within a ThemeProvider");
   }
   return context;
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

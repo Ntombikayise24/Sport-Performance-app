@@ -3,17 +3,16 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 
-const HealthScreen = () => {
+const PhysicalScreen = () => {
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const buttons = [
-    "Mental Fatigue Levels",
-    "Mood",
-    "Nutrition Tracking",
-    "Physical Fatigue Levels",
-    "Sleep Quality",
-    "Stress Levels",
+    "GPS Data",
+    "Heart Rate Variability",
+    "Power Output",
+    "Spring Metrics",
+    "Training Load",
   ];
 
   const logout = () => {
@@ -30,7 +29,7 @@ const HealthScreen = () => {
           color="white"
           onPress={() => router.back()}
         />
-        <Text style={styles.title}>Health & Wellness</Text>
+        <Text style={styles.title}>Physical</Text>
         <Ionicons
           name="menu"
           size={28}
@@ -49,7 +48,8 @@ const HealthScreen = () => {
       )}
 
       <Text style={styles.description}>
-        Check the team's health and wellness based on their questionnaires and data intake.
+        Check the team&apos;s physical ability based on their training and game
+        performance.
       </Text>
       <View style={styles.buttonsContainer}>
         {buttons.map((btn) => (
@@ -159,4 +159,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HealthScreen;
+export default PhysicalScreen;

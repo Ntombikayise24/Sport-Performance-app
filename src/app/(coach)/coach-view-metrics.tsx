@@ -42,6 +42,7 @@ const TeamMetricsScreen = () => {
         </View>
       ),
       color: "#D81B60",
+      onPress: () => router.push("/(coach)/team/trainingperformance"),
     },
     {
       name: "INJURY & RECOVERY",
@@ -54,6 +55,7 @@ const TeamMetricsScreen = () => {
         />
       ),
       color: "rgba(156, 128, 0, 1)",
+      onPress: () => router.push("/(coach)/team/injuryandrecovery"),
     },
     {
       name: "BIO-METRIC DATA",
@@ -66,6 +68,7 @@ const TeamMetricsScreen = () => {
         />
       ),
       color: "#817f7fff",
+      onPress: () => router.push("/(coach)/team/biometrics"),
     },
     {
       name: "PHYSICAL",
@@ -78,6 +81,7 @@ const TeamMetricsScreen = () => {
         />
       ),
       color: "#188a09b7",
+      onPress: () => router.push("/(coach)/team/physical"),
     },
     {
       name: "HEALTH & WELLNESS",
@@ -90,6 +94,7 @@ const TeamMetricsScreen = () => {
         />
       ),
       color: "#d17316ff",
+      onPress: () => router.push("/(coach)/team/health"),
     },
   ];
 
@@ -133,6 +138,7 @@ const TeamMetricsScreen = () => {
           <TouchableOpacity
             key={card.name}
             style={[styles.card, { backgroundColor: card.color }]}
+            onPress={card.onPress}
           >
             <Text style={styles.cardText}>{card.text}</Text>
             <View style={styles.iconContainer}>{card.icon}</View>
@@ -140,34 +146,19 @@ const TeamMetricsScreen = () => {
         ))}
       </ScrollView>
 
-      {/* Bottom Navigation Bar */}
+      {/* Bottom Navigation */}
       <View style={styles.bottomNav}>
-        <TouchableOpacity
-          style={styles.navButton}
-          onPress={() => router.push("/(coach)/coach-view")}
-        >
-          <Ionicons name="home-outline" size={28} color="#1E90FF" />
+        <TouchableOpacity onPress={() => router.push("/(coach)/coach-view")}>
+          <Ionicons name="home-outline" size={26} color="#1E90FF" />
         </TouchableOpacity>
-
-        {/* Changed heart-outline -> chart-bar */}
-        <TouchableOpacity
-          style={styles.navButton}
-          onPress={() => router.push("/(coach)/coach-view-metrics")}
-        >
+        <TouchableOpacity onPress={() => router.push("/(coach)/coach-view-metrics")}>
           <MaterialCommunityIcons name="chart-bar" size={28} color="#FF4500" />
         </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.navButton}
-          onPress={() => router.push("/(dashboard)/notifications")}
-        >
-          <Ionicons name="notifications-outline" size={28} color="#FFD700" />
+        <TouchableOpacity onPress={() => router.push("/(dashboard)/notifications")}>
+          <Ionicons name="notifications-outline" size={26} color="#FFD700" />
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.navButton}
-          onPress={() => router.push("/(coach)/coach-profile")}
-        >
-          <Ionicons name="person-outline" size={28} color="#32CD32" />
+        <TouchableOpacity onPress={() => router.push("/(coach)/coach-profile")}>
+          <Ionicons name="person-outline" size={26} color="#32CD32" />
         </TouchableOpacity>
       </View>
     </View>
@@ -270,3 +261,4 @@ const styles = StyleSheet.create({
 });
 
 export default TeamMetricsScreen;
+

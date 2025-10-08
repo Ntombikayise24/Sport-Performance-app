@@ -55,10 +55,11 @@ export default function ForgotPassword() {
           marginBottom: 20,
         }}
       >
-        <View style={{ width: 200, height: 1, backgroundColor: "#09da9bff" }} />
+        <View style={{ width: 200, height: 1, backgroundColor: "#09da9bffa" }} />
         <Text style={{ marginHorizontal: 10, color: "#ccc" }}>OR</Text>
         <View style={{ width: 200, height: 1, backgroundColor: "#09da9bff" }} />
       </View>
+      
       <Text style={styles.createAccountText}>Have an Account?</Text>
       <TouchableOpacity onPress={() => router.push("/")}>
         <Text style={styles.loginLink}>Log in</Text>

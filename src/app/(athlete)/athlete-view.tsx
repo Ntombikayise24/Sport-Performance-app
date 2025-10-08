@@ -1,5 +1,4 @@
-import { Ionicons } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from "@expo/vector-icons"; // ✅ Added
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import {
@@ -108,9 +107,9 @@ export default function AthleteView() {
         {/* Metrics Section */}
         <View style={styles.performanceHeader}>
           <Text style={styles.performanceTitle}>Performance Metrics</Text>
-          <TouchableOpacity onPress={() => router.push("/")}>
-            <Ionicons name="arrow-forward-outline" size={20} color="white" />
-          </TouchableOpacity>
+        <TouchableOpacity onPress={() => router.push("/(athlete)/playermetrics")}>
+          <Ionicons name="arrow-forward-outline" size={20} color="white" />
+        </TouchableOpacity>
         </View>
 
         <View style={styles.metricsCardsContainer}>

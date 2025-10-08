@@ -30,8 +30,8 @@ const statusColors = {
 export default function TrainingPlans() {
   const router = useRouter();
   const [searchText, setSearchText] = useState("");
-  const [selectedAthleteId, setSelectedAthleteId] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [selectedAthleteId, setSelectedAthleteId] = useState<string | null>(null);
 
   const filteredAthletes = athletesData.filter((athlete) =>
     athlete.name.toLowerCase().includes(searchText.toLowerCase())
@@ -39,6 +39,7 @@ export default function TrainingPlans() {
 
   const renderAthleteItem = ({ item }) => {
     const isSelected = item.id === selectedAthleteId;
+
     return (
       <TouchableOpacity
         style={styles.athleteItem}
@@ -96,19 +97,15 @@ export default function TrainingPlans() {
         contentContainerStyle={styles.listContent}
       />
 
-      {/* Next Button */}
-      <TouchableOpacity
-        style={styles.nextButton}
-        onPress={() => {
-          if (selectedAthleteId) {
-            router.push("./training-types");
-          } else {
-            alert("Please select an athlete before proceeding.");
-          }
-        }}
-      >
-        <Text style={styles.nextButtonText}>Next</Text>
-      </TouchableOpacity>
+      {/* Next button */}
+      {selectedAthleteId && (
+        <TouchableOpacity
+          style={styles.nextButton}
+          onPress={() => router.push("./training-types")}
+        >
+          <Text style={styles.nextButtonText}>Next</Text>
+        </TouchableOpacity>
+      )}
 
       {/* Bottom Navigation */}
       <View style={styles.bottomNav}>
@@ -194,21 +191,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
     marginTop: 2,
   },
-  radioButtonOuter: {
-    width: 20,
-    height: 20,
-    borderRadius: 10,
-    borderWidth: 2,
-    borderColor: "white",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  radioButtonInner: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-    backgroundColor: "white",
-  },
   menuDropdown: {
     position: "absolute",
     top: 50,
@@ -222,21 +204,6 @@ const styles = StyleSheet.create({
     color: "black",
     marginTop: 5,
   },
-  nextButton: {
-    position: "absolute",
-    bottom: 80,
-    right: 20,
-    backgroundColor: "#20506B",
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 20,
-    elevation: 5,
-  },
-  nextButtonText: {
-    color: "white",
-    fontWeight: "bold",
-    fontSize: 16,
-  },
   bottomNav: {
     flexDirection: "row",
     justifyContent: "space-around",
@@ -248,5 +215,34 @@ const styles = StyleSheet.create({
     left: 20,
     right: 20,
     elevation: 8,
+  },
+  radioButtonOuter: {
+    height: 20,
+    width: 20,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: "#1A394B",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  radioButtonInner: {
+    height: 10,
+    width: 10,
+    borderRadius: 5,
+    backgroundColor: "#1A394B",
+  },
+  nextButton: {
+    position: "absolute",
+    bottom: 80,
+    right: 30,
+    backgroundColor: "#FFD700",
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 25,
+    elevation: 3,
+  },
+  nextButtonText: {
+    fontWeight: "700",
+    color: "black",
   },
 });

@@ -1,7 +1,7 @@
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function OverallTeamForm() {
   const router = useRouter();
@@ -55,31 +55,19 @@ export default function OverallTeamForm() {
         <Text style={styles.buttonText}>Statistics</Text>
       </TouchableOpacity>
 
-      {/* Bottom Navigation Bar */}
+      {/* Bottom Navigation */}
       <View style={styles.bottomNav}>
-        <TouchableOpacity
-          style={styles.navButton}
-          onPress={() => router.push("/(coach)/coach-view")}
-        >
-          <Ionicons name="home-outline" size={28} color="#1E90FF" />
+        <TouchableOpacity onPress={() => router.push("/(coach)/coach-view")}>
+          <Ionicons name="home-outline" size={26} color="#1E90FF" />
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.navButton}
-          onPress={() => router.push("/(coach)/coach-view-metrics")}
-        >
-          <Ionicons name="heart-outline" size={28} color="#FF4500" />
+        <TouchableOpacity onPress={() => router.push("/(coach)/coach-view-metrics")}>
+          <MaterialCommunityIcons name="chart-bar" size={28} color="#FF4500" />
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.navButton}
-          onPress={() => router.push("/(dashboard)/notifications")}
-        >
-          <Ionicons name="notifications-outline" size={28} color="#FFD700" />
+        <TouchableOpacity onPress={() => router.push("/(dashboard)/notifications")}>
+          <Ionicons name="notifications-outline" size={26} color="#FFD700" />
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.navButton}
-          onPress={() => router.push("/(coach)/coach-profile")}
-        >
-          <Ionicons name="person-outline" size={28} color="#32CD32" />
+        <TouchableOpacity onPress={() => router.push("/(coach)/coach-profile")}>
+          <Ionicons name="person-outline" size={26} color="#32CD32" />
         </TouchableOpacity>
       </View>
     </View>
