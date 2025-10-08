@@ -33,17 +33,15 @@ export default function AthleteView() {
         >
           <Ionicons name="menu" size={28} color="white" />
         </TouchableOpacity>
+        {menuVisible && (
+          <View style={styles.menuDropdown}>
+            <TouchableOpacity style={styles.menuItem} onPress={logout}>
+              <Ionicons name="log-out-outline" size={20} color="black" />
+              <Text style={styles.menuText}>Logout</Text>
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
-
-      {/* Dropdown Menu */}
-      {menuVisible && (
-        <View style={styles.menuDropdown}>
-          <TouchableOpacity style={styles.menuItem} onPress={logout}>
-            <Ionicons name="log-out-outline" size={20} color="black" />
-            <Text style={styles.menuText}>Logout</Text>
-          </TouchableOpacity>
-        </View>
-      )}
 
       <ScrollView contentContainerStyle={styles.contentContainer}>
         {/* Greeting */}
@@ -178,7 +176,7 @@ const styles = StyleSheet.create({
   },
   menuDropdown: {
     position: "absolute",
-    top: '100%',
+    top: 60,
     right: 20,
     backgroundColor: "#D9D9D9",
     borderRadius: 8,

@@ -1,4 +1,4 @@
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import {
@@ -45,7 +45,7 @@ export default function MedicalView() {
 
       <ScrollView contentContainerStyle={styles.contentContainer}>
         <View style={styles.greetingContainer}>
-          <View>
+          <View style={styles.greetingTextContainer}>
             <Text style={styles.greetingText}>Hi, Brace</Text>
             <Text style={styles.roleText}>Medical Staff</Text>
           </View>
@@ -57,41 +57,74 @@ export default function MedicalView() {
 
         <View style={styles.notificationsBox}>
           <Text style={styles.notificationsTitle}>Notifications</Text>
-          <TouchableOpacity style={styles.notificationItem}>
+          <TouchableOpacity style={styles.notificationItem} onPress={() => router.push({ pathname: "/(athlete)/rag-status", params: { alert: "red" } })}>
             <Ionicons name="alert-circle-outline" size={20} color="#FF0000" />
             <Text style={styles.notificationText}>Red Alerts! (5)</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.notificationItem}>
+          <TouchableOpacity style={styles.notificationItem} onPress={() => router.push({ pathname: "/(athlete)/rag-status", params: { alert: "amber" } })}>
             <Ionicons name="alert-circle-outline" size={20} color="#FFA500" />
             <Text style={styles.notificationText}>Amber Alerts. (2)</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.notificationItem}>
+          <TouchableOpacity style={styles.notificationItem} onPress={() => router.push({ pathname: "/(athlete)/rag-status", params: { alert: "green" } })}>
             <Ionicons name="alert-circle-outline" size={20} color="#32CD32" />
             <Text style={styles.notificationText}>Green Alerts. (0)</Text>
           </TouchableOpacity>
         </View>
 
         <View style={styles.sportsCategoryContainer}>
-          <Text style={styles.performanceTitle}>Sports Category</Text>
+          <View style={styles.titleContainer}>
+            <Text style={styles.performanceTitle}>Sports Category</Text>
+            <TouchableOpacity onPress={() => router.push("/(athlete)/sport-category")}>
+              <Ionicons name="arrow-forward" size={24} color="white" />
+            </TouchableOpacity>
+          </View>
           <View style={styles.sportsGrid}>
-            <View style={[styles.sportCard, { backgroundColor: "#F57C00" }]}>
+            <TouchableOpacity style={[styles.sportCard, { backgroundColor: "#F57C00" }]} onPress={() => router.push("/(athlete)/rag-status")}>
               <Ionicons name="football" size={28} color="white" />
               <Text style={styles.metricLabel}>SOCCER</Text>
               <Text style={styles.metricValue}>Active</Text>
-            </View>
-            <View style={[styles.sportCard, { backgroundColor: "#388E3C" }]}>
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.sportCard, { backgroundColor: "#388E3C" }]} onPress={() => router.push("/(athlete)/rag-status")}>
               <Ionicons name="baseball" size={28} color="white" />
               <Text style={styles.metricLabel}>CRICKET</Text>
               <Text style={styles.metricValue}>Active</Text>
-            </View>
-            <View style={[styles.sportCard, { backgroundColor: "#FBC02D" }]}>
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.sportCard, { backgroundColor: "#FBC02D" }]} onPress={() => router.push("/(athlete)/rag-status")}>
               <Ionicons name="navigate" size={28} color="white" />
               <Text style={styles.metricLabel}>HOCKEY</Text>
               <Text style={styles.metricValue}>Active</Text>
-            </View>
+            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>
+
+      {/* Bottom Navigation */}
+      <View style={styles.bottomNav}>
+        <TouchableOpacity
+          style={styles.navButton}
+          onPress={() => router.push("/(athlete)/medical-view")}
+        >
+          <Ionicons name="home-outline" size={26} color="#1E90FF" />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.navButton}
+          onPress={() => router.push("/(athlete)/playermetrics")}
+        >
+          <MaterialCommunityIcons name="chart-bar" size={28} color="#FF4500" />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.navButton}
+          onPress={() => router.push("/(dashboard)/notifications")}
+        >
+          <Ionicons name="notifications-outline" size={26} color="#FFD700" />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.navButton}
+          onPress={() => router.push("/(athlete)/athlete-profile")}
+        >
+          <Ionicons name="person-outline" size={26} color="#32CD32" />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -111,8 +144,8 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   logo: {
-    width: 60,
-    height: 40,
+    width: 120,
+    height: 100,
     resizeMode: "contain",
   },
   menuIcon: {
@@ -140,12 +173,17 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     paddingHorizontal: 20,
-    paddingBottom: 80,
+    paddingTop: 20,
+    paddingBottom: 100,
   },
   greetingContainer: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "space-between",
     marginBottom: 20,
+  },
+  greetingTextContainer: {
+    flex: 1,
   },
   greetingText: {
     color: "white",
@@ -158,10 +196,9 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   profileImage: {
-    width: 80,
+    width: 100,
     height: 100,
-    borderRadius: 40,
-    marginLeft: 15,
+    borderRadius: 50,
   },
   notificationsBox: {
     backgroundColor: "#2E4E62",
@@ -192,11 +229,16 @@ const styles = StyleSheet.create({
   sportsCategoryContainer: {
     marginBottom: 30,
   },
+  titleContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 30,
+  },
   performanceTitle: {
     color: "white",
     fontWeight: "700",
-    fontSize: 22,
-    marginBottom: 18,
+    fontSize: 32,
   },
   sportsGrid: {
     flexDirection: "row",
@@ -204,10 +246,10 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   sportCard: {
-    flexBasis: "48%",
+    flexBasis: "33%",
     borderRadius: 12,
-    paddingVertical: 28,
-    paddingHorizontal: 15,
+    paddingVertical: 25,
+    paddingHorizontal: 20,
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 20,
@@ -220,13 +262,28 @@ const styles = StyleSheet.create({
   metricLabel: {
     color: "white",
     fontWeight: "600",
-    fontSize: 18,
-    marginTop: 14,
+    fontSize: 22,
+    marginTop: 16,
   },
   metricValue: {
     color: "white",
     fontWeight: "700",
-    fontSize: 20,
-    marginTop: 8,
+    fontSize: 24,
+    marginTop: 10,
+  },
+  bottomNav: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    backgroundColor: "#0a394b",
+    paddingVertical: 12,
+    borderRadius: 20,
+    position: "absolute",
+    bottom: 20,
+    left: 20,
+    right: 20,
+    elevation: 8,
+  },
+  navButton: {
+    padding: 10,
   },
 });

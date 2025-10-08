@@ -1,4 +1,4 @@
-import React, { createContext, useContext, ReactNode } from "react";
+import React, { createContext, useContext, ReactNode, useMemo } from "react";
 import { useThemePreference, ThemePreference } from "../hooks/useThemePreference";
 import { Colors } from "../constants/Colors";
 
@@ -6,7 +6,7 @@ interface ThemeContextType {
   themePreference: ThemePreference;
   updateThemePreference: (preference: ThemePreference) => void;
   colors: typeof Colors.light | typeof Colors.dark;
-  effectiveTheme: ThemePreference;
+  effectiveTheme: "light" | "dark";
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -14,18 +14,14 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   const { themePreference, updateThemePreference, effectiveTheme } = useThemePreference();
 
-  return (
-    <ThemeContext.Provider
-      value={{
-        themePreference,
-        updateThemePreference,
-        colors: Colors[effectiveTheme],
-        effectiveTheme,
-      }}
-    >
-      {children}
-    </ThemeContext.Provider>
-  );
+  const value = useMemo(() => ({
+    themePreference,
+    updateThemePreference,
+    colors: Colors[effectiveTheme] ?? Colors.light,
+    effectiveTheme,
+  }), [themePreference, updateThemePreference, effectiveTheme]);
+
+  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
 };
 
 export const useTheme = (): ThemeContextType => {

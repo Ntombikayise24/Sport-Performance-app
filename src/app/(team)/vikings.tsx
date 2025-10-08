@@ -43,9 +43,9 @@ export default function Vikings() {
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.button}
-        onPress={() => router.push("/(athlete)/check-injuries")}
+        onPress={() => router.push("/(team)/player-status")}
       >
-        <Text style={styles.buttonText}>Check injuries</Text>
+        <Text style={styles.buttonText}>Player status</Text>
       </TouchableOpacity>
 
       {/* Bottom Navigation Bar */}
