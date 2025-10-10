@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image } from "react-native";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter, useLocalSearchParams } from "expo-router";
 
@@ -71,7 +71,7 @@ export default function AthleteProfile() {
         </View>
 
         <View style={styles.chartPlaceholder}>
-          <Text style={styles.chartText}>[Chart Placeholder]</Text>
+          <Image source={require('../../assets/images/chart.png')} style={styles.chartImage} />
         </View>
 
         <View style={styles.metricsContainer}>
@@ -189,8 +189,8 @@ const styles = StyleSheet.create({
     color: "white",
   },
   chartPlaceholder: {
-    height: 150,
-    backgroundColor: "#0F2C3C",
+    height: 250,
+    backgroundColor: 'transparent',
     borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
@@ -198,6 +198,12 @@ const styles = StyleSheet.create({
   },
   chartText: {
     color: "#888",
+  },
+  chartImage: {
+    width: '100%',
+    height: 250,
+    resizeMode: 'contain',
+    borderWidth: 0,
   },
   metricsContainer: {
     marginBottom: 20,

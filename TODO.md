@@ -17,3 +17,11 @@
 - [x] Create sport-category page
 - [ ] Test navigation and theming
 - [ ] Verify search and filter functionality
+
+# TODO: Remove "Checking for new update..." message on emulator launch
+
+## Tasks
+- [x] Edit app.json to add "updates": { "enabled": false } in the expo object
+- [ ] Restart expo dev server and emulator to apply changes
+- [ ] Verify the message is removed on app launch
+- [ ] Update TODO.md to mark completion

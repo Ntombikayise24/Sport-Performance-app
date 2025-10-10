@@ -47,7 +47,7 @@ export default function AthleteView() {
         {/* Greeting */}
         <View style={styles.greetingContainer}>
           <View style={styles.greetingTextContainer}>
-            <Text style={styles.greetingText}>Hi, Jabulile</Text>
+            <Text style={styles.greetingText}>Hi, Naledi </Text>
             <Text style={styles.roleText}>Hockey Player</Text>
             <TouchableOpacity style={styles.currentFormButton}>
               <Ionicons name="barbell-outline" size={18} color="white" />

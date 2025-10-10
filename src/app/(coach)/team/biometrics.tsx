@@ -1,12 +1,32 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
-import { IconButton } from 'react-native-paper';
+import React, { useState, useRef, useEffect } from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Animated,
+  FlatList,
+} from "react-native";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
+
+import { useTheme } from "../../../contexts/ThemeContext"; // ✅ uses your app theme
 
 export default function Biometrics() {
   const router = useRouter();
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const { colors, effectiveTheme } = useTheme(); // ✅ get theme colors
+  const isDarkMode = effectiveTheme === 'dark';
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+    Animated.timing(fadeAnim, {
+      toValue: isMenuOpen ? 0 : 1,
+      duration: 200,
+      useNativeDriver: true,
+    }).start();
+  };
 
   const logout = () => {
     router.push("/");
@@ -14,43 +34,85 @@ export default function Biometrics() {
   };
 
   const biometrics = [
-    "Blood Tests",
-    "Blood Pressure",
-    "Body Composition",
+    { title: "Blood Tests", icon: "blood-bag" },
+    { title: "Blood Pressure", icon: "heart-pulse" },
+    { title: "Body Composition", icon: "human-male-height" },
   ];
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: "#1A394B" }]}>
+      {/* Header */}
       <View style={styles.header}>
-        <IconButton
-          icon="arrow-left"
-          size={24}
-          onPress={() => router.back()}
-        />
-        <Text style={styles.title}>Biometric Data</Text>
-        <IconButton
-          icon="menu"
-          size={24}
-          onPress={() => setIsMenuOpen(!isMenuOpen)}
-        />
+        <TouchableOpacity onPress={() => router.push("/(coach)/coach-view-metrics")}>
+          <Ionicons name="arrow-back" size={26} color="white" />
+        </TouchableOpacity>
+        <Text style={[styles.title, { color: "white" }]}>
+          Biometric Data
+        </Text>
+        <TouchableOpacity onPress={toggleMenu}>
+          <Ionicons name="menu" size={26} color={colors.text} />
+        </TouchableOpacity>
       </View>
 
-      {/* Menu Dropdown */}
+      {/* Animated Dropdown Menu */}
       {isMenuOpen && (
-        <View style={styles.menuDropdown}>
+        <Animated.View
+          style={[
+            styles.menuDropdown,
+            {
+              opacity: fadeAnim,
+              transform: [{ scale: fadeAnim }],
+              backgroundColor: colors.surface,
+            },
+          ]}
+        >
           <TouchableOpacity style={styles.menuItem} onPress={logout}>
-            <Text style={styles.menuItemText}>Logout</Text>
+            <Text style={[styles.menuItemText, { color: colors.text }]}>
+              Logout
+            </Text>
           </TouchableOpacity>
-        </View>
+        </Animated.View>
       )}
 
-      <Text style={styles.subHeader}>Check the team’s biometric data.</Text>
+      {/* Subheader */}
+      <Text style={[styles.subHeader, { color: colors.muted }]}>
+        Check the team’s biometric data.
+      </Text>
 
-      {biometrics.map((item, index) => (
-        <TouchableOpacity key={index} style={styles.metricButton}>
-          <Text style={styles.metricText}>{item}</Text>
-        </TouchableOpacity>
-      ))}
+      {/* Metric Cards */}
+      <FlatList
+        data={biometrics}
+        keyExtractor={(item) => item.title}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            style={[
+              styles.metricCard,
+              {
+                backgroundColor: isDarkMode ? "#2A5068" : "#EAF2FA",
+              },
+            ]}
+            activeOpacity={0.85}
+          >
+            <View style={styles.metricLeft}>
+              <MaterialCommunityIcons
+                name={item.icon as keyof typeof MaterialCommunityIcons.glyphMap}
+                size={28}
+                color={isDarkMode ? "#4FC3F7" : "#1976D2"}
+              />
+              <Text style={[styles.metricText, { color: colors.text }]}>
+                {item.title}
+              </Text>
+            </View>
+            <Ionicons
+              name="chevron-forward"
+              size={24}
+              color={isDarkMode ? "#B0C4DE" : "#555"}
+            />
+          </TouchableOpacity>
+        )}
+        contentContainerStyle={{ paddingBottom: 100 }}
+        showsVerticalScrollIndicator={false}
+      />
 
       {/* Bottom Navigation */}
       <View style={styles.bottomNav}>
@@ -74,66 +136,69 @@ export default function Biometrics() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1E3A4D',
-    paddingTop: 40,
+    paddingTop: 50,
     paddingHorizontal: 20,
   },
   header: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 20,
+    justifyContent: "space-between",
   },
   title: {
-    flex: 1,
-    color: "white",
-    fontSize: 40,
+    fontSize: 26,
     fontWeight: "bold",
-    marginLeft: 10,
+    textAlign: "center",
+    flex: 1,
   },
   subHeader: {
-    fontSize: 20,
-    color: 'white',
-    marginBottom: 20,
-  },
-  metricButton: {
-    backgroundColor: '#234C63',
-    paddingVertical: 30,
+    fontSize: 16,
+    textAlign: "center",
+    lineHeight: 22,
+    marginTop: 20,
     marginBottom: 10,
-    borderRadius: 5,
-    alignItems: 'center',
+  },
+  metricCard: {
+    flexDirection: "row",
+    borderRadius: 12,
+    paddingVertical: 18,
+    paddingHorizontal: 16,
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 12,
+    elevation: 6,
+  },
+  metricLeft: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 15,
   },
   metricText: {
-    color: 'white',
-    fontWeight: '900',
+    fontSize: 17,
+    fontWeight: "600",
   },
   menuDropdown: {
     position: "absolute",
-    top: 75,
+    top: 80,
     right: 20,
-    backgroundColor: "#D9D9D9",
-    borderRadius: 5,
-    padding: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
+    borderRadius: 8,
+    padding: 8,
+    elevation: 10,
   },
   menuItem: {
-    paddingVertical: 2,
-    paddingHorizontal: 4,
+    paddingVertical: 6,
+    paddingHorizontal: 12,
   },
   menuItemText: {
-    fontSize: 10,
-    color: "black",
+    fontSize: 14,
+    fontWeight: "600",
   },
   bottomNav: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    backgroundColor: '#12324E',
+    flexDirection: "row",
+    justifyContent: "space-around",
+    backgroundColor: "#0a394b",
     paddingVertical: 12,
     borderRadius: 20,
-    position: 'absolute',
+    position: "absolute",
     bottom: 20,
     left: 20,
     right: 20,

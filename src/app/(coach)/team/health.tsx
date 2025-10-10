@@ -1,62 +1,121 @@
-import React, { useState } from "react";
-import { View, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
+import React, { useState, useRef, useEffect } from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Animated,
+  FlatList,
+} from "react-native";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { Text } from "react-native-paper";
+
+import { useTheme } from "../../../contexts/ThemeContext"; // ✅ uses your app theme
 
 const HealthScreen = () => {
   const router = useRouter();
+  const { colors, effectiveTheme } = useTheme(); // ✅ get theme colors
+  const isDarkMode = effectiveTheme === 'dark';
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+    Animated.timing(fadeAnim, {
+      toValue: isMenuOpen ? 0 : 1,
+      duration: 200,
+      useNativeDriver: true,
+    }).start();
+  };
 
   const logout = () => {
     router.push("/");
     setIsMenuOpen(false);
   };
 
-  const healthMetrics = [
-    "Mental Fatigue Levels",
-    "Mood",
-    "Nutrition Tracking",
-    "Physical Fatigue Levels",
-    "Sleep Quality",
-    "Stress Levels",
+  const metrics = [
+    { title: "Mental Fatigue Levels", icon: "brain" },
+    { title: "Mood", icon: "emoticon-happy" },
+    { title: "Nutrition Tracking", icon: "food-apple" },
+    { title: "Physical Fatigue Levels", icon: "run" },
+    { title: "Sleep Quality", icon: "sleep" },
+    { title: "Stress Levels", icon: "meditation" },
   ];
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: "#1A394B" }]}>
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()}>
-          <Ionicons name="arrow-back" size={24} color="white" />
+        <TouchableOpacity onPress={() => router.push("/(coach)/coach-view-metrics")}>
+          <Ionicons name="arrow-back" size={26} color="white" />
         </TouchableOpacity>
-        <Text style={styles.title}>Health & Wellness</Text>
-        <TouchableOpacity onPress={() => setIsMenuOpen(!isMenuOpen)}>
-          <MaterialCommunityIcons name="menu" size={24} color="white" />
+        <Text style={[styles.title, { color: "white" }]}>
+          Health & Wellness
+        </Text>
+        <TouchableOpacity onPress={toggleMenu}>
+          <Ionicons name="menu" size={26} color={colors.text} />
         </TouchableOpacity>
       </View>
 
-      {/* Menu Dropdown */}
+      {/* Animated Dropdown Menu */}
       {isMenuOpen && (
-        <View style={styles.menuDropdown}>
+        <Animated.View
+          style={[
+            styles.menuDropdown,
+            {
+              opacity: fadeAnim,
+              transform: [{ scale: fadeAnim }],
+              backgroundColor: colors.surface,
+            },
+          ]}
+        >
           <TouchableOpacity style={styles.menuItem} onPress={logout}>
-            <Text style={styles.menuItemText}>Logout</Text>
+            <Text style={[styles.menuItemText, { color: colors.text }]}>
+              Logout
+            </Text>
           </TouchableOpacity>
-        </View>
+        </Animated.View>
       )}
 
-      {/* Description */}
-      <Text style={styles.description}>
-        Check the team&apos;s health and wellness based on their questionnaires and data intake.
+      {/* Subheader */}
+      <Text style={[styles.subHeader, { color: colors.muted }]}>
+        Check the team’s health and wellness based on their questionnaires and data intake.
       </Text>
 
-      {/* Health Metrics Buttons */}
-      <ScrollView contentContainerStyle={styles.metricsContainer}>
-        {healthMetrics.map((metric) => (
-          <TouchableOpacity key={metric} style={styles.metricButton}>
-            <Text style={styles.metricButtonText}>{metric}</Text>
+      {/* Metric Cards */}
+      <FlatList
+        data={metrics}
+        keyExtractor={(item) => item.title}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            style={[
+              styles.metricCard,
+              {
+                backgroundColor: isDarkMode ? "#2A5068" : "#EAF2FA",
+              },
+            ]}
+            activeOpacity={0.85}
+          >
+            <View style={styles.metricLeft}>
+              <MaterialCommunityIcons
+                name={item.icon as keyof typeof MaterialCommunityIcons.glyphMap}
+                size={28}
+                color={isDarkMode ? "#4FC3F7" : "#1976D2"}
+              />
+              <Text style={[styles.metricText, { color: colors.text }]}>
+                {item.title}
+              </Text>
+            </View>
+            <Ionicons
+              name="chevron-forward"
+              size={24}
+              color={isDarkMode ? "#B0C4DE" : "#555"}
+            />
           </TouchableOpacity>
-        ))}
-      </ScrollView>
+        )}
+        contentContainerStyle={{ paddingBottom: 100 }}
+        showsVerticalScrollIndicator={false}
+      />
 
       {/* Bottom Navigation */}
       <View style={styles.bottomNav}>
@@ -80,72 +139,73 @@ const HealthScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#1E3A4D",
-    paddingTop: 40,
+    paddingTop: 50,
     paddingHorizontal: 20,
   },
   header: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 20,
+    justifyContent: "space-between",
   },
   title: {
-    flex: 1,
-    color: "white",
-    fontSize: 24,
+    fontSize: 26,
     fontWeight: "bold",
-    marginLeft: 10,
+    textAlign: "center",
+    flex: 1,
+  },
+  subHeader: {
+    fontSize: 16,
+    textAlign: "center",
+    lineHeight: 22,
+    marginTop: 20,
+    marginBottom: 10,
+  },
+  metricCard: {
+    flexDirection: "row",
+    borderRadius: 12,
+    paddingVertical: 18,
+    paddingHorizontal: 16,
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 12,
+    elevation: 6,
+  },
+  metricLeft: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 15,
+  },
+  metricText: {
+    fontSize: 17,
+    fontWeight: "600",
   },
   menuDropdown: {
     position: "absolute",
-    top: 75,
+    top: 80,
     right: 20,
-    backgroundColor: "#D9D9D9",
-    borderRadius: 5,
-    padding: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
+    borderRadius: 8,
+    padding: 8,
+    elevation: 10,
   },
   menuItem: {
-    paddingVertical: 2,
-    paddingHorizontal: 4,
+    paddingVertical: 6,
+    paddingHorizontal: 12,
   },
   menuItemText: {
-    fontSize: 10,
-    color: "black",
-  },
-  description: {
-    color: "white",
     fontSize: 14,
-    marginBottom: 20,
-    textAlign: "center",
-  },
-  metricsContainer: {
-    justifyContent: "center",
-  },
-  metricButton: {
-    backgroundColor: "#2C4A5A",
-    paddingVertical: 15,
-    marginBottom: 15,
-    borderRadius: 8,
-    alignItems: "center",
-  },
-  metricButtonText: {
-    color: "white",
     fontWeight: "600",
-    letterSpacing: 1,
   },
   bottomNav: {
     flexDirection: "row",
     justifyContent: "space-around",
-    alignItems: "center",
-    backgroundColor: "#0a3a4d",
-    paddingVertical: 10,
-    borderRadius: 15,
-    marginTop: 10,
+    backgroundColor: "#0a394b",
+    paddingVertical: 12,
+    borderRadius: 20,
+    position: "absolute",
+    bottom: 20,
+    left: 20,
+    right: 20,
+    elevation: 8,
   },
 });
 

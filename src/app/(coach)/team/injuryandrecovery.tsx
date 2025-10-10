@@ -1,58 +1,122 @@
-import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
+import React, { useState, useRef, useEffect } from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Animated,
+  FlatList,
+} from "react-native";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 
-export default function JuryAndRecovery() {
+import { useTheme } from "../../../contexts/ThemeContext"; // ✅ uses your app theme
+
+export default function InjuryAndRecovery() {
   const router = useRouter();
+  const { colors, effectiveTheme } = useTheme(); // ✅ get theme colors
+  const isDarkMode = effectiveTheme === 'dark';
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+    Animated.timing(fadeAnim, {
+      toValue: isMenuOpen ? 0 : 1,
+      duration: 200,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const logout = () => {
+    router.push("/");
+    setIsMenuOpen(false);
+  };
+
+  const metrics = [
+    { title: "Concussion Status", icon: "head-alert" },
+    { title: "Injury History and Recovery Progress", icon: "clipboard-list" },
+    { title: "Predictive Analytics", icon: "chart-line-variant" },
+    { title: "Recovery Status", icon: "heart-pulse" },
+    { title: "Return to Play Status", icon: "play-circle" },
+    { title: "Risk Factors for Injury", icon: "alert-circle" },
+    { title: "Soft Tissue Strain", icon: "bandage" },
+  ];
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: "#1A394B" }]}>
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()}>
-          <Ionicons name="arrow-back" size={24} color="#fff" />
+        <TouchableOpacity onPress={() => router.push("/(coach)/coach-view-metrics")}>
+          <Ionicons name="arrow-back" size={26} color="white" />
         </TouchableOpacity>
-        <Text style={styles.headerText}>Injury & Recovery</Text>
-        <TouchableOpacity>
-          <Ionicons name="menu" size={24} color="#fff" />
+        <Text style={[styles.title, { color: "white" }]}>
+          Injury & Recovery
+        </Text>
+        <TouchableOpacity onPress={toggleMenu}>
+          <Ionicons name="menu" size={26} color={colors.text} />
         </TouchableOpacity>
       </View>
 
-      <Text style={styles.subHeader}>
-        Check the team’s physical status based on{"\n"}their performance.
+      {/* Animated Dropdown Menu */}
+      {isMenuOpen && (
+        <Animated.View
+          style={[
+            styles.menuDropdown,
+            {
+              opacity: fadeAnim,
+              transform: [{ scale: fadeAnim }],
+              backgroundColor: colors.surface,
+            },
+          ]}
+        >
+          <TouchableOpacity style={styles.menuItem} onPress={logout}>
+            <Text style={[styles.menuItemText, { color: colors.text }]}>
+              Logout
+            </Text>
+          </TouchableOpacity>
+        </Animated.View>
+      )}
+
+      {/* Subheader */}
+      <Text style={[styles.subHeader, { color: colors.muted }]}>
+        Check the team’s physical status based on their performance.
       </Text>
 
-      {/* Scrollable Menu */}
-      <ScrollView style={styles.menuContainer}>
-        <TouchableOpacity style={styles.menuItem}>
-          <Text style={styles.menuText}>Concussion Status</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.menuItem}>
-          <Text style={styles.menuText}>Injury History and Recovery Progress</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.menuItem}>
-          <Text style={styles.menuText}>Predictive Analytics</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.menuItem}>
-          <Text style={styles.menuText}>Recovery Status</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.menuItem}>
-          <Text style={styles.menuText}>Return to Play Status</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.menuItem}>
-          <Text style={styles.menuText}>Risk Factors for Injury</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.menuItem}>
-          <Text style={styles.menuText}>Soft Tissue Strain</Text>
-        </TouchableOpacity>
-      </ScrollView>
+      {/* Metric Cards */}
+      <FlatList
+        data={metrics}
+        keyExtractor={(item) => item.title}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            style={[
+              styles.metricCard,
+              {
+                backgroundColor: isDarkMode ? "#2A5068" : "#EAF2FA",
+              },
+            ]}
+            activeOpacity={0.85}
+          >
+            <View style={styles.metricLeft}>
+              <MaterialCommunityIcons
+                name={item.icon as keyof typeof MaterialCommunityIcons.glyphMap}
+                size={28}
+                color={isDarkMode ? "#4FC3F7" : "#1976D2"}
+              />
+              <Text style={[styles.metricText, { color: colors.text }]}>
+                {item.title}
+              </Text>
+            </View>
+            <Ionicons
+              name="chevron-forward"
+              size={24}
+              color={isDarkMode ? "#B0C4DE" : "#555"}
+            />
+          </TouchableOpacity>
+        )}
+        contentContainerStyle={{ paddingBottom: 100 }}
+        showsVerticalScrollIndicator={false}
+      />
 
       {/* Bottom Navigation */}
       <View style={styles.bottomNav}>
@@ -76,50 +140,72 @@ export default function JuryAndRecovery() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#1E3A4D",
+    paddingTop: 50,
+    paddingHorizontal: 20,
   },
   header: {
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
-    paddingHorizontal: 20,
-    paddingTop: 50,
-    paddingBottom: 15,
-    backgroundColor: "#1E3A4D",
+    justifyContent: "space-between",
   },
-  headerText: {
-    color: "#fff",
-    fontSize: 20,
-    fontWeight: "600",
+  title: {
+    fontSize: 26,
+    fontWeight: "bold",
+    textAlign: "center",
+    flex: 1,
   },
   subHeader: {
+    fontSize: 16,
     textAlign: "center",
-    color: "#fff",
-    fontSize: 14,
-    marginVertical: 10,
-    lineHeight: 20,
+    lineHeight: 22,
+    marginTop: 20,
+    marginBottom: 10,
   },
-  menuContainer: {
-    flex: 1,
-    marginHorizontal: 20,
-    marginTop: 10,
+  metricCard: {
+    flexDirection: "row",
+    borderRadius: 12,
+    paddingVertical: 18,
+    paddingHorizontal: 16,
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 12,
+    elevation: 6,
+  },
+  metricLeft: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 15,
+  },
+  metricText: {
+    fontSize: 17,
+    fontWeight: "600",
+  },
+  menuDropdown: {
+    position: "absolute",
+    top: 80,
+    right: 20,
+    borderRadius: 8,
+    padding: 8,
+    elevation: 10,
   },
   menuItem: {
-    backgroundColor: "#234C63",
-    padding: 18,
-    borderRadius: 6,
-    marginBottom: 12,
-    alignItems: "center",
+    paddingVertical: 6,
+    paddingHorizontal: 12,
   },
-  menuText: {
-    color: "#fff",
+  menuItemText: {
     fontSize: 14,
-    fontWeight: "500",
+    fontWeight: "600",
   },
   bottomNav: {
     flexDirection: "row",
     justifyContent: "space-around",
+    backgroundColor: "#0a394b",
     paddingVertical: 12,
-    backgroundColor: "#0D2B36",
+    borderRadius: 20,
+    position: "absolute",
+    bottom: 20,
+    left: 20,
+    right: 20,
+    elevation: 8,
   },
 });

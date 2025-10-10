@@ -79,17 +79,17 @@ export default function MedicalView() {
             </TouchableOpacity>
           </View>
           <View style={styles.sportsGrid}>
-            <TouchableOpacity style={[styles.sportCard, { backgroundColor: "#F57C00" }]} onPress={() => router.push("/(athlete)/rag-status")}>
+            <TouchableOpacity style={[styles.sportCard, { backgroundColor: "#F57C00" }]} onPress={() => router.push("/(coach)/team/under-development")}>
               <Ionicons name="football" size={28} color="white" />
               <Text style={styles.metricLabel}>SOCCER</Text>
               <Text style={styles.metricValue}>Active</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.sportCard, { backgroundColor: "#388E3C" }]} onPress={() => router.push("/(athlete)/rag-status")}>
+            <TouchableOpacity style={[styles.sportCard, { backgroundColor: "#388E3C" }]} onPress={() => router.push("/(coach)/team/under-development")}>
               <Ionicons name="baseball" size={28} color="white" />
               <Text style={styles.metricLabel}>CRICKET</Text>
               <Text style={styles.metricValue}>Active</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.sportCard, { backgroundColor: "#FBC02D" }]} onPress={() => router.push("/(athlete)/rag-status")}>
+            <TouchableOpacity style={[styles.sportCard, { backgroundColor: "#FBC02D" }]} onPress={() => router.push("/(coach)/team/under-development")}>
               <Ionicons name="navigate" size={28} color="white" />
               <Text style={styles.metricLabel}>HOCKEY</Text>
               <Text style={styles.metricValue}>Active</Text>
